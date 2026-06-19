@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hackathon Details</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav>
+  <div class="logo">🚀 HackHub</div>
+  <ul class="nav-links">
+    <li><a href="home.html">🔥 Home</a></li>
+    <li><a href="bookmart.html">❤️ Saved</a></li>
+    <li><a href="about.html">ℹ️ About</a></li>
+  </ul>
+</nav>
+
+<main>
+  <div id="details"></div>
+
+  <!-- Rating Section -->
+  <div class="rating-container">
+    <div>
+      <h3 style="color: #06b6d4; margin-bottom: 10px;">⭐ Rate this Hackathon</h3>
+      <div class="stars" id="ratingStars">
+        <span class="star" onclick="setRating(1)">★</span>
+        <span class="star" onclick="setRating(2)">★</span>
+        <span class="star" onclick="setRating(3)">★</span>
+        <span class="star" onclick="setRating(4)">★</span>
+        <span class="star" onclick="setRating(5)">★</span>
+      </div>
+      <p class="rating-text" id="ratingText">Click to rate</p>
+    </div>
+  </div>
+
+  <!-- Feedback Section -->
+  <div style="background: rgba(99, 102, 241, 0.1); border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid var(--border-color);">
+    <h3 style="color: #06b6d4; margin-bottom: 15px;">💬 Share Your Feedback</h3>
+    <textarea id="feedback" placeholder="Tell us about your experience with this hackathon..." style="width: 100%; min-height: 100px; margin-bottom: 10px;"></textarea>
+    <button onclick="submitFeedback()" class="success">📤 Submit Feedback</button>
+  </div>
+
+  <!-- User Reviews -->
+  <div style="margin-top: 30px;">
+    <h3 style="color: #06b6d4; margin-bottom: 15px;">👥 Community Reviews</h3>
+    <div id="reviewsList" style="display: flex; flex-direction: column; gap: 15px;"></div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div style="display: flex; gap: 10px; margin-top: 30px; flex-wrap: wrap;">
+    <button onclick="register()" class="success">🚀 Register Now</button>
+    <button onclick="share()" class="secondary">📤 Share</button>
+    <button onclick="saveBookmark()">❤️ Save Hackathon</button>
+    <button onclick="window.location.href='home.html'" class="secondary">← Back</button>
+  </div>
+</main>
+
+<script type="module" src="js/details.js"></script>
+
+</body>
+</html>

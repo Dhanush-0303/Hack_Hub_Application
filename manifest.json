@@ -1,0 +1,97 @@
+{
+  "name": "India Hackathon Hub - Find & Register for Hackathons",
+  "short_name": "HackHub",
+  "description": "Discover, rate, and register for the best hackathons across India. Your one-stop platform for innovation competitions.",
+  "start_url": "index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0f172a",
+  "theme_color": "#6366f1",
+  "categories": ["productivity", "utilities"],
+  "screenshots": [
+    {
+      "src": "assets/screenshot-1.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "assets/screenshot-2.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "icons": [
+    {
+      "src": "assets/logo-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/logo-maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "View All Hackathons",
+      "short_name": "Explore",
+      "description": "Browse all available hackathons",
+      "url": "home.html",
+      "icons": [
+        {
+          "src": "assets/icon-explore.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "My Bookmarks",
+      "short_name": "Saved",
+      "description": "View your saved hackathons",
+      "url": "bookmart.html",
+      "icons": [
+        {
+          "src": "assets/icon-bookmarks.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Notifications",
+      "short_name": "Updates",
+      "description": "Check latest hackathon announcements",
+      "url": "notifications.html",
+      "icons": [
+        {
+          "src": "assets/icon-notifications.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "share_target": {
+    "action": "share.html",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  }
+}

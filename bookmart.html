@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saved Hackathons - India Hackathon Hub</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav>
+  <div class="logo">🚀 HackHub</div>
+  <ul class="nav-links">
+    <li><a href="home.html">🔥 Home</a></li>
+    <li><a href="bookmart.html">❤️ Saved</a></li>
+    <li><a href="notifications.html">🔔 Updates</a></li>
+    <li><a href="about.html">ℹ️ About</a></li>
+  </ul>
+</nav>
+
+<main>
+  <h2>❤️ Your Saved Hackathons</h2>
+  <p style="color: #cbd5e1; margin-bottom: 2rem;">Keep track of hackathons you're interested in</p>
+
+  <div id="emptyState" style="text-align: center; padding: 3rem; display: none;">
+    <p style="font-size: 48px; margin-bottom: 1rem;">📭</p>
+    <h3 style="color: #cbd5e1;">No saved hackathons yet</h3>
+    <p style="color: #94a3b8; margin-bottom: 2rem;">Start exploring and save your favorite hackathons!</p>
+    <button onclick="window.location.href='home.html'" class="success">🔥 Explore Hackathons</button>
+  </div>
+
+  <div id="bookmarkList"></div>
+</main>
+
+<script type="module" src="js/bookmarks.js"></script>
+
+</body>
+</html>

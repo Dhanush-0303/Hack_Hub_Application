@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - Add Hackathon</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav>
+  <div class="logo">🚀 HackHub</div>
+  <ul class="nav-links">
+    <li><a href="home.html"> Home</a></li>
+    <li><a href="admin.html"> Add Hackathon</a></li>
+  </ul>
+</nav>
+
+<div class="admin-container">
+  <h2>🛠 Admin Panel - Add Hackathon</h2>
+  <p style="text-align: center; color: #cbd5e1; margin-bottom: 2rem;">Create a new hackathon entry in the database</p>
+
+  <div class="form-group">
+    <label for="name">🏆 Hackathon Name *</label>
+    <input id="name" type="text" placeholder="e.g., WebDev Hackathon 2026">
+  </div>
+
+  <div class="form-group">
+    <label for="organizer">🏢 Organizer Name / Student Club *</label>
+    <input id="organizer" type="text" placeholder="e.g., TechCommunity India">
+  </div>
+
+  <div class="form-group">
+    <label for="collegeName">🏫 Conducting College Name *</label>
+    <input id="collegeName" type="text" placeholder="e.g., Bengaluru Institute of Technology">
+  </div>
+
+  <div class="form-group">
+    <label for="prizePool">💰 Prize Pool *</label>
+    <input id="prizePool" type="text" placeholder="e.g., ₹5,00,000">
+  </div>
+
+  <div class="form-group">
+    <label for="mode">📍 Mode *</label>
+    <select id="mode" style="padding: 12px 16px; background: rgba(30, 41, 59, 0.5); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-primary); backdrop-filter: blur(10px); width: 100%;">
+      <option value="">Select Mode</option>
+      <option value="Online">🌐 Online</option>
+      <option value="Offline">📍 Offline</option>
+      <option value="Hybrid">🔄 Hybrid</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="location">📌 Specific Campus Venue Place Location</label>
+    <input id="location" type="text" placeholder="e.g., Main Auditorium, Block C">
+  </div>
+
+  <div class="form-group">
+    <label for="startDate">📅 Start Date</label>
+    <input id="startDate" type="date">
+  </div>
+
+  <div class="form-group">
+    <label for="endDate">📅 End Date</label>
+    <input id="endDate" type="date">
+  </div>
+
+  <div class="form-group">
+    <label for="registrationDeadline">⏰ Registration Deadline Date & Time *</label>
+    <input id="registrationDeadline" type="datetime-local">
+  </div>
+
+  <div class="form-group">
+    <label for="teamSize">👥 Team Size (min-max)</label>
+    <input id="teamSize" type="text" placeholder="e.g., 2-4 members">
+  </div>
+
+  <div class="form-group">
+    <label for="registrationLink">🔗 Registration Link</label>
+    <input id="registrationLink" type="url" placeholder="https://example.com/register">
+  </div>
+
+  <div class="form-group">
+    <label for="contactEmail">📧 Contact Email</label>
+    <input id="contactEmail" type="email" placeholder="contact@hackathon.com">
+  </div>
+
+  <div class="form-group">
+    <label for="description">📝 General Description Information *</label>
+    <textarea id="description" placeholder="Detailed description of the hackathon..."></textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="eligibility">✅ Eligibility Criteria *</label>
+    <textarea id="eligibility" placeholder="Who can participate? e.g., Open to all engineering branches"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="rules">⚖️ Rules & Guidelines *</label>
+    <textarea id="rules" placeholder="Competition rules and guidelines..."></textarea>
+  </div>
+
+  <button onclick="addHackathon(event)" style="width: 100%; margin-top: 20px; background: linear-gradient(135deg, #10b981, #059669);">➕ Add Hackathon</button>
+
+  <p style="text-align: center; margin-top: 20px; font-size: 12px; color: #94a3b8;">
+    * Required fields
+  </p>
+</div>
+
+<script type="module" src="js/admin.js"></script>
+
+</body>
+</html>

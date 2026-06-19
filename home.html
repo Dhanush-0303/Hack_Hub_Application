@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home - India Hackathon Hub</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav>
+  <div class="logo">🚀 HackHub</div>
+  <ul class="nav-links">
+    <li><a href="home.html"> Home</a></li>
+    <li><a href="bookmart.html"> Saved</a></li>
+    <li><a href="notifications.html"> Updates</a></li>
+    <li><a href="about.html"> About</a></li>
+    <li><a href="admin.html"> Add Hackathon</a></li>
+  </ul>
+</nav>
+
+<main>
+  <h2>🔥 Discover Hackathons</h2>
+  
+  <div class="search-filter-section">
+    <input type="text" id="searchBox" placeholder="🔍 Search by name, organizer..." onkeyup="searchHackathons()">
+    <select id="filter" onchange="filterHackathons()">
+      <option value="all"> All Hackathons</option>
+      <option value="Online"> Online</option>
+      <option value="Offline"> Offline</option>
+    </select>
+    <button onclick="sortByTrending()" class="secondary">⭐ Trending</button>
+  </div>
+
+  <div id="trendingSection" style="margin-bottom: 3rem;">
+    <h3 style="color: #ec4899; margin-bottom: 1rem;">🔥 Trending This Week</h3>
+    <div id="trendingList" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;"></div>
+  </div>
+
+  <h3 style="margin: 2rem 0 1rem 0; color: #06b6d4;">All Hackathons</h3>
+  <div id="hackathonList"></div>
+</main>
+
+<script type="module" src="js/app.js"></script>
+
+</body>
+</html>

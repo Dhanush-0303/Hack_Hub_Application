@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile - India Hackathon Hub</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .profile-header {
+      display: flex;
+      gap: 30px;
+      margin-bottom: 40px;
+      align-items: start;
+    }
+
+    .profile-avatar {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 80px;
+      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+      flex-shrink: 0;
+    }
+
+    .profile-info {
+      flex: 1;
+    }
+
+    .profile-info h1 {
+      color: var(--secondary);
+      margin-bottom: 10px;
+    }
+
+    .profile-stat {
+      display: inline-block;
+      margin-right: 30px;
+      margin-bottom: 10px;
+    }
+
+    .profile-stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .profile-stat-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      margin-top: 5px;
+    }
+
+    .tab-section {
+      display: flex;
+      gap: 15px;
+      border-bottom: 2px solid var(--border-color);
+      margin: 30px 0 20px 0;
+    }
+
+    .tab-btn {
+      padding: 12px 20px;
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-weight: 600;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s ease;
+      box-shadow: none;
+    }
+
+    .tab-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: slideIn 0.3s ease;
+    }
+
+    .edit-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .profile-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .edit-form {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .skill-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      padding: 8px 16px;
+      border-radius: 20px;
+      margin: 5px;
+      font-size: 13px;
+      color: white;
+    }
+
+    .activity-item {
+      background: rgba(99, 102, 241, 0.1);
+      border-left: 4px solid var(--primary);
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    .activity-item h4 {
+      color: var(--secondary);
+      margin-bottom: 5px;
+    }
+
+    .activity-item p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">🚀 HackHub</div>
+  <ul class="nav-links">
+    <li><a href="home.html">🔥 Home</a></li>
+    <li><a href="bookmart.html">❤️ Saved</a></li>
+    <li><a href="profile.html">👤 Profile</a></li>
+    <li><a href="#" onclick="logout()">🚪 Logout</a></li>
+  </ul>
+</nav>
+
+<main>
+  <!-- Profile Header -->
+  <div class="profile-header">
+    <div class="profile-avatar" id="profileAvatar">👤</div>
+    <div class="profile-info">
+      <h1 id="profileName">Loading...</h1>
+      <p id="profileEmail" style="color: var(--text-secondary); margin-bottom: 20px;">email@example.com</p>
+      
+      <div>
+        <div class="profile-stat">
+          <div class="profile-stat-value" id="hackathonsCount">0</div>
+          <div class="profile-stat-label">Hackathons</div>
+        </div>
+        <div class="profile-stat">
+          <div class="profile-stat-value" id="reviewsCount">0</div>
+          <div class="profile-stat-label">Reviews</div>
+        </div>
+        <div class="profile-stat">
+          <div class="profile-stat-value" id="savedCount">0</div>
+          <div class="profile-stat-label">Saved</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tab-section">
+    <button class="tab-btn active" onclick="switchProfileTab('overview')">📋 Overview</button>
+    <button class="tab-btn" onclick="switchProfileTab('edit')">✏️ Edit Profile</button>
+    <button class="tab-btn" onclick="switchProfileTab('activity')">📊 Activity</button>
+  </div>
+
+  <!-- Overview Tab -->
+  <div id="overview" class="tab-content active">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      <!-- Personal Info -->
+      <div class="card">
+        <h3>📝 Personal Information</h3>
+        <p><strong>Full Name:</strong> <span id="overview-name">-</span></p>
+        <p><strong>Email:</strong> <span id="overview-email">-</span></p>
+        <p><strong>Phone:</strong> <span id="overview-phone">-</span></p>
+        <p><strong>Date of Birth:</strong> <span id="overview-dob">-</span></p>
+      </div>
+
+      <!-- Location -->
+      <div class="card">
+        <h3>📍 Location</h3>
+        <p><strong>City:</strong> <span id="overview-city">-</span></p>
+        <p><strong>State:</strong> <span id="overview-state">-</span></p>
+        <p><strong>College/Org:</strong> <span id="overview-college">-</span></p>
+      </div>
+
+      <!-- Skills -->
+      <div class="card" style="grid-column: 1/-1;">
+        <h3>⚡ Skills & Experience</h3>
+        <p><strong>Experience Level:</strong> <span id="overview-experience">-</span></p>
+        <p style="margin-top: 15px;"><strong>Skills:</strong></p>
+        <div id="overview-skills" style="margin-top: 10px;"></div>
+      </div>
+
+      <!-- Preferences -->
+      <div class="card" style="grid-column: 1/-1;">
+        <h3>🎯 Preferences</h3>
+        <p><strong>Hackathon Type:</strong> <span id="overview-pref-type">-</span></p>
+        <p><strong>Email Updates:</strong> <span id="overview-pref-email">-</span></p>
+        <p><strong>In-App Alerts:</strong> <span id="overview-pref-notification">-</span></p>
+      </div>
+    </div>
+
+    <!-- Bio -->
+    <div class="card" style="margin-top: 20px;">
+      <h3>💬 About Me</h3>
+      <p id="overview-bio" style="line-height: 1.8; color: var(--text-secondary);">No bio added yet</p>
+    </div>
+  </div>
+
+  <!-- Edit Tab -->
+  <div id="edit" class="tab-content">
+    <div class="card">
+      <h3>✏️ Edit Your Profile</h3>
+      
+      <form id="editProfileForm" style="margin-top: 20px;">
+        <div class="edit-form">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" id="edit-firstname" placeholder="First Name">
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" id="edit-lastname" placeholder="Last Name">
+          </div>
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" id="edit-phone" placeholder="+91 98765 43210">
+          </div>
+          <div class="form-group">
+            <label>Date of Birth</label>
+            <input type="date" id="edit-dob">
+          </div>
+          <div class="form-group">
+            <label>City</label>
+            <input type="text" id="edit-city" placeholder="City">
+          </div>
+          <div class="form-group">
+            <label>College/Organization</label>
+            <input type="text" id="edit-college" placeholder="College Name">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Bio (max 300 characters)</label>
+          <textarea id="edit-bio" rows="4" maxlength="300" placeholder="Tell us about yourself..."></textarea>
+          <small style="color: var(--text-secondary);" id="bioEditCount">0/300</small>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+          <button type="button" onclick="saveProfile()" class="success">💾 Save Changes</button>
+          <button type="button" onclick="cancelEdit()" class="secondary">❌ Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Activity Tab -->
+  <div id="activity" class="tab-content">
+    <div class="card">
+      <h3>📊 Your Activity</h3>
+      
+      <div style="margin-top: 20px;">
+        <h4 style="color: var(--secondary); margin-bottom: 15px;">🔥 Registered Hackathons</h4>
+        <div id="activity-registered">
+          <p style="color: var(--text-secondary);">No registrations yet</p>
+        </div>
+      </div>
+
+      <div style="margin-top: 30px;">
+        <h4 style="color: var(--secondary); margin-bottom: 15px;">⭐ Your Reviews</h4>
+        <div id="activity-reviews">
+          <p style="color: var(--text-secondary);">No reviews yet</p>
+        </div>
+      </div>
+
+      <div style="margin-top: 30px;">
+        <h4 style="color: var(--secondary); margin-bottom: 15px;">❤️ Saved Hackathons</h4>
+        <div id="activity-saved">
+          <p style="color: var(--text-secondary);">No saved items</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script type="module" src="js/profile.js"></script>
+
+<script>
+  // Tab switching
+  window.switchProfileTab = function(tab) {
+    document.querySelectorAll('.tab-content').forEach(el => {
+      el.classList.remove('active');
+    });
+    document.querySelectorAll('.tab-btn').forEach(el => {
+      el.classList.remove('active');
+    });
+    
+    document.getElementById(tab).classList.add('active');
+    event.target.classList.add('active');
+  };
+
+  // Bio character counter
+  document.getElementById('edit-bio')?.addEventListener('input', function() {
+    document.getElementById('bioEditCount').textContent = this.value.length + '/300';
+  });
+
+  window.logout = function() {
+    if (confirm('Are you sure you want to logout?')) {
+      const { signOut } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js");
+      const { auth } = await import("./js/firebase.js");
+      signOut(auth).then(() => {
+        window.location.href = "login.html";
+      });
+    }
+  };
+</script>
+
+</body>
+</html>
