@@ -46,6 +46,7 @@ nav .logo {
   font-size: 24px;
   font-weight: bold;
   color: var(--text-primary); /* Bold high contrast identity logo text alignment */
+  cursor: pointer;
 }
 
 nav .nav-links {
@@ -66,6 +67,99 @@ nav .nav-links a:hover, nav .nav-links a.active {
   color: var(--background-color);
   background: var(--text-primary); /* Distinct flipped dark active navigation layout links */
 }
+
+/* ===== NEW: HAMBURGER MENU ===== */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 6px;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background: var(--text-primary);
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(10px, 10px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* Mobile Menu */
+.mobile-menu {
+  position: fixed;
+  left: 0;
+  top: 70px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-color);
+  display: none;
+  flex-direction: column;
+  padding: 20px;
+  z-index: 99;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.mobile-menu.active {
+  display: flex;
+}
+
+.mobile-menu a, .mobile-menu button {
+  padding: 15px 20px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border: none;
+  background: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  text-align: left;
+  width: 100%;
+}
+
+.mobile-menu a:hover, .mobile-menu button:hover {
+  background: #f1f5f9;
+  color: var(--text-primary);
+}
+
+.mobile-menu-divider {
+  height: 1px;
+  background: var(--border-color);
+  margin: 10px 0;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  nav {
+    padding: 1rem;
+  }
+
+  nav .nav-links {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+}
+/* ===== END: HAMBURGER MENU ===== */
 
 /* Splash Screen (Simple, clean entry view) */
 .splash {
@@ -276,6 +370,47 @@ button.danger { background: #ef4444 !important; border-color: #ef4444; }
   resize: vertical;
   min-height: 100px;
 }
+
+/* ===== NEW: PASSWORD STRENGTH INDICATOR ===== */
+.password-strength {
+  margin-top: 5px;
+  font-size: 12px;
+  padding: 8px;
+  border-radius: 6px;
+  text-align: center;
+  display: none;
+}
+
+.password-strength.weak {
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+  display: block;
+}
+
+.password-strength.medium {
+  background: rgba(251, 191, 36, 0.1);
+  color: #d97706;
+  display: block;
+}
+
+.password-strength.strong {
+  background: rgba(16, 185, 129, 0.1);
+  color: #059669;
+  display: block;
+}
+
+/* Info Box */
+.info-box {
+  background: #f1f5f9;
+  border-left: 4px solid var(--text-primary);
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* ===== END: PASSWORD STRENGTH INDICATOR ===== */
 
 /* Rating Structure */
 .rating-container {
