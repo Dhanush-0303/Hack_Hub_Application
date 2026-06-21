@@ -2,12 +2,17 @@ import { auth, db } from "./firebase.js";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  signOut
+  signOut,
+  sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import {
   doc,
   setDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// =========================================================================
+// STANDARD AUTHENTICATION WORKFLOWS (LOGIN, SIGNUP, LOGOUT)
+// =========================================================================
 
 window.login = function () {
   let email = document.getElementById("login-email").value.trim();
@@ -157,32 +162,4 @@ window.signup = async function () {
     
     setTimeout(() => {
       toast.remove();
-      alert(`🎉 Welcome to India Hackathon Hub, ${firstName}!\n\nYour account is ready. Redirecting to home page...`);
-      window.location.href = "home.html";
-    }, 1000);
-
-  } catch (error) {
-    console.error("Signup error:", error);
-    let errorMsg = "Signup failed. ";
-    
-    if (error.code === "auth/email-already-in-use") {
-      errorMsg += "This email is already registered. Please login instead.";
-    } else if (error.code === "auth/weak-password") {
-      errorMsg += "Password should be at least 6 characters.";
-    } else if (error.code === "auth/invalid-email") {
-      errorMsg += "Invalid email format.";
-    } else {
-      errorMsg += error.message;
-    }
-    
-    alert("❌ " + errorMsg);
-  }
-};
-
-window.logout = function() {
-  signOut(auth).then(() => {
-    window.location.href = "login.html";
-  }).catch((error) => {
-    alert("Error logging out: " + error.message);
-  });
-};
+      alert(`🎉 Welcome to India Hackathon Hub, ${firstName}!\n\nYour account is ready.
