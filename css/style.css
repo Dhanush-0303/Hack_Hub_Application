@@ -5,12 +5,10 @@
 }
 
 :root {
-  --background-color: #ffffff;    /* Clean, crisp white background */
-  --card-bg: #f8fafc;            /* Off-white background for cards to make them stand out */
-  --border-color: #e2e8f0;        /* Subtle light grey borders */
-  --text-primary: #0f172a;        /* Dark slate/black text for maximum readability */
-  --text-secondary: #475569;      /* Medium grey text for secondary details */
-  --accent-color: #0f172a;        /* Deep dark tone used for buttons and primary accents */
+  --background-color: #090514; /* Deep velvet black/purple */
+  --card-bg: rgba(29, 18, 50, 0.6); 
+  --border-color: #3b2266;
+  --accent-color: #a855f7; /* Vibrant purple accents */
 }
 
 body {
