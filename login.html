@@ -6,22 +6,6 @@
   <title>Login - India Hackathon Hub</title>
   <link rel="stylesheet" href="css/style.css">
   <style>
-    /* Centers the entire container smoothly in the middle of mobile screens */
-    body {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      margin: 0;
-    }
-
-    .auth-container {
-      margin: 40px auto !important; 
-      width: 100%;
-      max-width: 450px;
-      padding: 20px;
-      box-sizing: border-box;
-    }
-
     .auth-tabs {
       display: flex;
       gap: 10px;
@@ -213,348 +197,45 @@
       font-size: 12px;
     }
 
-    /* MODAL AND SIDEBAR DRAWER OVERLAYS OVERRIDE STYLES */
-    .modal-overlay {
+    /* ==========================================
+       ADDED DRAWER MENU STYLES WITHOUT MODIFYING OLD CODE
+       ========================================== */
+    .menu-toggle-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: none;
+      padding: 5px;
+    }
+
+    .instagram-drawer {
+      position: fixed;
+      top: 0;
+      right: -280px;
+      width: 280px;
+      height: 100%;
+      background: #1e293b;
+      box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 25px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      z-index: 3000;
+      transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .instagram-drawer.open {
+      right: 0px;
+    }
+
+    .drawer-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(15, 23, 42, 0.8);
-      backdrop-filter: blur(5px);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 3000;
-      padding: 20px;
-      box-sizing: border-box;
-    }
-    .modal-card {
-      background: #1e293b;
-      border: 1px solid #334155;
-      padding: 30px;
-      border-radius: 16px;
-      width: 100%;
-      max-width: 400px;
-      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
-      position: relative;
-    }
-    .modal-close {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      background: none;
-      border: none;
-      color: #94a3b8;
-      font-size: 20px;
-      cursor: pointer;
-    }
-  </style>
-</head>
-<body>
-
-<nav style="display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: #1e293b; border-bottom: 1px solid #334155; position: relative; z-index: 999;">
-  <div class="logo" style="font-weight: 700; font-size: 18px; color: #fff; display: flex; align-items: center; gap: 8px;">
-    🚀 HackHub
-  </div>
-  
-  <button type="button" onclick="toggleMenuDrawer(true)" style="background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 5px; display: flex; align-items: center; justify-content: center; box-shadow: none;">
-    ☰
-  </button>
-</nav>
-
-<div id="menuDrawerOverlay" onclick="toggleMenuDrawer(false)" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px); z-index: 2000; display: none; opacity: 0; transition: opacity 0.3s ease;">
-  
-  <div id="menuDrawerCard" onclick="event.stopPropagation()" style="position: fixed; top: 0; right: -280px; width: 280px; height: 100%; background: #1e293b; box-shadow: -10px 0 30px rgba(0,0,0,0.5); border-left: 1px solid #334155; padding: 25px; box-sizing: border-box; display: flex; flex-direction: column; transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);">
-    
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 35px; border-bottom: 1px solid #334155; padding-bottom: 15px;">
-      <span style="color: #94a3b8; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Navigation Menu</span>
-      <button type="button" onclick="toggleMenuDrawer(false)" style="background: none; border: none; color: #94a3b8; font-size: 20px; cursor: pointer; padding: 0;">✕</button>
-    </div>
-
-    <div style="display: flex; flex-direction: column; gap: 12px; flex: 1;">
-      <a href="index.html" style="display: flex; align-items: center; gap: 12px; color: #fff; text-decoration: none; padding: 12px 16px; background: rgba(255,255,255,0.03); border-radius: 10px; font-weight: 500;">
-        🏠 <span>Home</span>
-      </a>
-      <a href="updates.html" style="display: flex; align-items: center; gap: 12px; color: #fff; text-decoration: none; padding: 12px 16px; background: rgba(255,255,255,0.03); border-radius: 10px; font-weight: 500;">
-        🔔 <span>Updates</span>
-      </a>
-      <a href="about.html" style="display: flex; align-items: center; gap: 12px; color: #fff; text-decoration: none; padding: 12px 16px; background: rgba(255,255,255,0.03); border-radius: 10px; font-weight: 500;">
-        ℹ️ <span>About</span>
-      </a>
-      <a href="add-hackathon.html" style="display: flex; align-items: center; gap: 12px; color: #818cf8; text-decoration: none; padding: 12px 16px; background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.2); border-radius: 10px; font-weight: 600;">
-        ➕ <span>Add Hackathon</span>
-      </a>
-    </div>
-
-    <div style="border-top: 1px solid #334155; padding-top: 15px; margin-top: auto;">
-      <button type="button" onclick="window.logout ? window.logout() : location.href='login.html'" style="width: 100%; padding: 12px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); color: #f87171; border-radius: 10px; font-weight: 600; cursor: pointer;">
-        🚪 Log Out
-      </button>
-    </div>
-  </div>
-</div>
-
-<div class="auth-container">
-  <h2>Welcome! 👋</h2>
-  
-  <div class="auth-tabs">
-    <button type="button" class="tab-btn active" id="tab-login" onclick="switchTab('login')">🔓 Login</button>
-    <button type="button" class="tab-btn" id="tab-signup" onclick="switchTab('signup')">📝 Sign Up</button>
-  </div>
-
-  <div id="login" class="form-section active">
-    <div class="form-group">
-      <label for="login-email">Email Address</label>
-      <input type="email" id="login-email" placeholder="your.email@example.com">
-    </div>
-
-    <div class="form-group">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
-        <label for="login-password" style="margin: 0;">Password</label>
-        <span onclick="openForgotModal()" style="color: #6366f1; font-size: 12px; cursor: pointer; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Forgot Password?</span>
-      </div>
-      <input type="password" id="login-password" placeholder="••••••••">
-    </div>
-
-    <button type="button" onclick="window.login()" style="width: 100%; margin-top: 20px;">🔓 Login</button>
-
-    <p style="text-align: center; margin-top: 20px; font-size: 14px; color: var(--text-secondary);">
-      Don't have an account? <span onclick="switchTab('signup')" style="color: var(--primary); cursor: pointer; font-weight: 600;">Create one</span>
-    </p>
-  </div>
-
-  <div id="signup" class="form-section">
-    <div class="info-box">
-      ℹ️ Join thousands of hackathon enthusiasts! Fill in your details to get started.
-    </div>
-
-    <div class="section-title">📋 Basic Information</div>
-    
-    <div class="signup-grid">
-      <div class="form-group">
-        <label for="signup-firstname">First Name *</label>
-        <input type="text" id="signup-firstname" placeholder="John">
-      </div>
-      <div class="form-group">
-        <label for="signup-lastname">Last Name *</label>
-        <input type="text" id="signup-lastname" placeholder="Doe">
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="signup-email">Email Address *</label>
-      <input type="email" id="signup-email" placeholder="john.doe@example.com">
-    </div>
-
-    <div class="signup-grid">
-      <div class="form-group">
-        <label for="signup-phone">Phone Number</label>
-        <input type="tel" id="signup-phone" placeholder="+91 98765 43210">
-      </div>
-      <div class="form-group">
-        <label for="signup-dob">Date of Birth</label>
-        <input type="date" id="signup-dob">
-      </div>
-    </div>
-
-    <div class="section-title">📍 Location & Education</div>
-
-    <div class="signup-grid">
-      <div class="form-group">
-        <label for="signup-city">City *</label>
-        <input type="text" id="signup-city" placeholder="Bangalore">
-      </div>
-      <div class="form-group">
-        <label for="signup-state">State *</label>
-        <select id="signup-state">
-          <option value="">Select State</option>
-          <option value="andhra-pradesh">Andhra Pradesh</option>
-          <option value="arunachal-pradesh">Arunachal Pradesh</option>
-          <option value="assam">Assam</option>
-          <option value="bihar">Bihar</option>
-          <option value="chhattisgarh">Chhattisgarh</option>
-          <option value="goa">Goa</option>
-          <option value="gujarat">Gujarat</option>
-          <option value="haryana">Haryana</option>
-          <option value="himachal-pradesh">Himachal Pradesh</option>
-          <option value="jharkhand">Jharkhand</option>
-          <option value="karnataka">Karnataka</option>
-          <option value="kerala">Kerala</option>
-          <option value="madhya-pradesh">Madhya Pradesh</option>
-          <option value="maharashtra">Maharashtra</option>
-          <option value="manipur">Manipur</option>
-          <option value="meghalaya">Meghalaya</option>
-          <option value="mizoram">Mizoram</option>
-          <option value="nagaland">Nagaland</option>
-          <option value="odisha">Odisha</option>
-          <option value="punjab">Punjab</option>
-          <option value="rajasthan">Rajasthan</option>
-          <option value="sikkim">Sikkim</option>
-          <option value="tamil-nadu">Tamil Nadu</option>
-          <option value="telangana">Telangana</option>
-          <option value="tripura">Tripura</option>
-          <option value="uttar-pradesh">Uttar Pradesh</option>
-          <option value="uttarakhand">Uttarakhand</option>
-          <option value="west-bengal">West Bengal</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="signup-college">College/Organization</label>
-      <input type="text" id="signup-college" placeholder="Your College Name">
-    </div>
-
-    <div class="section-title">⚡ Experience & Skills</div>
-
-    <div class="form-group">
-      <label for="signup-experience">Experience Level *</label>
-      <select id="signup-experience">
-        <option value="">Select Experience Level</option>
-        <option value="beginner">🌱 Beginner (First hackathon)</option>
-        <option value="intermediate">📈 Intermediate (2-5 hackathons)</option>
-        <option value="advanced">⭐ Advanced (5+ hackathons)</option>
-        <option value="expert">🏆 Expert (Regular winner)</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label>👨‍💻 Skills & Interests (Select all that apply)</label>
-      <div class="checkbox-group">
-        <div class="checkbox-item">
-          <input type="checkbox" id="skill-web" value="web">
-          <label for="skill-web">Web Development</label>
-        </div>
-        <div class="checkbox-item">
-          <input type="checkbox" id="skill-mobile" value="mobile">
-          <label for="skill-mobile">Mobile App</label>
-        </div>
-        <div class="checkbox-item">
-          <input type="checkbox" id="skill-ai" value="ai">
-          <label for="skill-ai">AI/ML</label>
-        </div>
-        <div class="checkbox-item">
-          <input type="checkbox" id="skill-data" value="data">
-          <label for="skill-data">Data Science</label>
-        </div>
-        <div class="checkbox-item">
-          <input type="checkbox" id="skill-blockchain" value="blockchain">
-          <label for="skill-blockchain">Blockchain</label>
-        </div>
-        <div class="checkbox-item">
-          <input type="checkbox" id="skill-iot" value="iot">
-          <label for="skill-iot">IoT</label>
-        </div>
-        <div class="checkbox-item">
-          <input type="checkbox" id="skill-design" value="design">
-          <label for="skill-design">UI/UX Design</label>
-        </div>
-        <div class="checkbox-item">
-          <input type="checkbox" id="skill-devops" value="devops">
-          <label for="skill-devops">DevOps</label>
-        </div>
-      </div>
-    </div>
-
-    <div class="section-title">🔐 Security & Bio</div>
-
-    <div class="form-group">
-      <label for="signup-password">Password *</label>
-      <input type="password" id="signup-password" placeholder="••••••••" 
-             oninput="window.checkPasswordStrength(this.value)">
-      <div class="password-strength" id="passwordStrength"></div>
-    </div>
-
-    <div class="form-group">
-      <label for="signup-confirm">Confirm Password *</label>
-      <input type="password" id="signup-confirm" placeholder="••••••••">
-    </div>
-
-    <div class="form-group">
-      <label for="signup-bio">About You (Bio)</label>
-      <textarea id="signup-bio" placeholder="Tell us about yourself..." rows="4" maxlength="300"></textarea>
-      <small style="color: var(--text-secondary);" id="bioCount">0/300 characters</small>
-    </div>
-
-    <div class="section-title">🎯 Preferences</div>
-
-    <div class="form-group">
-      <label for="signup-hackathon-type">Preferred Hackathon Type *</label>
-      <select id="signup-hackathon-type">
-        <option value="">Select Preference</option>
-        <option value="online">🌐 Online Hackathons</option>
-        <option value="offline">📍 Offline Hackathons</option>
-        <option value="both">🔄 Both Online & Offline</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label>📢 Communication Preferences</label>
-      <div class="checkbox-group">
-        <div class="checkbox-item">
-          <input type="checkbox" id="pref-email" checked value="email">
-          <label for="pref-email">Email Updates</label>
-        </div>
-        <div class="checkbox-item">
-          <input type="checkbox" id="pref-notification" checked value="notification">
-          <label for="pref-notification">In-App Alerts</label>
-        </div>
-      </div>
-    </div>
-
-    <div class="info-box">
-      ✅ By signing up, you agree to our Terms of Service and Privacy Policy
-    </div>
-
-    <button type="button" onclick="window.signup()" style="width: 100%; margin-top: 20px; background: linear-gradient(135deg, var(--success), #059669);">
-      🚀 Create Account
-    </button>
-
-    <p style="text-align: center; margin-top: 20px; font-size: 14px; color: var(--text-secondary);">
-      Already have an account? <span onclick="switchTab('login')" style="color: var(--primary); cursor: pointer; font-weight: 600;">Login here</span>
-    </p>
-  </div>
-</div>
-
-<div id="forgotPasswordModal" class="modal-overlay">
-  <div class="modal-card">
-    <button type="button" class="modal-close" onclick="closeForgotModal()">✕</button>
-    
-    <div id="resetStep1">
-      <h3 style="margin-top:0; color:#fff;">Trouble Logging In?</h3>
-      <p style="font-size:13px; color:#94a3b8; margin-bottom: 20px;">Enter your registered email address to receive a secure recovery confirmation link.</p>
-      <div class="form-group">
-        <label for="forgotEmail">Email Address</label>
-        <input type="email" id="forgotEmail" placeholder="your.email@example.com" style="width:100%; box-sizing:border-box; padding:12px; background: rgba(30, 41, 59, 0.5); border: 1px solid var(--border-color); border-radius: 10px; color:#fff;">
-      </div>
-      <button type="button" onclick="window.processStep1()" style="width:100%; margin-top:15px; background:#6366f1;">Send Reset Link</button>
-    </div>
-
-    <div id="resetStep2" style="display:none;">
-      <h3 style="margin-top:0; color:#fff;">Verification</h3>
-      <p style="font-size:13px; color:#94a3b8; margin-bottom: 20px;">Enter the 6-digit verification code string layout dispatched to your mailbox.</p>
-      <div class="form-group">
-        <label for="forgotOTP">6-Digit Code</label>
-        <input type="text" id="forgotOTP" maxlength="6" placeholder="123456" style="width:100%; box-sizing:border-box; padding:12px; text-align:center; letter-spacing:4px; font-weight:700; background: rgba(30, 41, 59, 0.5); border: 1px solid var(--border-color); border-radius: 10px; color:#fff;">
-      </div>
-      <button type="button" onclick="window.processStep2()" style="width:100%; margin-top:15px; background:#6366f1;">Verify Token</button>
-    </div>
-
-    <div id="resetStep3" style="display:none;">
-      <h3 style="margin-top:0; color:#fff;">Update Credentials</h3>
-      <p style="font-size:13px; color:#94a3b8; margin-bottom: 20px;">Specify a new account password matching target security constraints.</p>
-      <div class="form-group">
-        <label for="forgotNewPassword">New Password</label>
-        <input type="password" id="forgotNewPassword" placeholder="••••••••" style="width:100%; box-sizing:border-box; padding:12px; margin-bottom:10px; background: rgba(30, 41, 59, 0.5); border: 1px solid var(--border-color); border-radius: 10px; color:#fff;">
-        <label for="forgotConfirmPassword">Confirm New Password</label>
-        <input type="password" id="forgotConfirmPassword" placeholder="••••••••" style="width:100%; box-sizing:border-box; padding:12px; background: rgba(30, 41, 59, 0.5); border: 1px solid var(--border-color); border-radius: 10px; color:#fff;">
-      </div>
-      <button type="button" onclick="window.processStep3()" style="width:100%; margin-top:15px; background:#10b981;">Complete Recovery</button>
-    </div>
-  </div>
-</div>
-
-<script type="module" src="js/auth.js"></script>
-
-<script>
+      background: rgba
