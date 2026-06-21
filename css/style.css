@@ -4,16 +4,25 @@
   box-sizing: border-box;
 }
 
+/* 🎨 CLEAN WHITE WITH DARK INTERACTIVE ELEMENTS VARIABLE TOKENS */
 :root {
-  --background-color: #090514; /* Deep velvet black/purple */
-  --card-bg: rgba(29, 18, 50, 0.6); 
-  --border-color: #3b2266;
-  --accent-color: #a855f7; /* Vibrant purple accents */
+  --background-color: #ffffff;    /* Clear white primary view canvas */
+  --card-bg: #f8fafc;            /* Subtle light grey layout separations */
+  --border-color: #e2e8f0;        /* Fine structure division lines */
+  --text-primary: #0f172a;        /* Deep slate text for high readability */
+  --text-secondary: #475569;      /* Muted charcoal details tracking */
+  --accent-color: #0f172a;        /* High-contrast signature dark tone */
+  
+  /* Fallback maps routing to theme constants safely */
+  --primary: #0f172a;
+  --primary-dark: #020617;
+  --secondary: #334155;
+  --success: #10b981;
 }
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #0f172a 0%, #1a1f3a 50%, #0f172a 100%);
+  background: var(--background-color); /* Fixed: Removed hardcoded dark gradient */
   color: var(--text-primary);
   min-height: 100vh;
   overflow-x: hidden;
@@ -21,7 +30,7 @@ body {
 
 /* Navigation Bar */
 nav {
-  background: rgba(15, 23, 42, 0.8);
+  background: rgba(255, 255, 255, 0.9); /* Clean white navigation backdrop container */
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border-color);
   padding: 1rem 2rem;
@@ -36,10 +45,7 @@ nav {
 nav .logo {
   font-size: 24px;
   font-weight: bold;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--text-primary); /* Bold high contrast identity logo text alignment */
 }
 
 nav .nav-links {
@@ -56,19 +62,19 @@ nav .nav-links a {
   border-radius: 8px;
 }
 
-nav .nav-links a:hover {
-  color: var(--primary);
-  background: rgba(99, 102, 241, 0.1);
+nav .nav-links a:hover, nav .nav-links a.active {
+  color: var(--background-color);
+  background: var(--text-primary); /* Distinct flipped dark active navigation layout links */
 }
 
-/* Splash Screen */
+/* Splash Screen (Simple, clean entry view) */
 .splash {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(135deg, #0f172a 0%, #1a2a4a 50%, #0f172a 100%);
+  background: var(--background-color);
   animation: fadeIn 0.8s ease-in;
 }
 
@@ -80,10 +86,7 @@ nav .nav-links a:hover {
 
 .splash h1 {
   font-size: 48px;
-  background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--text-primary);
   margin-bottom: 1rem;
   animation: slideDown 0.8s ease;
 }
@@ -95,30 +98,11 @@ nav .nav-links a:hover {
 }
 
 /* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slideDown {
-  from { transform: translateY(-30px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-@keyframes slideUp {
-  from { transform: translateY(30px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
-}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideDown { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
 
 /* Main Content */
 main {
@@ -130,10 +114,7 @@ main {
 h2 {
   font-size: 32px;
   margin-bottom: 2rem;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--text-primary);
 }
 
 /* Search and Filter Section */
@@ -145,13 +126,12 @@ h2 {
 }
 
 #searchBox, #filter, input[type="email"], input[type="password"], input[type="text"], textarea {
-  background: rgba(30, 41, 59, 0.5);
+  background: #ffffff;
   border: 1px solid var(--border-color);
   color: var(--text-primary);
   padding: 12px 16px;
   border-radius: 10px;
   font-size: 14px;
-  backdrop-filter: blur(10px);
   transition: all 0.3s ease;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -163,16 +143,16 @@ h2 {
 
 #searchBox:focus, #filter:focus, input:focus, textarea:focus {
   outline: none;
-  background: rgba(30, 41, 59, 0.8);
-  border-color: var(--primary);
-  box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+  background: #ffffff;
+  border-color: var(--text-primary);
+  box-shadow: 0 0 15px rgba(15, 23, 42, 0.15);
 }
 
 #filter {
   min-width: 150px;
 }
 
-/* Cards */
+/* Cards Framework */
 .card {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
@@ -180,35 +160,19 @@ h2 {
   padding: 20px;
   margin-bottom: 20px;
   transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
   cursor: pointer;
   position: relative;
   overflow: hidden;
 }
 
-.card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-  transition: left 0.5s ease;
-}
-
-.card:hover::before {
-  left: 100%;
-}
-
 .card:hover {
-  border-color: var(--primary);
-  box-shadow: 0 20px 50px rgba(99, 102, 241, 0.2);
-  transform: translateY(-8px);
+  border-color: var(--text-primary);
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+  transform: translateY(-4px);
 }
 
 .card h3 {
-  color: var(--secondary);
+  color: var(--text-primary);
   margin-bottom: 10px;
   font-size: 20px;
 }
@@ -229,7 +193,7 @@ h2 {
 
 .badge {
   display: inline-block;
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  background: var(--text-primary);
   padding: 4px 12px;
   border-radius: 20px;
   font-size: 12px;
@@ -237,34 +201,29 @@ h2 {
   font-weight: 600;
 }
 
-.badge.online {
-  background: linear-gradient(135deg, var(--success), #059669);
-}
+.badge.online { background: #10b981; }
+.badge.offline { background: #64748b; }
 
-.badge.offline {
-  background: linear-gradient(135deg, var(--accent), #be185d);
-}
-
-/* Buttons */
+/* 🕹️ SOLID DARK BUTTON ARCHITECTURE DESIGN ELEMENTS */
 button {
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  color: white;
+  background: var(--text-primary) !important; /* Forces dark black/slate button foundations */
+  color: #ffffff !important;
   padding: 12px 24px;
-  border: none;
+  border: 1px solid var(--text-primary);
   border-radius: 10px;
   cursor: pointer;
   font-size: 14px;
   font-weight: 600;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
 }
 
 button:hover {
+  background: #1e293b !important; /* Slightly lighter on point interactions for clear visual click feedback */
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
 }
 
 button:active {
@@ -272,25 +231,19 @@ button:active {
 }
 
 button.secondary {
-  background: rgba(99, 102, 241, 0.2);
-  color: var(--primary);
-  border: 1px solid var(--primary);
-  box-shadow: none;
+  background: transparent !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--text-primary);
 }
 
 button.secondary:hover {
-  background: rgba(99, 102, 241, 0.3);
+  background: #f1f5f9 !important;
 }
 
-button.success {
-  background: linear-gradient(135deg, var(--success), #059669);
-}
+button.success { background: #10b981 !important; border-color: #10b981; }
+button.danger { background: #ef4444 !important; border-color: #ef4444; }
 
-button.danger {
-  background: linear-gradient(135deg, #ef4444, #dc2626);
-}
-
-/* Forms */
+/* Forms Configuration Panels */
 .form-group {
   margin-bottom: 1.5rem;
   display: flex;
@@ -307,12 +260,11 @@ button.danger {
 .form-group textarea {
   width: 100%;
   padding: 12px 16px;
-  background: rgba(30, 41, 59, 0.5);
+  background: #ffffff;
   border: 1px solid var(--border-color);
   border-radius: 10px;
   color: var(--text-primary);
   font-family: inherit;
-  backdrop-filter: blur(10px);
 }
 
 .form-group textarea {
@@ -320,86 +272,62 @@ button.danger {
   min-height: 100px;
 }
 
-/* Rating System */
+/* Rating Structure */
 .rating-container {
   display: flex;
   align-items: center;
   gap: 1rem;
   padding: 15px;
-  background: rgba(99, 102, 241, 0.1);
+  background: #f1f5f9;
   border-radius: 10px;
   margin: 1rem 0;
 }
 
-.stars {
-  display: flex;
-  gap: 8px;
-  font-size: 24px;
-}
+.stars { display: flex; gap: 8px; font-size: 24px; }
+.star { cursor: pointer; transition: all 0.2s ease; color: #94a3b8; }
+.star:hover, .star.active { color: #fbbf24; transform: scale(1.2); }
+.rating-text { color: var(--text-secondary); font-size: 14px; }
 
-.star {
-  cursor: pointer;
-  transition: all 0.2s ease;
-  color: var(--text-secondary);
-}
-
-.star:hover,
-.star.active {
-  color: #fbbf24;
-  transform: scale(1.2);
-}
-
-.rating-text {
-  color: var(--text-secondary);
-  font-size: 14px;
-}
-
-/* Trending Section */
+/* Trending Display Targets */
 .trending-badge {
   position: absolute;
   top: 10px;
   right: 10px;
-  background: linear-gradient(135deg, var(--accent), #be185d);
+  background: #0f172a;
   padding: 6px 12px;
   border-radius: 20px;
   font-size: 12px;
   font-weight: 700;
-  animation: pulse 2s infinite;
+  color: white;
 }
 
 .trending-card {
-  border: 2px solid var(--accent);
+  border: 2px solid var(--text-primary);
 }
 
-/* Founder Section */
-/* Founder Section */
+/* Founder Showcase */
 .founder-section {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(6, 182, 212, 0.1));
+  background: #f8fafc;
   border: 1px solid var(--border-color);
   border-radius: 16px;
   padding: 30px;
   margin: 2rem 0;
   text-align: center;
-  backdrop-filter: blur(10px);
 }
 
 .founder-avatar {
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  background: #e2e8f0;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 60px;
   margin: 0 auto 20px;
-  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
-  /* 🌟 ADDED FOR IMAGE MASKING SUPPORT */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   overflow: hidden;
-  object-fit: cover;
 }
 
-/* 🌟 NEW: Handles rendering when an <img> tag is put inside the founder block */
 .founder-avatar img {
   width: 100%;
   height: 100%;
@@ -408,7 +336,7 @@ button.danger {
 }
 
 .founder-info h3 {
-  color: var(--secondary);
+  color: var(--text-primary);
   margin-bottom: 10px;
   font-size: 24px;
 }
@@ -418,51 +346,23 @@ button.danger {
   margin: 8px 0;
 }
 
-.founder-info a {
-  color: var(--primary);
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-.founder-info a:hover {
-  color: var(--secondary);
-  text-decoration: underline;
-}
-
-/* Login/Signup */
+/* Login/Signup Wrapper UI */
 .auth-container {
   max-width: 400px;
   margin: 100px auto;
-  background: var(--card-bg);
+  background: #ffffff;
   border: 1px solid var(--border-color);
   border-radius: 16px;
   padding: 40px;
-  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
 }
 
-.auth-container h2 {
-  text-align: center;
-  margin-bottom: 30px;
-}
+.auth-container h2 { text-align: center; margin-bottom: 30px; }
+.auth-container button { width: 100%; margin-top: 20px; }
+.auth-container p { text-align: center; color: var(--text-secondary); margin-top: 20px; cursor: pointer; }
+.auth-container p:hover { color: var(--text-primary); text-decoration: underline; }
 
-.auth-container button {
-  width: 100%;
-  margin-top: 20px;
-}
-
-.auth-container p {
-  text-align: center;
-  color: var(--text-secondary);
-  margin-top: 20px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.auth-container p:hover {
-  color: var(--primary);
-}
-
-/* Hackathon List */
+/* Grid Layout Specifications mapping mapping */
 #hackathonList, #bookmarkList, #notificationList, .details-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -470,172 +370,42 @@ button.danger {
   margin-top: 20px;
 }
 
-#bookmarkList, #notificationList {
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-}
-
-/* Details Page */
+/* Details Page Overlay */
 #details {
-  background: var(--card-bg);
+  background: #ffffff;
   border: 1px solid var(--border-color);
   border-radius: 16px;
   padding: 30px;
-  backdrop-filter: blur(10px);
   margin: 2rem 0;
   grid-column: 1 / -1;
 }
 
-#details h2 {
-  color: var(--secondary);
-  margin-bottom: 20px;
-}
-
-#details p {
-  margin: 15px 0;
-  line-height: 1.8;
-  color: var(--text-secondary);
-}
-
-#details b {
-  color: var(--primary);
-}
-
-/* Admin Panel */
+/* Admin Customizer Layout Overlay Panels */
 .admin-container {
   max-width: 600px;
   margin: 2rem auto;
-  background: var(--card-bg);
+  background: #ffffff;
   border: 1px solid var(--border-color);
   border-radius: 16px;
   padding: 30px;
-  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.02);
 }
 
-.admin-container h2 {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.admin-container input,
-.admin-container textarea {
-  width: 100%;
-  margin-bottom: 15px;
-}
-
-.admin-container button {
-  width: 100%;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  nav {
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  nav .nav-links {
-    flex-direction: column;
-    gap: 0.5rem;
-    width: 100%;
-  }
-
-  .splash h1 {
-    font-size: 36px;
-  }
-
-  main {
-    padding: 1rem;
-  }
-
-  h2 {
-    font-size: 24px;
-  }
-
-  .search-filter-section {
-    flex-direction: column;
-  }
-
-  #searchBox {
-    min-width: 100%;
-  }
-
-  #hackathonList, #bookmarkList, #notificationList {
-    grid-template-columns: 1fr;
-  }
-
-  .card {
-    padding: 15px;
-  }
-
-  button {
-    padding: 10px 16px;
-    font-size: 13px;
-  }
-
-  .founder-section {
-    padding: 20px;
-  }
-
-  .auth-container {
-    margin: 50px 20px;
-    padding: 25px;
-  }
-}
-
-/* Loading Spinner */
-.spinner {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  border: 3px solid var(--border-color);
-  border-radius: 50%;
-  border-top-color: var(--primary);
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-/* Toast Notifications */
+/* Toast System */
 .toast {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background: rgba(16, 185, 129, 0.9);
+  background: #0f172a;
   color: white;
   padding: 15px 20px;
   border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  animation: slideIn 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   z-index: 1000;
 }
 
-@keyframes slideIn {
-  from {
-    transform: translateX(400px);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-/* Scrollbar Styling */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg-dark);
-}
-
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--primary);
-}
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #ffffff; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
