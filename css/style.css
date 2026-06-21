@@ -5,17 +5,12 @@
 }
 
 :root {
-  --primary: #6366f1;
-  --primary-dark: #4f46e5;
-  --secondary: #06b6d4;
-  --accent: #ec4899;
-  --success: #10b981;
-  --bg-dark: #0f172a;
-  --bg-light: #1e293b;
-  --card-bg: rgba(30, 41, 59, 0.7);
-  --text-primary: #f1f5f9;
-  --text-secondary: #cbd5e1;
-  --border-color: rgba(148, 163, 184, 0.1);
+  --background-color: #ffffff;    /* Clean, crisp white background */
+  --card-bg: #f8fafc;            /* Off-white background for cards to make them stand out */
+  --border-color: #e2e8f0;        /* Subtle light grey borders */
+  --text-primary: #0f172a;        /* Dark slate/black text for maximum readability */
+  --text-secondary: #475569;      /* Medium grey text for secondary details */
+  --accent-color: #0f172a;        /* Deep dark tone used for buttons and primary accents */
 }
 
 body {
