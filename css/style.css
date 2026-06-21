@@ -75,19 +75,24 @@ nav .nav-links a:hover, nav .nav-links a.active {
   align-items: center;
   height: 100vh;
   background: var(--background-color);
+  padding: 20px;
+  text-align: center;
   animation: fadeIn 0.8s ease-in;
 }
 
 .splash img {
-  width: 150px;
-  margin-bottom: 2rem;
+  width: 100px;
+  max-width: 25%0px;
+  margin-bottom: 1.5rem;
   animation: bounce 2s infinite;
 }
 
 .splash h1 {
-  font-size: 48px;
+  font-size: 32px;
+  font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
   animation: slideDown 0.8s ease;
 }
 
