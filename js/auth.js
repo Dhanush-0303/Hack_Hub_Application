@@ -10,26 +10,28 @@ import {
   setDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// =========================================================================
-// STANDARD AUTHENTICATION WORKFLOWS (LOGIN, SIGNUP, LOGOUT)
-// =========================================================================
+// Ensure Firebase is accessible globally for debugging if needed
+window.firebaseAuthInstance = auth;
 
+// =========================================================================
+// STANDARD LOGIN WORKFLOW
+// =========================================================================
 window.login = function () {
-  let email = document.getElementById("login-email").value.trim();
-  let password = document.getElementById("login-password").value;
+  console.log("Login function triggered manually.");
+  
+  const emailEl = document.getElementById("login-email");
+  const passwordEl = document.getElementById("login-password");
+
+  if (!emailEl || !passwordEl) {
+    alert("❌ HTML Error: Core input fields ('login-email' or 'login-password') are missing from your HTML page structure.");
+    return;
+  }
+
+  let email = emailEl.value.trim();
+  let password = passwordEl.value;
 
   if (!email || !password) {
     alert("⚠️ Please fill in all fields.");
-    return;
-  }
-
-  if (!email.includes("@")) {
-    alert("⚠️ Please enter a valid email address.");
-    return;
-  }
-
-  if (password.length < 6) {
-    alert("⚠️ Password must be at least 6 characters long.");
     return;
   }
 
@@ -38,7 +40,7 @@ window.login = function () {
       const user = userCredential.user;
       const toast = document.createElement('div');
       toast.className = 'toast';
-      toast.innerHTML = `✅ Welcome back, ${user.email.split('@')[0]}!`;
+      toast.innerHTML = `✅ Welcome back!`;
       document.body.appendChild(toast);
       
       setTimeout(() => {
@@ -47,10 +49,10 @@ window.login = function () {
       }, 1000);
     })
     .catch(err => {
-      console.error(err);
+      console.error("Login Error details:", err);
       let errorMsg = "Login failed. ";
       if (err.code === "auth/user-not-found" || err.code === "auth/invalid-credential") {
-        errorMsg += "User not found or incorrect credentials. Please check your spelling.";
+        errorMsg += "Incorrect email or password details.";
       } else if (err.code === "auth/wrong-password") {
         errorMsg += "Incorrect password.";
       } else if (err.code === "auth/invalid-email") {
@@ -62,57 +64,50 @@ window.login = function () {
     });
 };
 
+// =========================================================================
+// STANDARD SIGNUP WORKFLOW
+// =========================================================================
 window.signup = async function () {
-  const firstName = document.getElementById("signup-firstname").value.trim();
-  const lastName = document.getElementById("signup-lastname").value.trim();
-  const email = document.getElementById("signup-email").value.trim();
-  const phone = document.getElementById("signup-phone").value.trim();
-  const dob = document.getElementById("signup-dob").value;
-  const city = document.getElementById("signup-city").value.trim();
-  const state = document.getElementById("signup-state").value;
-  const college = document.getElementById("signup-college").value.trim();
-  const experience = document.getElementById("signup-experience").value;
-  const password = document.getElementById("signup-password").value;
-  const confirmPassword = document.getElementById("signup-confirm").value;
-  const bio = document.getElementById("signup-bio").value.trim();
-  const hackathonType = document.getElementById("signup-hackathon-type").value;
+  console.log("Signup function triggered manually.");
+
+  // Helper safe checker function
+  const getVal = (id) => {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : "";
+  };
+
+  const firstName = getVal("signup-firstname");
+  const lastName = getVal("signup-lastname");
+  const email = getVal("signup-email");
+  const phone = getVal("signup-phone");
+  const dob = document.getElementById("signup-dob") ? document.getElementById("signup-dob").value : null;
+  const city = getVal("signup-city");
+  const state = document.getElementById("signup-state") ? document.getElementById("signup-state").value : "";
+  const college = getVal("signup-college");
+  const experience = document.getElementById("signup-experience") ? document.getElementById("signup-experience").value : "";
+  const password = document.getElementById("signup-password") ? document.getElementById("signup-password").value : "";
+  const confirmPassword = document.getElementById("signup-confirm") ? document.getElementById("signup-confirm").value : "";
+  const bio = getVal("signup-bio");
+  const hackathonType = document.getElementById("signup-hackathon-type") ? document.getElementById("signup-hackathon-type").value : "";
   
-  // Checking safe fallback closures for dynamic elements
   const skills = typeof window.getSelectedSkills === "function" ? window.getSelectedSkills() : [];
   const prefs = typeof window.getCommunicationPrefs === "function" ? window.getCommunicationPrefs() : {};
 
+  // Structural Validations
   if (!firstName || !lastName) {
     alert("⚠️ Please enter your first and last name.");
     return;
   }
-
   if (!email || !email.includes("@")) {
     alert("⚠️ Please enter a valid email address.");
     return;
   }
-
-  if (!city || !state) {
-    alert("⚠️ Please select your city and state.");
-    return;
-  }
-
-  if (!experience) {
-    alert("⚠️ Please select your experience level.");
-    return;
-  }
-
   if (!password || password.length < 6) {
     alert("⚠️ Password must be at least 6 characters.");
     return;
   }
-
   if (password !== confirmPassword) {
     alert("⚠️ Passwords do not match.");
-    return;
-  }
-
-  if (!hackathonType) {
-    alert("⚠️ Please select your preferred hackathon type.");
     return;
   }
 
@@ -127,13 +122,13 @@ window.signup = async function () {
       email: email,
       phone: phone || null,
       dateOfBirth: dob || null,
-      city: city,
-      state: state,
+      city: city || null,
+      state: state || null,
       college: college || null,
-      experience: experience,
+      experience: experience || null,
       skills: skills,
       bio: bio || null,
-      hackathonPreference: hackathonType,
+      hackathonPreference: hackathonType || null,
       communicationPrefs: prefs,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -143,28 +138,12 @@ window.signup = async function () {
       profileComplete: true
     });
 
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.innerHTML = '✅ Account created successfully!';
-    document.body.appendChild(toast);
-    
-    setTimeout(() => {
-      toast.remove();
-      alert(`🎉 Welcome to India Hackathon Hub, ${firstName}!\n\nRedirecting to home page...`);
-      window.location.href = "home.html";
-    }, 1000);
+    alert(`🎉 Account ready. Redirecting to home page...`);
+    window.location.href = "home.html";
 
   } catch (error) {
-    console.error("Signup error:", error);
-    let errorMsg = "Signup failed. ";
-    if (error.code === "auth/email-already-in-use") {
-      errorMsg += "This email is already registered.";
-    } else if (error.code === "auth/weak-password") {
-      errorMsg += "Password should be at least 6 characters.";
-    } else {
-      errorMsg += error.message;
-    }
-    alert("❌ " + errorMsg);
+    console.error("Signup error details:", error);
+    alert("❌ Signup failed: " + error.message);
   }
 };
 
@@ -177,43 +156,38 @@ window.logout = function() {
 };
 
 // =========================================================================
-// FIXED FORGOT PASSWORD BACKEND ACTION HANDLERS
+// INTERACTIVE FORGOT PASSWORD WORKFLOWS
 // =========================================================================
-
 window.processStep1 = async function() {
   const emailInput = document.getElementById("forgotEmail") || document.getElementById("login-email");
   const emailValue = emailInput ? emailInput.value.trim() : "";
 
   if (!emailValue) {
-    alert("⚠️ Please enter your registered email address.");
+    alert("⚠️ Please enter your email address.");
     return;
   }
 
   try {
     await sendPasswordResetEmail(auth, emailValue);
     
-    // Smooth layout transitions
     if (document.getElementById("resetStep1") && document.getElementById("resetStep2")) {
       document.getElementById("resetStep1").style.display = "none";
       document.getElementById("resetStep2").style.display = "block";
     } else {
-      alert("🚀 Secure reset link sent! Please check your email inbox container.");
+      alert("🚀 Link dispatched! Check your mail inbox container.");
     }
   } catch (error) {
-    console.error("Reset setup failure:", error);
-    if (error.code === "auth/user-not-found") {
-      alert("❌ No account found with this email address.");
-    } else {
-      alert("❌ System execution error. Please try again.");
-    }
+    console.error("Reset step 1 issue:", error);
+    alert("❌ Error sending reset email: " + error.message);
   }
 };
 
 window.processStep2 = function() {
-  const otpValue = document.getElementById("forgotOTP") ? document.getElementById("forgotOTP").value.trim() : "";
+  const otpInput = document.getElementById("forgotOTP");
+  const otpValue = otpInput ? otpInput.value.trim() : "";
   
   if (otpValue.length !== 6) {
-    alert("⚠️ Please enter the complete 6-digit layout confirmation string.");
+    alert("⚠️ Please enter the complete 6-digit verification code.");
     return;
   }
   
@@ -226,7 +200,7 @@ window.processStep3 = function() {
   const confirm = document.getElementById("forgotConfirmPassword") ? document.getElementById("forgotConfirmPassword").value : "";
 
   if (pass.length < 6) {
-    alert("⚠️ New password must be at least 6 characters long.");
+    alert("⚠️ Password must be at least 6 characters.");
     return;
   }
   if (pass !== confirm) {
@@ -234,7 +208,7 @@ window.processStep3 = function() {
     return;
   }
 
-  alert("🚀 Verified! Use the direct configuration link sent to your mail to instantly authorize this password swap.");
+  alert("🚀 Verified! Use the link in your email to instantly complete the change.");
   if (typeof window.closeForgotModal === "function") {
     window.closeForgotModal();
   }
@@ -250,26 +224,28 @@ import {
   setDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// =========================================================================
-// STANDARD AUTHENTICATION WORKFLOWS (LOGIN, SIGNUP, LOGOUT)
-// =========================================================================
+// Ensure Firebase is accessible globally for debugging if needed
+window.firebaseAuthInstance = auth;
 
+// =========================================================================
+// STANDARD LOGIN WORKFLOW
+// =========================================================================
 window.login = function () {
-  let email = document.getElementById("login-email").value.trim();
-  let password = document.getElementById("login-password").value;
+  console.log("Login function triggered manually.");
+  
+  const emailEl = document.getElementById("login-email");
+  const passwordEl = document.getElementById("login-password");
+
+  if (!emailEl || !passwordEl) {
+    alert("❌ HTML Error: Core input fields ('login-email' or 'login-password') are missing from your HTML page structure.");
+    return;
+  }
+
+  let email = emailEl.value.trim();
+  let password = passwordEl.value;
 
   if (!email || !password) {
     alert("⚠️ Please fill in all fields.");
-    return;
-  }
-
-  if (!email.includes("@")) {
-    alert("⚠️ Please enter a valid email address.");
-    return;
-  }
-
-  if (password.length < 6) {
-    alert("⚠️ Password must be at least 6 characters long.");
     return;
   }
 
@@ -278,7 +254,7 @@ window.login = function () {
       const user = userCredential.user;
       const toast = document.createElement('div');
       toast.className = 'toast';
-      toast.innerHTML = `✅ Welcome back, ${user.email.split('@')[0]}!`;
+      toast.innerHTML = `✅ Welcome back!`;
       document.body.appendChild(toast);
       
       setTimeout(() => {
@@ -287,10 +263,10 @@ window.login = function () {
       }, 1000);
     })
     .catch(err => {
-      console.error(err);
+      console.error("Login Error details:", err);
       let errorMsg = "Login failed. ";
       if (err.code === "auth/user-not-found" || err.code === "auth/invalid-credential") {
-        errorMsg += "User not found or incorrect credentials. Please check your spelling.";
+        errorMsg += "Incorrect email or password details.";
       } else if (err.code === "auth/wrong-password") {
         errorMsg += "Incorrect password.";
       } else if (err.code === "auth/invalid-email") {
@@ -302,57 +278,50 @@ window.login = function () {
     });
 };
 
+// =========================================================================
+// STANDARD SIGNUP WORKFLOW
+// =========================================================================
 window.signup = async function () {
-  const firstName = document.getElementById("signup-firstname").value.trim();
-  const lastName = document.getElementById("signup-lastname").value.trim();
-  const email = document.getElementById("signup-email").value.trim();
-  const phone = document.getElementById("signup-phone").value.trim();
-  const dob = document.getElementById("signup-dob").value;
-  const city = document.getElementById("signup-city").value.trim();
-  const state = document.getElementById("signup-state").value;
-  const college = document.getElementById("signup-college").value.trim();
-  const experience = document.getElementById("signup-experience").value;
-  const password = document.getElementById("signup-password").value;
-  const confirmPassword = document.getElementById("signup-confirm").value;
-  const bio = document.getElementById("signup-bio").value.trim();
-  const hackathonType = document.getElementById("signup-hackathon-type").value;
+  console.log("Signup function triggered manually.");
+
+  // Helper safe checker function
+  const getVal = (id) => {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : "";
+  };
+
+  const firstName = getVal("signup-firstname");
+  const lastName = getVal("signup-lastname");
+  const email = getVal("signup-email");
+  const phone = getVal("signup-phone");
+  const dob = document.getElementById("signup-dob") ? document.getElementById("signup-dob").value : null;
+  const city = getVal("signup-city");
+  const state = document.getElementById("signup-state") ? document.getElementById("signup-state").value : "";
+  const college = getVal("signup-college");
+  const experience = document.getElementById("signup-experience") ? document.getElementById("signup-experience").value : "";
+  const password = document.getElementById("signup-password") ? document.getElementById("signup-password").value : "";
+  const confirmPassword = document.getElementById("signup-confirm") ? document.getElementById("signup-confirm").value : "";
+  const bio = getVal("signup-bio");
+  const hackathonType = document.getElementById("signup-hackathon-type") ? document.getElementById("signup-hackathon-type").value : "";
   
-  // Checking safe fallback closures for dynamic elements
   const skills = typeof window.getSelectedSkills === "function" ? window.getSelectedSkills() : [];
   const prefs = typeof window.getCommunicationPrefs === "function" ? window.getCommunicationPrefs() : {};
 
+  // Structural Validations
   if (!firstName || !lastName) {
     alert("⚠️ Please enter your first and last name.");
     return;
   }
-
   if (!email || !email.includes("@")) {
     alert("⚠️ Please enter a valid email address.");
     return;
   }
-
-  if (!city || !state) {
-    alert("⚠️ Please select your city and state.");
-    return;
-  }
-
-  if (!experience) {
-    alert("⚠️ Please select your experience level.");
-    return;
-  }
-
   if (!password || password.length < 6) {
     alert("⚠️ Password must be at least 6 characters.");
     return;
   }
-
   if (password !== confirmPassword) {
     alert("⚠️ Passwords do not match.");
-    return;
-  }
-
-  if (!hackathonType) {
-    alert("⚠️ Please select your preferred hackathon type.");
     return;
   }
 
@@ -367,13 +336,13 @@ window.signup = async function () {
       email: email,
       phone: phone || null,
       dateOfBirth: dob || null,
-      city: city,
-      state: state,
+      city: city || null,
+      state: state || null,
       college: college || null,
-      experience: experience,
+      experience: experience || null,
       skills: skills,
       bio: bio || null,
-      hackathonPreference: hackathonType,
+      hackathonPreference: hackathonType || null,
       communicationPrefs: prefs,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -383,28 +352,12 @@ window.signup = async function () {
       profileComplete: true
     });
 
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.innerHTML = '✅ Account created successfully!';
-    document.body.appendChild(toast);
-    
-    setTimeout(() => {
-      toast.remove();
-      alert(`🎉 Welcome to India Hackathon Hub, ${firstName}!\n\nRedirecting to home page...`);
-      window.location.href = "home.html";
-    }, 1000);
+    alert(`🎉 Account ready. Redirecting to home page...`);
+    window.location.href = "home.html";
 
   } catch (error) {
-    console.error("Signup error:", error);
-    let errorMsg = "Signup failed. ";
-    if (error.code === "auth/email-already-in-use") {
-      errorMsg += "This email is already registered.";
-    } else if (error.code === "auth/weak-password") {
-      errorMsg += "Password should be at least 6 characters.";
-    } else {
-      errorMsg += error.message;
-    }
-    alert("❌ " + errorMsg);
+    console.error("Signup error details:", error);
+    alert("❌ Signup failed: " + error.message);
   }
 };
 
@@ -417,43 +370,38 @@ window.logout = function() {
 };
 
 // =========================================================================
-// FIXED FORGOT PASSWORD BACKEND ACTION HANDLERS
+// INTERACTIVE FORGOT PASSWORD WORKFLOWS
 // =========================================================================
-
 window.processStep1 = async function() {
   const emailInput = document.getElementById("forgotEmail") || document.getElementById("login-email");
   const emailValue = emailInput ? emailInput.value.trim() : "";
 
   if (!emailValue) {
-    alert("⚠️ Please enter your registered email address.");
+    alert("⚠️ Please enter your email address.");
     return;
   }
 
   try {
     await sendPasswordResetEmail(auth, emailValue);
     
-    // Smooth layout transitions
     if (document.getElementById("resetStep1") && document.getElementById("resetStep2")) {
       document.getElementById("resetStep1").style.display = "none";
       document.getElementById("resetStep2").style.display = "block";
     } else {
-      alert("🚀 Secure reset link sent! Please check your email inbox container.");
+      alert("🚀 Link dispatched! Check your mail inbox container.");
     }
   } catch (error) {
-    console.error("Reset setup failure:", error);
-    if (error.code === "auth/user-not-found") {
-      alert("❌ No account found with this email address.");
-    } else {
-      alert("❌ System execution error. Please try again.");
-    }
+    console.error("Reset step 1 issue:", error);
+    alert("❌ Error sending reset email: " + error.message);
   }
 };
 
 window.processStep2 = function() {
-  const otpValue = document.getElementById("forgotOTP") ? document.getElementById("forgotOTP").value.trim() : "";
+  const otpInput = document.getElementById("forgotOTP");
+  const otpValue = otpInput ? otpInput.value.trim() : "";
   
   if (otpValue.length !== 6) {
-    alert("⚠️ Please enter the complete 6-digit layout confirmation string.");
+    alert("⚠️ Please enter the complete 6-digit verification code.");
     return;
   }
   
@@ -466,7 +414,7 @@ window.processStep3 = function() {
   const confirm = document.getElementById("forgotConfirmPassword") ? document.getElementById("forgotConfirmPassword").value : "";
 
   if (pass.length < 6) {
-    alert("⚠️ New password must be at least 6 characters long.");
+    alert("⚠️ Password must be at least 6 characters.");
     return;
   }
   if (pass !== confirm) {
@@ -474,7 +422,7 @@ window.processStep3 = function() {
     return;
   }
 
-  alert("🚀 Verified! Use the direct configuration link sent to your mail to instantly authorize this password swap.");
+  alert("🚀 Verified! Use the link in your email to instantly complete the change.");
   if (typeof window.closeForgotModal === "function") {
     window.closeForgotModal();
   }
@@ -490,26 +438,28 @@ import {
   setDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// =========================================================================
-// STANDARD AUTHENTICATION WORKFLOWS (LOGIN, SIGNUP, LOGOUT)
-// =========================================================================
+// Ensure Firebase is accessible globally for debugging if needed
+window.firebaseAuthInstance = auth;
 
+// =========================================================================
+// STANDARD LOGIN WORKFLOW
+// =========================================================================
 window.login = function () {
-  let email = document.getElementById("login-email").value.trim();
-  let password = document.getElementById("login-password").value;
+  console.log("Login function triggered manually.");
+  
+  const emailEl = document.getElementById("login-email");
+  const passwordEl = document.getElementById("login-password");
+
+  if (!emailEl || !passwordEl) {
+    alert("❌ HTML Error: Core input fields ('login-email' or 'login-password') are missing from your HTML page structure.");
+    return;
+  }
+
+  let email = emailEl.value.trim();
+  let password = passwordEl.value;
 
   if (!email || !password) {
     alert("⚠️ Please fill in all fields.");
-    return;
-  }
-
-  if (!email.includes("@")) {
-    alert("⚠️ Please enter a valid email address.");
-    return;
-  }
-
-  if (password.length < 6) {
-    alert("⚠️ Password must be at least 6 characters long.");
     return;
   }
 
@@ -518,7 +468,7 @@ window.login = function () {
       const user = userCredential.user;
       const toast = document.createElement('div');
       toast.className = 'toast';
-      toast.innerHTML = `✅ Welcome back, ${user.email.split('@')[0]}!`;
+      toast.innerHTML = `✅ Welcome back!`;
       document.body.appendChild(toast);
       
       setTimeout(() => {
@@ -527,10 +477,10 @@ window.login = function () {
       }, 1000);
     })
     .catch(err => {
-      console.error(err);
+      console.error("Login Error details:", err);
       let errorMsg = "Login failed. ";
       if (err.code === "auth/user-not-found" || err.code === "auth/invalid-credential") {
-        errorMsg += "User not found or incorrect credentials. Please check your spelling.";
+        errorMsg += "Incorrect email or password details.";
       } else if (err.code === "auth/wrong-password") {
         errorMsg += "Incorrect password.";
       } else if (err.code === "auth/invalid-email") {
@@ -542,57 +492,50 @@ window.login = function () {
     });
 };
 
+// =========================================================================
+// STANDARD SIGNUP WORKFLOW
+// =========================================================================
 window.signup = async function () {
-  const firstName = document.getElementById("signup-firstname").value.trim();
-  const lastName = document.getElementById("signup-lastname").value.trim();
-  const email = document.getElementById("signup-email").value.trim();
-  const phone = document.getElementById("signup-phone").value.trim();
-  const dob = document.getElementById("signup-dob").value;
-  const city = document.getElementById("signup-city").value.trim();
-  const state = document.getElementById("signup-state").value;
-  const college = document.getElementById("signup-college").value.trim();
-  const experience = document.getElementById("signup-experience").value;
-  const password = document.getElementById("signup-password").value;
-  const confirmPassword = document.getElementById("signup-confirm").value;
-  const bio = document.getElementById("signup-bio").value.trim();
-  const hackathonType = document.getElementById("signup-hackathon-type").value;
+  console.log("Signup function triggered manually.");
+
+  // Helper safe checker function
+  const getVal = (id) => {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : "";
+  };
+
+  const firstName = getVal("signup-firstname");
+  const lastName = getVal("signup-lastname");
+  const email = getVal("signup-email");
+  const phone = getVal("signup-phone");
+  const dob = document.getElementById("signup-dob") ? document.getElementById("signup-dob").value : null;
+  const city = getVal("signup-city");
+  const state = document.getElementById("signup-state") ? document.getElementById("signup-state").value : "";
+  const college = getVal("signup-college");
+  const experience = document.getElementById("signup-experience") ? document.getElementById("signup-experience").value : "";
+  const password = document.getElementById("signup-password") ? document.getElementById("signup-password").value : "";
+  const confirmPassword = document.getElementById("signup-confirm") ? document.getElementById("signup-confirm").value : "";
+  const bio = getVal("signup-bio");
+  const hackathonType = document.getElementById("signup-hackathon-type") ? document.getElementById("signup-hackathon-type").value : "";
   
-  // Checking safe fallback closures for dynamic elements
   const skills = typeof window.getSelectedSkills === "function" ? window.getSelectedSkills() : [];
   const prefs = typeof window.getCommunicationPrefs === "function" ? window.getCommunicationPrefs() : {};
 
+  // Structural Validations
   if (!firstName || !lastName) {
     alert("⚠️ Please enter your first and last name.");
     return;
   }
-
   if (!email || !email.includes("@")) {
     alert("⚠️ Please enter a valid email address.");
     return;
   }
-
-  if (!city || !state) {
-    alert("⚠️ Please select your city and state.");
-    return;
-  }
-
-  if (!experience) {
-    alert("⚠️ Please select your experience level.");
-    return;
-  }
-
   if (!password || password.length < 6) {
     alert("⚠️ Password must be at least 6 characters.");
     return;
   }
-
   if (password !== confirmPassword) {
     alert("⚠️ Passwords do not match.");
-    return;
-  }
-
-  if (!hackathonType) {
-    alert("⚠️ Please select your preferred hackathon type.");
     return;
   }
 
@@ -607,13 +550,13 @@ window.signup = async function () {
       email: email,
       phone: phone || null,
       dateOfBirth: dob || null,
-      city: city,
-      state: state,
+      city: city || null,
+      state: state || null,
       college: college || null,
-      experience: experience,
+      experience: experience || null,
       skills: skills,
       bio: bio || null,
-      hackathonPreference: hackathonType,
+      hackathonPreference: hackathonType || null,
       communicationPrefs: prefs,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -623,28 +566,12 @@ window.signup = async function () {
       profileComplete: true
     });
 
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.innerHTML = '✅ Account created successfully!';
-    document.body.appendChild(toast);
-    
-    setTimeout(() => {
-      toast.remove();
-      alert(`🎉 Welcome to India Hackathon Hub, ${firstName}!\n\nRedirecting to home page...`);
-      window.location.href = "home.html";
-    }, 1000);
+    alert(`🎉 Account ready. Redirecting to home page...`);
+    window.location.href = "home.html";
 
   } catch (error) {
-    console.error("Signup error:", error);
-    let errorMsg = "Signup failed. ";
-    if (error.code === "auth/email-already-in-use") {
-      errorMsg += "This email is already registered.";
-    } else if (error.code === "auth/weak-password") {
-      errorMsg += "Password should be at least 6 characters.";
-    } else {
-      errorMsg += error.message;
-    }
-    alert("❌ " + errorMsg);
+    console.error("Signup error details:", error);
+    alert("❌ Signup failed: " + error.message);
   }
 };
 
@@ -657,43 +584,38 @@ window.logout = function() {
 };
 
 // =========================================================================
-// FIXED FORGOT PASSWORD BACKEND ACTION HANDLERS
+// INTERACTIVE FORGOT PASSWORD WORKFLOWS
 // =========================================================================
-
 window.processStep1 = async function() {
   const emailInput = document.getElementById("forgotEmail") || document.getElementById("login-email");
   const emailValue = emailInput ? emailInput.value.trim() : "";
 
   if (!emailValue) {
-    alert("⚠️ Please enter your registered email address.");
+    alert("⚠️ Please enter your email address.");
     return;
   }
 
   try {
     await sendPasswordResetEmail(auth, emailValue);
     
-    // Smooth layout transitions
     if (document.getElementById("resetStep1") && document.getElementById("resetStep2")) {
       document.getElementById("resetStep1").style.display = "none";
       document.getElementById("resetStep2").style.display = "block";
     } else {
-      alert("🚀 Secure reset link sent! Please check your email inbox container.");
+      alert("🚀 Link dispatched! Check your mail inbox container.");
     }
   } catch (error) {
-    console.error("Reset setup failure:", error);
-    if (error.code === "auth/user-not-found") {
-      alert("❌ No account found with this email address.");
-    } else {
-      alert("❌ System execution error. Please try again.");
-    }
+    console.error("Reset step 1 issue:", error);
+    alert("❌ Error sending reset email: " + error.message);
   }
 };
 
 window.processStep2 = function() {
-  const otpValue = document.getElementById("forgotOTP") ? document.getElementById("forgotOTP").value.trim() : "";
+  const otpInput = document.getElementById("forgotOTP");
+  const otpValue = otpInput ? otpInput.value.trim() : "";
   
   if (otpValue.length !== 6) {
-    alert("⚠️ Please enter the complete 6-digit layout confirmation string.");
+    alert("⚠️ Please enter the complete 6-digit verification code.");
     return;
   }
   
@@ -706,7 +628,7 @@ window.processStep3 = function() {
   const confirm = document.getElementById("forgotConfirmPassword") ? document.getElementById("forgotConfirmPassword").value : "";
 
   if (pass.length < 6) {
-    alert("⚠️ New password must be at least 6 characters long.");
+    alert("⚠️ Password must be at least 6 characters.");
     return;
   }
   if (pass !== confirm) {
@@ -714,7 +636,7 @@ window.processStep3 = function() {
     return;
   }
 
-  alert("🚀 Verified! Use the direct configuration link sent to your mail to instantly authorize this password swap.");
+  alert("🚀 Verified! Use the link in your email to instantly complete the change.");
   if (typeof window.closeForgotModal === "function") {
     window.closeForgotModal();
   }
