@@ -44,7 +44,7 @@ async function loadFounderProfile() {
       profileData = {
         "Name": "HB Dhanush",
         "Role": "Founder & Lead Developer",
-        "Bio": "A passionate developer and hackathon enthusiast with a vision to make hackathon discovery seamless for every aspiring innovator in India. With experience in building web applications and a deep understanding of the hackathon ecosystem, Dhanush created this platform to bridge the gap between opportunities and talent.",
+        "Bio": "A passionate developer and hackathon enthusiast with a vision to make hackathon discovery seamless for every aspiring innovator in India. I am created this platform to bridge the gap between opportunities and talent.",
         "Email": "dd1564876@gmail.com",
         "Twitter": "https://twitter.com",
         "LinkedIn": "https://www.linkedin.com/in/hb-dhanush-719425370/",
