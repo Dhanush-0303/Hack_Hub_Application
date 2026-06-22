@@ -19,8 +19,72 @@
 <script>
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("sw.js")
-      .then(() => console.log("✅ Service Worker Registered"))
-      .catch(err => console.error("❌ Service Worker registration failed:", err));
+      .then(() => console.log(" Service Worker Registered"))
+      .catch(err => console.error(" Service Worker registration failed:", err));
+  }
+
+  setTimeout(() => {
+    window.location.href = "login.html";
+  }, 3000);
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>India Hackathon Hub</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+<div class="splash">
+  <div style="font-size: 100px; animation: bounce 2s infinite; margin-bottom: 2rem;">🚀</div>
+  <h1>India Hackathon Hub</h1>
+  <p>Discover & Register for the Best Hackathons Across India</p>
+  <p style="font-size: 14px; color: #94a3b8; margin-top: 1rem;">Loading amazing opportunities...</p>
+</div>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js")
+      .then(() => console.log(" Service Worker Registered"))
+      .catch(err => console.error(" Service Worker registration failed:", err));
+  }
+
+  setTimeout(() => {
+    window.location.href = "login.html";
+  }, 3000);
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>India Hackathon Hub</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+<div class="splash">
+  <div style="font-size: 100px; animation: bounce 2s infinite; margin-bottom: 2rem;">🚀</div>
+  <h1>India Hackathon Hub</h1>
+  <p>Discover & Register for the Best Hackathons Across India</p>
+  <p style="font-size: 14px; color: #94a3b8; margin-top: 1rem;">Loading amazing opportunities...</p>
+</div>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js")
+      .then(() => console.log(" Service Worker Registered"))
+      .catch(err => console.error(" Service Worker registration failed:", err));
   }
 
   setTimeout(() => {
