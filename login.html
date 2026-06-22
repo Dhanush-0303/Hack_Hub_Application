@@ -28,12 +28,12 @@
     }
 
     .auth-tabs button.active {
-      color: var(--primary);
-      border-bottom-color: var(--primary);
+      color: var(--text-primary);
+      border-bottom-color: var(--text-primary);
     }
 
     .auth-tabs button:hover {
-      color: var(--primary);
+      color: var(--text-primary);
     }
 
     .form-section {
@@ -80,7 +80,7 @@
       display: flex;
       align-items: center;
       padding: 10px;
-      background: rgba(99, 102, 241, 0.1);
+      background: #f1f5f9;
       border-radius: 8px;
       cursor: pointer;
     }
@@ -110,25 +110,24 @@
     .form-section textarea {
       width: 100%;
       padding: 12px 16px;
-      background: rgba(30, 41, 59, 0.5);
+      background: #ffffff;
       border: 1px solid var(--border-color);
       border-radius: 10px;
       color: var(--text-primary);
       font-family: inherit;
-      backdrop-filter: blur(10px);
       margin-bottom: 15px;
     }
 
     .form-section select:focus,
     .form-section textarea:focus {
       outline: none;
-      background: rgba(30, 41, 59, 0.8);
-      border-color: var(--primary);
-      box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+      background: #ffffff;
+      border-color: var(--text-primary);
+      box-shadow: 0 0 20px rgba(15, 23, 42, 0.1);
     }
 
     .section-title {
-      color: var(--secondary);
+      color: var(--text-primary);
       font-size: 14px;
       font-weight: 700;
       margin: 20px 0 15px 0;
@@ -137,8 +136,8 @@
     }
 
     .info-box {
-      background: rgba(99, 102, 241, 0.1);
-      border-left: 4px solid var(--primary);
+      background: #f1f5f9;
+      border-left: 4px solid var(--text-primary);
       padding: 12px;
       border-radius: 8px;
       margin-bottom: 15px;
@@ -156,79 +155,32 @@
     }
 
     .password-strength.weak {
-      background: rgba(239, 68, 68, 0.2);
-      color: #fca5a5;
+      background: rgba(239, 68, 68, 0.1);
+      color: #dc2626;
       display: block;
     }
 
     .password-strength.medium {
-      background: rgba(251, 191, 36, 0.2);
-      color: #fcd34d;
+      background: rgba(251, 191, 36, 0.1);
+      color: #d97706;
       display: block;
     }
 
     .password-strength.strong {
-      background: rgba(16, 185, 129, 0.2);
-      color: #86efac;
+      background: rgba(16, 185, 129, 0.1);
+      color: #059669;
       display: block;
-    }
-
-    .divider {
-      text-align: center;
-      margin: 20px 0;
-      position: relative;
-    }
-
-    .divider::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: var(--border-color);
-    }
-
-    .divider span {
-      position: relative;
-      background: var(--bg-light);
-      padding: 0 10px;
-      color: var(--text-secondary);
-      font-size: 12px;
     }
   </style>
 </head>
 <body>
 
+<!-- CLEAN NAVIGATION (WITHOUT MENU - LOGIN PAGE ONLY) -->
 <nav>
   <div class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">🚀 HackHub</div>
-  <ul class="nav-links">
-    <li><a href="index.html">🏠 Home</a></li>
-    <li><a href="about.html">ℹ️ About</a></li>
-    <li><a href="admin.html">➕ Add Hackathon</a></li>
-    <li><a href="#" onclick="openMobileMenu()">📋 More</a></li>
-  </ul>
-  
-  <!-- Hamburger Menu Button -->
-  <button class="hamburger" onclick="toggleMobileMenu()" id="hamburger">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
+  <div style="flex: 1;"></div>
+  <!-- No menu on login page -->
 </nav>
-
-<!-- Mobile Menu -->
-<div class="mobile-menu" id="mobileMenu">
-  <a href="index.html">🏠 Home</a>
-  <a href="about.html">ℹ️ About</a>
-  <a href="admin.html">➕ Add Hackathon</a>
-  <a href="home.html">🔥 Explore Hackathons</a>
-  <a href="bookmart.html">❤️ Saved</a>
-  <a href="notifications.html">🔔 Notifications</a>
-  <div class="mobile-menu-divider"></div>
-  <a href="profile.html">👤 My Profile</a>
-  <button onclick="logout()">🚪 Logout</button>
-</div>
 
 <div class="auth-container">
   <h2>Welcome! 👋</h2>
@@ -253,13 +205,13 @@
     </div>
 
     <p style="text-align: right; margin-bottom: 20px;">
-      <span onclick="switchTab('forgot')" style="color: var(--primary); cursor: pointer; font-weight: 600; font-size: 13px;">🔐 Forgot Password?</span>
+      <span onclick="switchTab('forgot')" style="color: var(--text-primary); cursor: pointer; font-weight: 600; font-size: 13px;">🔐 Forgot Password?</span>
     </p>
 
     <button onclick="login()" style="width: 100%;">🔓 Login</button>
 
     <p style="text-align: center; margin-top: 20px; font-size: 14px; color: var(--text-secondary);">
-      Don't have an account? <span onclick="switchTab('signup')" style="color: var(--primary); cursor: pointer; font-weight: 600;">Create one</span>
+      Don't have an account? <span onclick="switchTab('signup')" style="color: var(--text-primary); cursor: pointer; font-weight: 600;">Create one</span>
     </p>
   </div>
 
@@ -453,12 +405,12 @@
       ✅ By signing up, you agree to our Terms of Service and Privacy Policy
     </div>
 
-    <button onclick="signup()" style="width: 100%; margin-top: 20px; background: linear-gradient(135deg, var(--success), #059669);">
+    <button onclick="signup()" style="width: 100%; background: #10b981 !important; border-color: #10b981;">
       🚀 Create Account
     </button>
 
     <p style="text-align: center; margin-top: 20px; font-size: 14px; color: var(--text-secondary);">
-      Already have an account? <span onclick="switchTab('login')" style="color: var(--primary); cursor: pointer; font-weight: 600;">Login here</span>
+      Already have an account? <span onclick="switchTab('login')" style="color: var(--text-primary); cursor: pointer; font-weight: 600;">Login here</span>
     </p>
   </div>
 
@@ -474,12 +426,12 @@
         <input type="email" id="forgot-email" placeholder="your.email@example.com">
       </div>
 
-      <button onclick="sendResetOTP()" style="width: 100%; background: linear-gradient(135deg, var(--primary), var(--primary-dark));">
+      <button onclick="sendResetOTP()" style="width: 100%;">
         📧 Send Reset Code
       </button>
 
       <p style="text-align: center; margin-top: 20px; font-size: 14px; color: var(--text-secondary);">
-        Remember your password? <span onclick="switchTab('login')" style="color: var(--primary); cursor: pointer; font-weight: 600;">Login here</span>
+        Remember your password? <span onclick="switchTab('login')" style="color: var(--text-primary); cursor: pointer; font-weight: 600;">Login here</span>
       </p>
     </div>
 
@@ -493,17 +445,17 @@
         <label for="forgot-otp">Enter OTP Code</label>
         <input type="text" id="forgot-otp" placeholder="000000" maxlength="6" style="text-align: center; font-size: 24px; letter-spacing: 10px;">
         <small style="color: var(--text-secondary); display: block; margin-top: 10px;">
-          Didn't receive? <span onclick="resendOTP()" style="color: var(--primary); cursor: pointer; font-weight: 600;">Resend Code</span>
+          Didn't receive? <span onclick="resendOTP()" style="color: var(--text-primary); cursor: pointer; font-weight: 600;">Resend Code</span>
           <span id="resendTimer" style="color: #ef4444;"></span>
         </small>
       </div>
 
-      <button onclick="verifyOTP()" style="width: 100%; background: linear-gradient(135deg, var(--success), #059669);">
+      <button onclick="verifyOTP()" style="width: 100%; background: #10b981 !important; border-color: #10b981;">
         ✅ Verify Code
       </button>
 
       <p style="text-align: center; margin-top: 20px; font-size: 14px; color: var(--text-secondary);">
-        <span onclick="switchTab('forgot'); resetForgotForm()" style="color: var(--primary); cursor: pointer; font-weight: 600;">← Back</span>
+        <span onclick="switchTab('forgot'); resetForgotForm()" style="color: var(--text-primary); cursor: pointer; font-weight: 600;">← Back</span>
       </p>
     </div>
 
@@ -524,12 +476,12 @@
         <input type="password" id="confirm-new-password" placeholder="••••••••">
       </div>
 
-      <button onclick="updatePassword()" style="width: 100%; background: linear-gradient(135deg, var(--success), #059669);">
+      <button onclick="updatePassword()" style="width: 100%; background: #10b981 !important; border-color: #10b981;">
         💾 Save New Password
       </button>
 
       <p style="text-align: center; margin-top: 20px; font-size: 14px; color: var(--text-secondary);">
-        <span onclick="switchTab('login'); resetForgotForm()" style="color: var(--primary); cursor: pointer; font-weight: 600;">← Back to Login</span>
+        <span onclick="switchTab('login'); resetForgotForm()" style="color: var(--text-primary); cursor: pointer; font-weight: 600;">← Back to Login</span>
       </p>
     </div>
   </div>
@@ -538,27 +490,6 @@
 <script type="module" src="js/auth.js"></script>
 
 <script>
-  // Mobile Menu Toggle
-  window.toggleMobileMenu = function() {
-    const mobileMenu = document.getElementById('mobileMenu');
-    const hamburger = document.getElementById('hamburger');
-    mobileMenu.classList.toggle('active');
-    hamburger.classList.toggle('active');
-  };
-
-  window.openMobileMenu = function(e) {
-    if (e) e.preventDefault();
-    toggleMobileMenu();
-  };
-
-  // Close mobile menu when clicking a link
-  document.querySelectorAll('.mobile-menu a').forEach(link => {
-    link.addEventListener('click', () => {
-      document.getElementById('mobileMenu').classList.remove('active');
-      document.getElementById('hamburger').classList.remove('active');
-    });
-  });
-
   // Tab switching
   window.switchTab = function(tab) {
     document.querySelectorAll('.form-section').forEach(el => {
@@ -670,146 +601,6 @@
     document.getElementById('forgot-otp').value = '';
     document.getElementById('new-password').value = '';
     document.getElementById('confirm-new-password').value = '';
-  };
-
-  // Forgot password - Send OTP
-  let resetEmail = '';
-  let resetOTP = '';
-  let otpTimestamp = 0;
-
-  window.sendResetOTP = async function() {
-    const email = document.getElementById('forgot-email').value.trim();
-
-    if (!email || !email.includes('@')) {
-      alert('⚠️ Please enter a valid email address');
-      return;
-    }
-
-    try {
-      // Generate 6-digit OTP
-      resetOTP = Math.floor(100000 + Math.random() * 900000).toString();
-      resetEmail = email;
-      otpTimestamp = Date.now();
-
-      // In production, send email via Firebase Functions or backend
-      // For now, we'll use a mock implementation
-      console.log('OTP sent to:', email, 'OTP:', resetOTP); // Remove in production
-
-      // Send email with OTP (requires Cloud Function)
-      const response = await fetch('/.netlify/functions/send-reset-email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, otp: resetOTP })
-      }).catch(() => {
-        // If backend not available, show OTP in demo mode
-        alert(`📧 Demo Mode - Your OTP is: ${resetOTP}\n\n(In production, this would be sent to your email)`);
-      });
-
-      // Move to OTP verification step
-      document.getElementById('forgot-step-1').style.display = 'none';
-      document.getElementById('forgot-step-2').style.display = 'block';
-      document.getElementById('forgot-otp').focus();
-
-      // Start resend timer (60 seconds)
-      let timeLeft = 60;
-      const timerInterval = setInterval(() => {
-        timeLeft--;
-        const timerEl = document.getElementById('resendTimer');
-        if (timeLeft > 0) {
-          timerEl.textContent = ` (${timeLeft}s)`;
-        } else {
-          clearInterval(timerInterval);
-          timerEl.textContent = '';
-        }
-      }, 1000);
-
-      const toast = document.createElement('div');
-      toast.className = 'toast';
-      toast.innerHTML = '📧 Reset code sent to your email!';
-      document.body.appendChild(toast);
-      setTimeout(() => toast.remove(), 3000);
-
-    } catch (error) {
-      console.error('Error sending OTP:', error);
-      alert('❌ Error sending reset code. Please try again.');
-    }
-  };
-
-  window.resendOTP = function() {
-    alert('📧 Reset code resent! Check your email.');
-  };
-
-  window.verifyOTP = function() {
-    const enteredOTP = document.getElementById('forgot-otp').value.trim();
-
-    if (!enteredOTP) {
-      alert('⚠️ Please enter the 6-digit code');
-      return;
-    }
-
-    if (enteredOTP !== resetOTP) {
-      alert('❌ Invalid code. Please try again.');
-      return;
-    }
-
-    // OTP verified, move to password change
-    document.getElementById('forgot-step-2').style.display = 'none';
-    document.getElementById('forgot-step-3').style.display = 'block';
-    document.getElementById('new-password').focus();
-
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.innerHTML = '✅ Code verified! Create your new password.';
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 3000);
-  };
-
-  window.updatePassword = async function() {
-    const newPassword = document.getElementById('new-password').value;
-    const confirmPassword = document.getElementById('confirm-new-password').value;
-
-    if (!newPassword || newPassword.length < 6) {
-      alert('⚠️ Password must be at least 6 characters');
-      return;
-    }
-
-    if (newPassword !== confirmPassword) {
-      alert('⚠️ Passwords do not match');
-      return;
-    }
-
-    try {
-      // Call auth function to reset password
-      await resetPasswordWithEmail(resetEmail, newPassword);
-
-      const toast = document.createElement('div');
-      toast.className = 'toast';
-      toast.innerHTML = '✅ Password changed successfully!';
-      document.body.appendChild(toast);
-
-      setTimeout(() => {
-        toast.remove();
-        resetForgotForm();
-        switchTab('login');
-        alert('🎉 Your password has been updated. Please login with your new password.');
-      }, 2000);
-
-    } catch (error) {
-      console.error('Error updating password:', error);
-      alert('❌ Error updating password: ' + error.message);
-    }
-  };
-
-  // Password reset function to be called from auth.js
-  window.resetPasswordWithEmail = async function(email, newPassword) {
-    // This function will be implemented in auth.js using Firebase
-    throw new Error('Function not implemented yet');
-  };
-
-  window.logout = function() {
-    if (confirm('Are you sure you want to logout?')) {
-      window.location.href = 'login.html';
-    }
   };
 </script>
 
