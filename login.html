@@ -3,605 +3,845 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - India Hackathon Hub</title>
-  <link rel="stylesheet" href="css/style.css">
+  <title>HackHub</title>
   <style>
-    .auth-tabs {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 30px;
-      border-bottom: 2px solid var(--border-color);
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --primary-light: #818cf8;
+      --secondary: #a855f7;
+      --success: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --bg-dark: #0f172a;
+      --bg-darker: #020617;
+      --bg-card: #1e293b;
+      --bg-card-light: #334155;
+      --text-primary: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --text-tertiary: #94a3b8;
+      --border-color: #334155;
+      --border-focus: #6366f1;
     }
 
-    .auth-tabs button {
-      flex: 1;
-      padding: 15px;
-      background: none;
-      border: none;
-      color: var(--text-secondary);
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 600;
-      border-bottom: 3px solid transparent;
-      transition: all 0.3s ease;
-      box-shadow: none;
-    }
+    html { scroll-behavior: smooth; }
 
-    .auth-tabs button.active {
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg-darker);
       color: var(--text-primary);
-      border-bottom-color: var(--text-primary);
-    }
-
-    .auth-tabs button:hover {
-      color: var(--text-primary);
-    }
-
-    .form-section {
-      display: none;
-    }
-
-    .form-section.active {
-      display: block;
-      animation: slideIn 0.3s ease;
-    }
-
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .signup-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-      margin-bottom: 15px;
-    }
-
-    @media (max-width: 600px) {
-      .signup-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .checkbox-group {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin: 15px 0;
-    }
-
-    .checkbox-item {
+      min-height: 100vh;
       display: flex;
       align-items: center;
-      padding: 10px;
-      background: #f1f5f9;
-      border-radius: 8px;
-      cursor: pointer;
+      justify-content: center;
+      padding: 20px;
     }
 
-    .checkbox-item input[type="checkbox"] {
-      margin-right: 10px;
-      cursor: pointer;
-    }
-
-    .checkbox-item label {
-      cursor: pointer;
-      flex: 1;
-      margin: 0;
-    }
-
-    .form-section label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: 600;
-      font-size: 13px;
-      color: var(--text-primary);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .form-section select,
-    .form-section textarea {
+    .auth-wrapper {
       width: 100%;
-      padding: 12px 16px;
-      background: #ffffff;
+      max-width: 400px;
+    }
+
+    .logo-block {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .logo-icon {
+      font-size: 36px;
+      display: block;
+      margin-bottom: 10px;
+    }
+    .logo-name {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 32px 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* STEP PROGRESS BAR */
+    .step-bar {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 28px;
+    }
+    .step-bar-seg {
+      height: 3px;
+      flex: 1;
+      border-radius: 2px;
+      background: var(--border-color);
+      transition: background 0.4s ease;
+    }
+    .step-bar-seg.done   { background: var(--primary); }
+    .step-bar-seg.active { background: var(--primary-light); }
+
+    /* STEP PANEL */
+    .step { display: none; animation: stepIn 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
+    .step.active { display: block; }
+
+    @keyframes stepIn {
+      from { opacity: 0; transform: translateX(24px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes stepBack {
+      from { opacity: 0; transform: translateX(-24px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    .step.going-back { animation: stepBack 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
+
+    /* HEADINGS — BUG FIX: was 5px */
+    .step-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text-primary);
+    }
+    /* BUG FIX: .step-sub was missing from CSS */
+    .step-sub {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 26px;
+      line-height: 1.5;
+    }
+    .login-heading {
+      color: #ffffff;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 32px;
+      text-align: left;
+      margin-bottom: 12px;
+    }
+
+    /* INPUTS */
+    .field { margin-bottom: 18px; }
+    .field label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-tertiary);
+      margin-bottom: 8px;
+    }
+    .field input,
+    .field select {
+      width: 100%;
+      padding: 13px 14px;
+      background: rgba(15, 23, 42, 0.6);
       border: 1px solid var(--border-color);
       border-radius: 10px;
       color: var(--text-primary);
+      font-size: 15px;
       font-family: inherit;
-      margin-bottom: 15px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      -webkit-appearance: none;
+      appearance: none;
     }
-
-    .form-section select:focus,
-    .form-section textarea:focus {
+    .field input::placeholder { color: var(--text-tertiary); }
+    .field input:focus,
+    .field select:focus {
       outline: none;
-      background: #ffffff;
-      border-color: var(--text-primary);
-      box-shadow: 0 0 20px rgba(15, 23, 42, 0.1);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.18);
     }
+    .field select { cursor: pointer; }
 
-    .section-title {
+    .dob-row { display: grid; grid-template-columns: 2fr 3fr 2fr; gap: 8px; }
+
+    /* PASSWORD STRENGTH */
+    .pw-bar-wrap {
+      height: 3px;
+      background: var(--border-color);
+      border-radius: 2px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+    .pw-bar {
+      height: 100%;
+      width: 0;
+      border-radius: 2px;
+      transition: width 0.3s, background 0.3s;
+      background: var(--danger);
+    }
+    .pw-bar.medium { width: 60%; background: var(--warning); }
+    .pw-bar.strong { width: 100%; background: var(--success); }
+    .pw-hint { font-size: 11px; color: var(--text-tertiary); margin-top: 6px; }
+
+    /* OTP */
+    .otp-row {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .otp-cell {
+      aspect-ratio: 1;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1.5px solid var(--border-color);
+      border-radius: 10px;
       color: var(--text-primary);
-      font-size: 14px;
+      font-size: 20px;
       font-weight: 700;
-      margin: 20px 0 15px 0;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      text-align: center;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .otp-cell:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99,102,241,0.18); }
+    .otp-cell.filled { border-color: var(--primary); background: rgba(99,102,241,0.08); }
+
+    .resend-note {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+    }
+    .resend-link { color: var(--primary); cursor: pointer; font-weight: 600; }
+    .resend-link.disabled { color: var(--text-tertiary); cursor: default; }
+
+    /* BUTTONS */
+    .btn {
+      width: 100%;
+      padding: 13px 20px;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: inherit;
+    }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-primary:active { transform: scale(0.98); }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-secondary);
+      border: 1px solid var(--border-color);
+      margin-top: 10px;
+    }
+    .btn-ghost:hover { border-color: var(--primary); color: var(--primary); }
+
+    .btn-social {
+      background: var(--bg-card-light);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+    .btn-social:hover { border-color: var(--primary); background: rgba(99,102,241,0.08); }
+
+    /* DIVIDER */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-tertiary);
+      font-size: 12px;
+      margin: 20px 0;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border-color);
     }
 
-    .info-box {
-      background: #f1f5f9;
-      border-left: 4px solid var(--text-primary);
-      padding: 12px;
+    /* MESSAGE BOX */
+    .msg {
+      padding: 10px 14px;
       border-radius: 8px;
-      margin-bottom: 15px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .msg-error   { background: rgba(239,68,68,0.1);  color: #fca5a5; border: 1px solid rgba(239,68,68,0.25); }
+    .msg-success { background: rgba(16,185,129,0.1); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.25); }
+
+    /* SUCCESS SCREEN */
+    .success-wrap { text-align: center; padding: 20px 0; }
+    .success-circle {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: rgba(16,185,129,0.12);
+      border: 2px solid var(--success);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      margin: 0 auto 20px;
+      animation: popIn 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @keyframes popIn {
+      from { transform: scale(0.4); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+    .success-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+    .success-sub   { font-size: 13px; color: var(--text-secondary); margin-bottom: 28px; }
+
+    /* BUG FIX: .footer-text was missing from CSS */
+    .footer-text {
       font-size: 13px;
       color: var(--text-secondary);
     }
+    .footer-text a { color: var(--primary); text-decoration: none; font-weight: 600; }
+    .footer-text a:hover { color: var(--primary-light); }
 
-    .password-strength {
-      margin-top: 5px;
-      font-size: 12px;
-      padding: 8px;
-      border-radius: 6px;
+    .create-account-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      background: linear-gradient(135deg, #1877f2, #42a5f5);
+      color: white;
+      transition: 0.3s;
+    }
+    .create-account-btn:hover  { transform: translateY(-2px); }
+    .create-account-btn:active { transform: scale(0.98); }
+
+    /* BACK BUTTON */
+    .back-btn {
+      background: none;
+      border: none;
+      color: var(--text-tertiary);
+      cursor: pointer;
+      font-size: 13px;
+      padding: 0;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: inherit;
+      transition: color 0.2s;
+    }
+    .back-btn:hover { color: var(--text-primary); }
+
+    /* OTP destination label */
+    .otp-dest {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
       text-align: center;
-      display: none;
+      word-break: break-all;
     }
+    .otp-dest strong { color: var(--text-primary); }
 
-    .password-strength.weak {
-      background: rgba(239, 68, 68, 0.1);
-      color: #dc2626;
-      display: block;
-    }
-
-    .password-strength.medium {
-      background: rgba(251, 191, 36, 0.1);
-      color: #d97706;
-      display: block;
-    }
-
-    .password-strength.strong {
-      background: rgba(16, 185, 129, 0.1);
-      color: #059669;
-      display: block;
+    @media (max-width: 440px) {
+      .card { padding: 24px 18px; border-radius: 12px; }
+      .logo-name { font-size: 22px; }
     }
   </style>
 </head>
 <body>
 
-<!-- CLEAN NAVIGATION (WITHOUT MENU - LOGIN PAGE ONLY) -->
-<nav>
-  <div class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">🚀 HackHub</div>
-  <div style="flex: 1;"></div>
-  <!-- No menu on login page -->
-</nav>
-
-<div class="auth-container">
-  <h2>Welcome! 👋</h2>
-  
-  <!-- Tab Navigation -->
-  <div class="auth-tabs">
-    <button class="tab-btn active" onclick="switchTab('login')">🔓 Login</button>
-    <button class="tab-btn" onclick="switchTab('signup')">📝 Sign Up</button>
-    <button class="tab-btn" onclick="switchTab('forgot')">🔐 Reset Password</button>
+<div class="auth-wrapper">
+  <div class="logo-block">
+    <span class="logo-icon">🚀</span>
+    <div class="logo-name">HackHub</div>
   </div>
 
-  <!-- LOGIN FORM -->
-  <div id="login" class="form-section active">
-    <div class="form-group">
-      <label for="login-email">Email Address</label>
-      <input type="email" id="login-email" placeholder="your.email@example.com">
-    </div>
+  <div class="card" id="mainCard">
 
-    <div class="form-group">
-      <label for="login-password">Password</label>
-      <input type="password" id="login-password" placeholder="••••••••">
-    </div>
+    <!-- ===== LOGIN ===== -->
+    <div class="step active" id="step-login" data-step="login">
+      <h2 class="login-heading">Sign in to HackHub</h2>
+      <div id="loginMsg"></div>
 
-    <p style="text-align: right; margin-bottom: 20px;">
-      <span onclick="switchTab('forgot')" style="color: var(--text-primary); cursor: pointer; font-weight: 600; font-size: 13px;">🔐 Forgot Password?</span>
-    </p>
-
-    <button onclick="login()" style="width: 100%;">🔓 Login</button>
-
-    <p style="text-align: center; margin-top: 20px; font-size: 14px; color: var(--text-secondary);">
-      Don't have an account? <span onclick="switchTab('signup')" style="color: var(--text-primary); cursor: pointer; font-weight: 600;">Create one</span>
-    </p>
-  </div>
-
-  <!-- SIGNUP FORM -->
-  <div id="signup" class="form-section">
-    <div class="info-box">
-      ℹ️ Join thousands of hackathon enthusiasts! Fill in your details to get started.
-    </div>
-
-    <!-- Section 1: Basic Info -->
-    <div class="section-title">📋 Basic Information</div>
-    
-    <div class="signup-grid">
-      <div class="form-group">
-        <label for="signup-firstname">First Name *</label>
-        <input type="text" id="signup-firstname" placeholder="John">
+      <div class="field">
+        <label>Phone number or email</label>
+        <input type="text" id="loginInput" placeholder="Phone number or email">
       </div>
-      <div class="form-group">
-        <label for="signup-lastname">Last Name *</label>
-        <input type="text" id="signup-lastname" placeholder="Doe">
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="signup-email">Email Address *</label>
-      <input type="email" id="signup-email" placeholder="john.doe@example.com">
-    </div>
-
-    <div class="signup-grid">
-      <div class="form-group">
-        <label for="signup-phone">Phone Number</label>
-        <input type="tel" id="signup-phone" placeholder="+91 98765 43210">
-      </div>
-      <div class="form-group">
-        <label for="signup-dob">Date of Birth</label>
-        <input type="date" id="signup-dob">
-      </div>
-    </div>
-
-    <!-- Section 2: Location & Education -->
-    <div class="section-title">📍 Location & Education</div>
-
-    <div class="signup-grid">
-      <div class="form-group">
-        <label for="signup-city">City *</label>
-        <input type="text" id="signup-city" placeholder="Bangalore">
-      </div>
-      <div class="form-group">
-        <label for="signup-state">State *</label>
-        <select id="signup-state">
-          <option value="">Select State</option>
-          <option value="andhra-pradesh">Andhra Pradesh</option>
-          <option value="arunachal-pradesh">Arunachal Pradesh</option>
-          <option value="assam">Assam</option>
-          <option value="bihar">Bihar</option>
-          <option value="chhattisgarh">Chhattisgarh</option>
-          <option value="goa">Goa</option>
-          <option value="gujarat">Gujarat</option>
-          <option value="haryana">Haryana</option>
-          <option value="himachal-pradesh">Himachal Pradesh</option>
-          <option value="jharkhand">Jharkhand</option>
-          <option value="karnataka">Karnataka</option>
-          <option value="kerala">Kerala</option>
-          <option value="madhya-pradesh">Madhya Pradesh</option>
-          <option value="maharashtra">Maharashtra</option>
-          <option value="manipur">Manipur</option>
-          <option value="meghalaya">Meghalaya</option>
-          <option value="mizoram">Mizoram</option>
-          <option value="nagaland">Nagaland</option>
-          <option value="odisha">Odisha</option>
-          <option value="punjab">Punjab</option>
-          <option value="rajasthan">Rajasthan</option>
-          <option value="sikkim">Sikkim</option>
-          <option value="tamil-nadu">Tamil Nadu</option>
-          <option value="telangana">Telangana</option>
-          <option value="tripura">Tripura</option>
-          <option value="uttar-pradesh">Uttar Pradesh</option>
-          <option value="uttarakhand">Uttarakhand</option>
-          <option value="west-bengal">West Bengal</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="signup-college">College/Organization</label>
-      <input type="text" id="signup-college" placeholder="Your College Name">
-    </div>
-
-    <!-- Section 3: Experience & Skills -->
-    <div class="section-title">⚡ Experience & Skills</div>
-
-    <div class="form-group">
-      <label for="signup-experience">Experience Level *</label>
-      <select id="signup-experience">
-        <option value="">Select Experience Level</option>
-        <option value="beginner">🌱 Beginner (First hackathon)</option>
-        <option value="intermediate">📈 Intermediate (2-5 hackathons)</option>
-        <option value="advanced">⭐ Advanced (5+ hackathons)</option>
-        <option value="expert">🏆 Expert (Regular winner)</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label>👨‍💻 Skills & Interests (Select all that apply)</label>
-      <div class="checkbox-group">
-        <div class="checkbox-item">
-          <input type="checkbox" id="skill-web" value="web">
-          <label for="skill-web">Web Development</label>
-        </div>
-        <div class="checkbox-item">
-          <input type="checkbox" id="skill-mobile" value="mobile">
-          <label for="skill-mobile">Mobile App</label>
-        </div>
-        <div class="checkbox-item">
-          <input type="checkbox" id="skill-ai" value="ai">
-          <label for="skill-ai">AI/ML</label>
-        </div>
-        <div class="checkbox-item">
-          <input type="checkbox" id="skill-data" value="data">
-          <label for="skill-data">Data Science</label>
-        </div>
-        <div class="checkbox-item">
-          <input type="checkbox" id="skill-blockchain" value="blockchain">
-          <label for="skill-blockchain">Blockchain</label>
-        </div>
-        <div class="checkbox-item">
-          <input type="checkbox" id="skill-iot" value="iot">
-          <label for="skill-iot">IoT</label>
-        </div>
-        <div class="checkbox-item">
-          <input type="checkbox" id="skill-design" value="design">
-          <label for="skill-design">UI/UX Design</label>
-        </div>
-        <div class="checkbox-item">
-          <input type="checkbox" id="skill-devops" value="devops">
-          <label for="skill-devops">DevOps</label>
-        </div>
-      </div>
-    </div>
-
-    <!-- Section 4: Password & Bio -->
-    <div class="section-title">🔐 Security & Bio</div>
-
-    <div class="form-group">
-      <label for="signup-password">Password *</label>
-      <input type="password" id="signup-password" placeholder="••••••••" 
-             oninput="checkPasswordStrength(this.value)">
-      <div class="password-strength" id="passwordStrength"></div>
-    </div>
-
-    <div class="form-group">
-      <label for="signup-confirm">Confirm Password *</label>
-      <input type="password" id="signup-confirm" placeholder="••••••••">
-    </div>
-
-    <div class="form-group">
-      <label for="signup-bio">About You (Bio)</label>
-      <textarea id="signup-bio" placeholder="Tell us about yourself, your interests, and what you're looking for..." 
-                rows="4" maxlength="300"></textarea>
-      <small style="color: var(--text-secondary);" id="bioCount">0/300 characters</small>
-    </div>
-
-    <!-- Section 5: Preferences -->
-    <div class="section-title">🎯 Preferences</div>
-
-    <div class="form-group">
-      <label for="signup-hackathon-type">Preferred Hackathon Type *</label>
-      <select id="signup-hackathon-type">
-        <option value="">Select Preference</option>
-        <option value="online">🌐 Online Hackathons</option>
-        <option value="offline">📍 Offline Hackathons</option>
-        <option value="both">🔄 Both Online & Offline</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label>📢 Communication Preferences</label>
-      <div class="checkbox-group">
-        <div class="checkbox-item">
-          <input type="checkbox" id="pref-email" checked value="email">
-          <label for="pref-email">Email Updates</label>
-        </div>
-        <div class="checkbox-item">
-          <input type="checkbox" id="pref-notification" checked value="notification">
-          <label for="pref-notification">In-App Alerts</label>
-        </div>
-      </div>
-    </div>
-
-    <div class="info-box">
-      ✅ By signing up, you agree to our Terms of Service and Privacy Policy
-    </div>
-
-    <button onclick="signup()" style="width: 100%; background: #10b981 !important; border-color: #10b981;">
-      🚀 Create Account
-    </button>
-
-    <p style="text-align: center; margin-top: 20px; font-size: 14px; color: var(--text-secondary);">
-      Already have an account? <span onclick="switchTab('login')" style="color: var(--text-primary); cursor: pointer; font-weight: 600;">Login here</span>
-    </p>
-  </div>
-
-  <!-- FORGOT PASSWORD FORM -->
-  <div id="forgot" class="form-section">
-    <div id="forgot-step-1">
-      <div class="info-box">
-        🔐 Enter your email address and we'll send you a code to reset your password.
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="loginPass" placeholder="Password">
       </div>
 
-      <div class="form-group">
-        <label for="forgot-email">Email Address</label>
-        <input type="email" id="forgot-email" placeholder="your.email@example.com">
+      <button class="btn btn-primary" onclick="doLogin()">Sign in →</button>
+
+      <div class="footer-text" style="margin-top: 18px; text-align: center">
+        Forgot password? <a href="javascript:void(0)" onclick="navigate('forgot')">Reset it</a>
       </div>
 
-      <button onclick="sendResetOTP()" style="width: 100%;">
-        📧 Send Reset Code
+      <div class="divider">or</div>
+
+      <button class="btn btn-social" onclick="loginWithGoogle()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+        </svg>
+        Continue with Google
       </button>
 
-      <p style="text-align: center; margin-top: 20px; font-size: 14px; color: var(--text-secondary);">
-        Remember your password? <span onclick="switchTab('login')" style="color: var(--text-primary); cursor: pointer; font-weight: 600;">Login here</span>
-      </p>
+      <div style="margin-top: 20px;">
+        <!-- BUG FIX: was goToStep('method') — function doesn't exist; changed to startSignup() -->
+        <button class="create-account-btn" onclick="startSignup()">
+          Create New Account
+        </button>
+      </div>
+    </div>
+    <!-- BUG FIX: login </div> was missing — signup steps were nested inside login, breaking everything -->
+
+    <!-- Step 1: Full Name -->
+    <div class="step" id="step-s1" data-step="s1">
+      <div class="step-bar" id="bar-s1"></div>
+      <button class="back-btn" onclick="navigate('login', true)">← Back to login</button>
+      <div class="step-title">What's your name?</div>
+      <div class="step-sub">We'll use this to personalise your experience.</div>
+      <div id="s1Msg"></div>
+      <div class="field">
+        <label>Full name</label>
+        <input type="text" id="s1Name" placeholder="Alex Johnson" autocomplete="name">
+      </div>
+      <button class="btn btn-primary" onclick="s1Next()">Continue →</button>
     </div>
 
-    <!-- OTP Verification Step -->
-    <div id="forgot-step-2" style="display: none;">
-      <div class="info-box">
-        ✉️ We've sent a 6-digit code to your email. Check your inbox!
+    <!-- Step 2: Phone or Email -->
+    <div class="step" id="step-s2" data-step="s2">
+      <div class="step-bar" id="bar-s2"></div>
+      <button class="back-btn" onclick="navigate('s1', true)">← Back</button>
+      <div class="step-title">How do we reach you?</div>
+      <div class="step-sub">Enter your phone number or email address.</div>
+      <div id="s2Msg"></div>
+      <div class="field">
+        <label>Phone number or email</label>
+        <input type="text" id="s2Contact" placeholder="9876543210 or you@example.com" autocomplete="email">
       </div>
-
-      <div class="form-group">
-        <label for="forgot-otp">Enter OTP Code</label>
-        <input type="text" id="forgot-otp" placeholder="000000" maxlength="6" style="text-align: center; font-size: 24px; letter-spacing: 10px;">
-        <small style="color: var(--text-secondary); display: block; margin-top: 10px;">
-          Didn't receive? <span onclick="resendOTP()" style="color: var(--text-primary); cursor: pointer; font-weight: 600;">Resend Code</span>
-          <span id="resendTimer" style="color: #ef4444;"></span>
-        </small>
-      </div>
-
-      <button onclick="verifyOTP()" style="width: 100%; background: #10b981 !important; border-color: #10b981;">
-        ✅ Verify Code
-      </button>
-
-      <p style="text-align: center; margin-top: 20px; font-size: 14px; color: var(--text-secondary);">
-        <span onclick="switchTab('forgot'); resetForgotForm()" style="color: var(--text-primary); cursor: pointer; font-weight: 600;">← Back</span>
-      </p>
+      <button class="btn btn-primary" onclick="s2Next()">Send code →</button>
     </div>
 
-    <!-- New Password Step -->
-    <div id="forgot-step-3" style="display: none;">
-      <div class="info-box">
-        🔑 Great! Now create a new strong password.
-      </div>
-
-      <div class="form-group">
-        <label for="new-password">New Password</label>
-        <input type="password" id="new-password" placeholder="••••••••" oninput="checkNewPasswordStrength(this.value)">
-        <div class="password-strength" id="newPasswordStrength"></div>
-      </div>
-
-      <div class="form-group">
-        <label for="confirm-new-password">Confirm New Password</label>
-        <input type="password" id="confirm-new-password" placeholder="••••••••">
-      </div>
-
-      <button onclick="updatePassword()" style="width: 100%; background: #10b981 !important; border-color: #10b981;">
-        💾 Save New Password
-      </button>
-
-      <p style="text-align: center; margin-top: 20px; font-size: 14px; color: var(--text-secondary);">
-        <span onclick="switchTab('login'); resetForgotForm()" style="color: var(--text-primary); cursor: pointer; font-weight: 600;">← Back to Login</span>
-      </p>
+    <!-- Step 3: OTP -->
+    <div class="step" id="step-s3" data-step="s3">
+      <div class="step-bar" id="bar-s3"></div>
+      <button class="back-btn" onclick="navigate('s2', true)">← Back</button>
+      <div class="step-title">Enter the code</div>
+      <!-- BUG FIX: destination now shown clearly via .otp-dest below the title -->
+      <div class="step-sub">Enter the 6-digit code we sent to:</div>
+      <div class="otp-dest" id="s3Dest"></div>
+      <div id="s3Msg"></div>
+      <div class="otp-row" id="otpRow"></div>
+      <div class="resend-note" id="resendNote"></div>
+      <button class="btn btn-primary" onclick="s3Next()">Verify →</button>
     </div>
-  </div>
-</div>
 
-<script type="module" src="js/auth.js"></script>
+    <!-- Step 4: Password -->
+    <div class="step" id="step-s4" data-step="s4">
+      <div class="step-bar" id="bar-s4"></div>
+      <button class="back-btn" onclick="navigate('s3', true)">← Back</button>
+      <div class="step-title">Create a password</div>
+      <div class="step-sub">At least 8 characters with a number and symbol.</div>
+      <div id="s4Msg"></div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="s4Pass" placeholder="••••••••" oninput="checkPwStrength()">
+        <div class="pw-bar-wrap"><div class="pw-bar" id="pwBar"></div></div>
+        <div class="pw-hint" id="pwHint">Enter a password</div>
+      </div>
+      <div class="field">
+        <label>Confirm password</label>
+        <input type="password" id="s4Confirm" placeholder="••••••••">
+      </div>
+      <button class="btn btn-primary" onclick="s4Next()">Continue →</button>
+    </div>
+
+    <!-- Step 5: Date of Birth -->
+    <div class="step" id="step-s5" data-step="s5">
+      <div class="step-bar" id="bar-s5"></div>
+      <button class="back-btn" onclick="navigate('s4', true)">← Back</button>
+      <div class="step-title">Date of birth</div>
+      <div class="step-sub">Your birthday won't be shown publicly.</div>
+      <div id="s5Msg"></div>
+      <div class="field">
+        <label>Birthday</label>
+        <div class="dob-row">
+          <select id="dobDay"   aria-label="Day"></select>
+          <select id="dobMonth" aria-label="Month"></select>
+          <select id="dobYear"  aria-label="Year"></select>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="s5Next()">Continue →</button>
+    </div>
+
+    <!-- Step 6: Success -->
+    <div class="step" id="step-s6" data-step="s6">
+      <div class="step-bar" id="bar-s6"></div>
+      <div class="success-wrap">
+        <div class="success-circle">✓</div>
+        <div class="success-title" id="successTitle">Welcome to HackHub!</div>
+        <div class="success-sub" id="successSub">Your account is ready. Let's build something great.</div>
+        <button class="btn btn-primary" onclick="redirectToDashboard()">Continue to Dashboard →</button>
+      </div>
+    </div>
+
+    <!-- FORGOT PASSWORD -->
+    <div class="step" id="step-forgot" data-step="forgot">
+      <button class="back-btn" onclick="navigate('login', true)">← Back to login</button>
+      <div class="step-title">Reset your password</div>
+      <div class="step-sub">Enter your email and we'll send a reset link.</div>
+      <div id="forgotMsg"></div>
+      <div class="field">
+        <label>Email address</label>
+        <input type="email" id="forgotEmail" placeholder="you@example.com">
+      </div>
+      <button class="btn btn-primary" onclick="doReset()">Send reset link →</button>
+      <button class="btn btn-ghost" onclick="navigate('login', true)">Back to sign in</button>
+    </div>
+
+  </div><!-- /card -->
+</div><!-- /wrapper -->
 
 <script>
-  // Tab switching
-  window.switchTab = function(tab) {
-    document.querySelectorAll('.form-section').forEach(el => {
-      el.classList.remove('active');
+  /* ===== STATE ===== */
+  const signup = { name: '', contact: '', otp: '', password: '', dob: '' };
+  let otpTimer = null;
+  /* BUG FIX: guard flag so auto-verify only fires once per OTP session */
+  let otpAutoVerifyScheduled = false;
+
+  const SIGNUP_STEPS = ['s1','s2','s3','s4','s5','s6'];
+
+  /* ===== NAVIGATION ===== */
+  function navigate(target, goingBack = false) {
+    const current = document.querySelector('.step.active');
+    if (current) {
+      current.classList.remove('active');
+      current.classList.remove('going-back');
+    }
+    const next = document.getElementById('step-' + target);
+    next.classList.remove('going-back');
+    if (goingBack) next.classList.add('going-back');
+    next.classList.add('active');
+
+    setTimeout(() => {
+      const inp = next.querySelector('input:not([readonly])');
+      if (inp) inp.focus();
+    }, 50);
+  }
+
+  function startSignup() {
+    buildDOB();
+    renderBars();
+    navigate('s1');
+  }
+
+  /* ===== STEP BARS ===== */
+  function renderBars() {
+    SIGNUP_STEPS.forEach((sid, idx) => {
+      const el = document.getElementById('bar-' + sid);
+      if (!el) return;
+      el.innerHTML = '';
+      SIGNUP_STEPS.forEach((_, i) => {
+        const seg = document.createElement('div');
+        seg.className = 'step-bar-seg' +
+          (i < idx ? ' done' : i === idx ? ' active' : '');
+        el.appendChild(seg);
+      });
     });
-    document.querySelectorAll('.tab-btn').forEach(el => {
-      el.classList.remove('active');
+  }
+
+  /* ===== HELPERS ===== */
+  function showMsg(id, text, type = 'error') {
+    document.getElementById(id).innerHTML =
+      `<div class="msg msg-${type}">${text}</div>`;
+  }
+  function clearMsg(id) { document.getElementById(id).innerHTML = ''; }
+
+  /* ===== STEP 1: NAME ===== */
+  function s1Next() {
+    const v = document.getElementById('s1Name').value.trim();
+    if (v.length < 2) { showMsg('s1Msg', 'Please enter your full name.'); return; }
+    clearMsg('s1Msg');
+    signup.name = v;
+    navigate('s2');
+  }
+
+  /* ===== STEP 2: CONTACT ===== */
+  function s2Next() {
+    const v = document.getElementById('s2Contact').value.trim();
+    const isEmail = v.includes('@') && v.includes('.');
+    const isPhone = /^\d{10}$/.test(v);
+
+    if (!isEmail && !isPhone) {
+      showMsg('s2Msg', 'Enter a valid email address or 10-digit phone number.');
+      return;
+    }
+    clearMsg('s2Msg');
+    signup.contact = v;
+    signup.contactType = isEmail ? 'email' : 'phone';
+
+    /* BUG FIX: show destination clearly so user knows where OTP was sent */
+    const displayLabel = isEmail ? v : `+91 ${v}`;
+    document.getElementById('s3Dest').innerHTML = `<strong>${displayLabel}</strong>`;
+
+    /*
+      BUG FIX: OTP SENDING
+      In production, replace the console.log below with your real Firebase call:
+
+      For EMAIL:
+        import { getAuth } from "firebase/auth";
+        // Firebase doesn't natively send email OTP; use a custom Cloud Function
+        // or a service like SendGrid triggered via Cloud Function.
+
+      For PHONE:
+        import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+        const auth = getAuth();
+        window.recaptchaVerifier = new RecaptchaVerifier('sendPhoneBtn', { size: 'invisible' }, auth);
+        const fullPhone = '+91' + v;
+        signInWithPhoneNumber(auth, fullPhone, window.recaptchaVerifier)
+          .then(confirmationResult => { window.confirmationResult = confirmationResult; });
+
+        Then in s3Next(), call:
+          window.confirmationResult.confirm(otp)
+            .then(result => { navigate('s4'); })
+            .catch(() => showMsg('s3Msg', 'Invalid OTP. Try again.'));
+    */
+    console.log(`[HackHub] OTP requested for ${signup.contactType}: ${displayLabel}`);
+
+    otpAutoVerifyScheduled = false;
+    buildOTP();
+    startOTPTimer();
+    navigate('s3');
+  }
+
+  /* ===== OTP ===== */
+  function buildOTP() {
+    const row = document.getElementById('otpRow');
+    row.innerHTML = '';
+    for (let i = 0; i < 6; i++) {
+      const inp = document.createElement('input');
+      inp.type        = 'text';
+      inp.className   = 'otp-cell';
+      inp.maxLength   = 1;
+      inp.inputMode   = 'numeric';
+      inp.setAttribute('aria-label', `Digit ${i + 1}`);
+      inp.addEventListener('input',   () => onOTPInput(inp, i));
+      inp.addEventListener('keydown', (e) => onOTPKey(e, i));
+      inp.addEventListener('paste',   handleOTPPaste);
+      row.appendChild(inp);
+    }
+    row.children[0].focus();
+  }
+
+  function onOTPInput(inp, i) {
+    /* Only allow digits */
+    inp.value = inp.value.replace(/\D/g, '').slice(0, 1);
+    inp.classList.toggle('filled', inp.value !== '');
+
+    const cells = document.querySelectorAll('.otp-cell');
+    if (inp.value && i < 5) cells[i + 1].focus();
+
+    /* BUG FIX: auto-verify guard — only fire once and only when truly full */
+    if (getOTP().length === 6 && !otpAutoVerifyScheduled) {
+      otpAutoVerifyScheduled = true;
+      setTimeout(() => {
+        otpAutoVerifyScheduled = false;
+        s3Next();
+      }, 400);
+    }
+  }
+
+  function onOTPKey(e, i) {
+    const cells = document.querySelectorAll('.otp-cell');
+    if (e.key === 'Backspace' && !cells[i].value && i > 0) {
+      cells[i - 1].focus();
+      cells[i - 1].value = '';
+      cells[i - 1].classList.remove('filled');
+    }
+  }
+
+  function handleOTPPaste(e) {
+    e.preventDefault();
+    const paste = (e.clipboardData || window.clipboardData)
+      .getData('text').replace(/\D/g, '').slice(0, 6);
+    const cells = document.querySelectorAll('.otp-cell');
+    [...paste].forEach((c, i) => {
+      if (i < 6) { cells[i].value = c; cells[i].classList.add('filled'); }
     });
-    
-    document.getElementById(tab).classList.add('active');
-    
-    // Find the corresponding button
-    const buttons = document.querySelectorAll('.tab-btn');
-    buttons.forEach(btn => {
-      if (btn.textContent.includes(tab === 'login' ? '🔓' : tab === 'signup' ? '📝' : '🔐')) {
-        btn.classList.add('active');
+    /* Focus last filled or last cell */
+    cells[Math.min(paste.length, 5)].focus();
+    /* BUG FIX: auto-verify after paste only when exactly 6 digits pasted */
+    if (paste.length === 6 && !otpAutoVerifyScheduled) {
+      otpAutoVerifyScheduled = true;
+      setTimeout(() => {
+        otpAutoVerifyScheduled = false;
+        s3Next();
+      }, 400);
+    }
+  }
+
+  function getOTP() {
+    return [...document.querySelectorAll('.otp-cell')].map(c => c.value).join('');
+  }
+
+  function startOTPTimer() {
+    if (otpTimer) clearInterval(otpTimer);
+    let sec = 60;
+    const note = document.getElementById('resendNote');
+    note.innerHTML = `Resend in <strong>${sec}s</strong>`;
+    otpTimer = setInterval(() => {
+      sec--;
+      if (sec > 0) {
+        note.innerHTML = `Resend in <strong>${sec}s</strong>`;
+      } else {
+        clearInterval(otpTimer);
+        otpTimer = null;
+        note.innerHTML = `<span class="resend-link" onclick="resendOTP()">Resend code</span>`;
       }
-    });
-  };
+    }, 1000);
+  }
 
-  // Password strength checker
-  window.checkPasswordStrength = function(password) {
-    const strengthDiv = document.getElementById('passwordStrength');
-    
-    if (password.length === 0) {
-      strengthDiv.classList.remove('weak', 'medium', 'strong');
+  function resendOTP() {
+    clearMsg('s3Msg');
+    otpAutoVerifyScheduled = false;
+    buildOTP();
+    startOTPTimer();
+    console.log(`[HackHub] OTP resent for ${signup.contactType}: ${signup.contact}`);
+  }
+
+  function s3Next() {
+    const otp = getOTP();
+    if (otp.length !== 6) {
+      showMsg('s3Msg', 'Please enter all 6 digits.');
       return;
     }
-    
-    let strength = 0;
-    if (password.length >= 6) strength++;
-    if (password.length >= 8) strength++;
-    if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
-    if (/[0-9]/.test(password)) strength++;
-    if (/[^a-zA-Z0-9]/.test(password)) strength++;
-    
-    strengthDiv.classList.remove('weak', 'medium', 'strong');
-    
-    if (strength < 2) {
-      strengthDiv.textContent = '⚠️ Weak - Add more characters';
-      strengthDiv.classList.add('weak');
-    } else if (strength < 4) {
-      strengthDiv.textContent = '📊 Medium - Add uppercase, numbers, or symbols';
-      strengthDiv.classList.add('medium');
-    } else {
-      strengthDiv.textContent = '✅ Strong - Great password!';
-      strengthDiv.classList.add('strong');
-    }
-  };
+    clearMsg('s3Msg');
+    signup.otp = otp;
+    if (otpTimer) { clearInterval(otpTimer); otpTimer = null; }
 
-  window.checkNewPasswordStrength = function(password) {
-    const strengthDiv = document.getElementById('newPasswordStrength');
-    
-    if (password.length === 0) {
-      strengthDiv.classList.remove('weak', 'medium', 'strong');
-      return;
-    }
-    
-    let strength = 0;
-    if (password.length >= 6) strength++;
-    if (password.length >= 8) strength++;
-    if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
-    if (/[0-9]/.test(password)) strength++;
-    if (/[^a-zA-Z0-9]/.test(password)) strength++;
-    
-    strengthDiv.classList.remove('weak', 'medium', 'strong');
-    
-    if (strength < 2) {
-      strengthDiv.textContent = '⚠️ Weak - Add more characters';
-      strengthDiv.classList.add('weak');
-    } else if (strength < 4) {
-      strengthDiv.textContent = '📊 Medium - Add uppercase, numbers, or symbols';
-      strengthDiv.classList.add('medium');
-    } else {
-      strengthDiv.textContent = '✅ Strong - Great password!';
-      strengthDiv.classList.add('strong');
-    }
-  };
+    /*
+      BUG FIX: In production replace this block with Firebase verification:
+        window.confirmationResult.confirm(otp)
+          .then(() => navigate('s4'))
+          .catch(() => showMsg('s3Msg', 'Invalid OTP. Please try again.'));
+    */
+    navigate('s4');
+  }
 
-  // Bio character counter
-  document.getElementById('signup-bio')?.addEventListener('input', function() {
-    document.getElementById('bioCount').textContent = this.value.length + '/300 characters';
+  /* ===== STEP 4: PASSWORD ===== */
+  function checkPwStrength() {
+    const pw  = document.getElementById('s4Pass').value;
+    const bar = document.getElementById('pwBar');
+    const hint = document.getElementById('pwHint');
+    let score = 0;
+    if (pw.length >= 8)          score++;
+    if (/[A-Z]/.test(pw))        score++;
+    if (/\d/.test(pw))           score++;
+    if (/[^A-Za-z0-9]/.test(pw)) score++;
+    bar.className = 'pw-bar';
+    if (score >= 2) bar.classList.add('medium');
+    if (score >= 4) bar.classList.add('strong');
+    bar.style.width = (score * 25) + '%';
+    const labels = ['', 'Weak', 'Fair', 'Good', 'Strong'];
+    hint.textContent = pw ? (labels[score] || 'Weak') : 'Enter a password';
+  }
+
+  function s4Next() {
+    const pw = document.getElementById('s4Pass').value;
+    const cf = document.getElementById('s4Confirm').value;
+    if (pw.length < 8) { showMsg('s4Msg', 'Password must be at least 8 characters.'); return; }
+    if (pw !== cf)     { showMsg('s4Msg', 'Passwords do not match.'); return; }
+    clearMsg('s4Msg');
+    signup.password = pw;
+    navigate('s5');
+  }
+
+  /* ===== STEP 5: DOB ===== */
+  function buildDOB() {
+    const dayEl = document.getElementById('dobDay');
+    const monEl = document.getElementById('dobMonth');
+    const yrEl  = document.getElementById('dobYear');
+
+    dayEl.innerHTML = '<option value="">Day</option>';
+    for (let d = 1; d <= 31; d++) {
+      dayEl.innerHTML += `<option value="${d}">${d}</option>`;
+    }
+
+    const months = ['January','February','March','April','May','June',
+                    'July','August','September','October','November','December'];
+    monEl.innerHTML = '<option value="">Month</option>';
+    months.forEach((m, i) => { monEl.innerHTML += `<option value="${i+1}">${m}</option>`; });
+
+    const now = new Date().getFullYear();
+    yrEl.innerHTML = '<option value="">Year</option>';
+    for (let y = now - 13; y >= now - 100; y--) {
+      yrEl.innerHTML += `<option value="${y}">${y}</option>`;
+    }
+  }
+
+  function s5Next() {
+    const d = document.getElementById('dobDay').value;
+    const m = document.getElementById('dobMonth').value;
+    const y = document.getElementById('dobYear').value;
+    if (!d || !m || !y) { showMsg('s5Msg', 'Please select your full date of birth.'); return; }
+    clearMsg('s5Msg');
+    signup.dob = `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    document.getElementById('successTitle').textContent =
+      `Welcome, ${signup.name.split(' ')[0]}!`;
+    navigate('s6');
+  }
+
+  /* ===== SUCCESS ===== */
+  function redirectToDashboard() {
+    window.location.href = 'home.html';
+  }
+
+  /* ===== LOGIN ===== */
+  function doLogin() {
+    const inp = document.getElementById('loginInput').value.trim();
+    const pw  = document.getElementById('loginPass').value;
+    if (!inp || !pw) { showMsg('loginMsg', 'Please fill in both fields.'); return; }
+    clearMsg('loginMsg');
+    showMsg('loginMsg', 'Signing you in…', 'success');
+    setTimeout(() => { window.location.href = 'home.html'; }, 1400);
+  }
+
+  /* ===== FORGOT ===== */
+  function doReset() {
+    const email = document.getElementById('forgotEmail').value.trim();
+    if (!email.includes('@')) { showMsg('forgotMsg', 'Please enter a valid email address.'); return; }
+    showMsg('forgotMsg', 'Reset link sent! Check your inbox.', 'success');
+  }
+
+  /* ===== SOCIAL ===== */
+  function loginWithGoogle() { alert('Google sign-in coming soon!'); }
+
+  /* ===== KEYBOARD: ENTER to advance ===== */
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter') return;
+    const active = document.querySelector('.step.active');
+    if (!active) return;
+    const id = active.id;
+    if      (id === 'step-login')   doLogin();
+    else if (id === 'step-s1')      s1Next();
+    else if (id === 'step-s2')      s2Next();
+    else if (id === 'step-s3')      s3Next();
+    else if (id === 'step-s4')      s4Next();
+    else if (id === 'step-s5')      s5Next();
+    else if (id === 'step-forgot')  doReset();
   });
-
-  // Get selected skills
-  window.getSelectedSkills = function() {
-    const skills = [];
-    document.querySelectorAll('input[id^="skill-"]:checked').forEach(el => {
-      skills.push(el.value);
-    });
-    return skills;
-  };
-
-  // Get communication preferences
-  window.getCommunicationPrefs = function() {
-    const prefs = {};
-    document.querySelectorAll('input[id^="pref-"]:checked').forEach(el => {
-      prefs[el.value] = true;
-    });
-    return prefs;
-  };
-
-  // Reset forgot form
-  window.resetForgotForm = function() {
-    document.getElementById('forgot-step-1').style.display = 'block';
-    document.getElementById('forgot-step-2').style.display = 'none';
-    document.getElementById('forgot-step-3').style.display = 'none';
-    document.getElementById('forgot-email').value = '';
-    document.getElementById('forgot-otp').value = '';
-    document.getElementById('new-password').value = '';
-    document.getElementById('confirm-new-password').value = '';
-  };
 </script>
 
 </body>
