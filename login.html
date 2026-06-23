@@ -3,357 +3,482 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HackHub</title>
+  <title>HackHub - Sign In</title>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-    :root {
-      --primary: #6366f1;
-      --primary-dark: #4f46e5;
-      --primary-light: #818cf8;
-      --secondary: #a855f7;
-      --success: #10b981;
-      --danger: #ef4444;
-      --warning: #f59e0b;
-      --bg-dark: #0f172a;
-      --bg-darker: #020617;
-      --bg-card: #1e293b;
-      --bg-card-light: #334155;
-      --text-primary: #f8fafc;
-      --text-secondary: #cbd5e1;
-      --text-tertiary: #94a3b8;
-      --border-color: #334155;
-      --border-focus: #6366f1;
-    }
+   :root {
+  /* Premium Accent & Branding Colors */
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --primary-light: #818cf8;
+  --secondary: #a855f7;
+  --success: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
 
-    html { scroll-behavior: smooth; }
+  /* Premium Light/White Theming Variables */
+  --bg-darker: #f8fafc;        /* Soft, rich off-white page background */
+  --bg-card: #ffffff;          /* Crisp pure white for the card background */
+  --bg-card-light: #f1f5f9;    /* Slightly deeper gray for input fills/hover states */
+  
+  /* High-end Neutral Typography Shades */
+  --text-primary: #0f172a;     /* Deep slate gray for prominent headings */
+  --text-secondary: #475569;   /* Slate gray for body text and descriptive steps */
+  --text-tertiary: #64748b;    /* Subdued gray for labels and field place-holders */
+  
+  /* Subtle borders & divider lines */
+  --border-color: #e2e8f0;     /* Ultra clean, subtle light gray border line */
+}
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: var(--bg-darker);
-      color: var(--text-primary);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
+html { 
+  scroll-behavior: smooth; 
+}
 
-    .auth-wrapper {
-      width: 100%;
-      max-width: 400px;
-    }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-darker);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
 
-    .logo-block {
-      text-align: center;
-      margin-bottom: 32px;
-    }
-    .logo-icon {
-      font-size: 36px;
-      display: block;
-      margin-bottom: 10px;
-    }
-    .logo-name {
-      font-size: 26px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+.auth-wrapper { 
+  width: 100%; 
+  max-width: 400px; 
+}
 
-    .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 32px 28px;
-      position: relative;
-      overflow: hidden;
-    }
+.logo-block {
+  text-align: center;
+  margin-bottom: 32px;
+}
 
-    /* STEP PROGRESS BAR */
-    .step-bar {
-      display: flex;
-      gap: 4px;
-      margin-bottom: 28px;
-    }
-    .step-bar-seg {
-      height: 3px;
-      flex: 1;
-      border-radius: 2px;
-      background: var(--border-color);
-      transition: background 0.4s ease;
-    }
-    .step-bar-seg.done   { background: var(--primary); }
-    .step-bar-seg.active { background: var(--primary-light); }
+.logo-icon { 
+  font-size: 36px; 
+  display: block; 
+  margin-bottom: 10px; 
+}
 
-    /* STEP PANEL */
-    .step { display: none; animation: stepIn 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
-    .step.active { display: block; }
+.logo-name {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
-    @keyframes stepIn {
-      from { opacity: 0; transform: translateX(24px); }
-      to   { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes stepBack {
-      from { opacity: 0; transform: translateX(-24px); }
-      to   { opacity: 1; transform: translateX(0); }
-    }
-    .step.going-back { animation: stepBack 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
+/* Updated Card with a premium elevation shadow instead of a dark block border */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 32px 28px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.04), 
+              0 8px 10px -6px rgba(15, 23, 42, 0.04);
+}
 
-    /* HEADINGS — BUG FIX: was 5px */
-    .step-title {
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 6px;
-      color: var(--text-primary);
-    }
-    /* BUG FIX: .step-sub was missing from CSS */
-    .step-sub {
-      font-size: 13px;
-      color: var(--text-secondary);
-      margin-bottom: 26px;
-      line-height: 1.5;
-    }
-    .login-heading {
-      color: #ffffff;
-      font-size: 20px;
-      font-weight: 700;
-      line-height: 32px;
-      text-align: left;
-      margin-bottom: 12px;
-    }
+.step-bar {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 28px;
+}
 
-    /* INPUTS */
-    .field { margin-bottom: 18px; }
-    .field label {
-      display: block;
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      color: var(--text-tertiary);
-      margin-bottom: 8px;
-    }
-    .field input,
-    .field select {
-      width: 100%;
-      padding: 13px 14px;
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      color: var(--text-primary);
-      font-size: 15px;
-      font-family: inherit;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      -webkit-appearance: none;
-      appearance: none;
-    }
-    .field input::placeholder { color: var(--text-tertiary); }
-    .field input:focus,
-    .field select:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(99,102,241,0.18);
-    }
-    .field select { cursor: pointer; }
+.step-bar-seg {
+  height: 3px;
+  flex: 1;
+  border-radius: 2px;
+  background: var(--border-color);
+  transition: background 0.4s ease;
+}
 
-    .dob-row { display: grid; grid-template-columns: 2fr 3fr 2fr; gap: 8px; }
+.step-bar-seg.done { 
+  background: var(--primary); 
+}
 
-    /* PASSWORD STRENGTH */
-    .pw-bar-wrap {
-      height: 3px;
-      background: var(--border-color);
-      border-radius: 2px;
-      margin-top: 8px;
-      overflow: hidden;
-    }
-    .pw-bar {
-      height: 100%;
-      width: 0;
-      border-radius: 2px;
-      transition: width 0.3s, background 0.3s;
-      background: var(--danger);
-    }
-    .pw-bar.medium { width: 60%; background: var(--warning); }
-    .pw-bar.strong { width: 100%; background: var(--success); }
-    .pw-hint { font-size: 11px; color: var(--text-tertiary); margin-top: 6px; }
+.step-bar-seg.active { 
+  background: var(--primary-light); 
+}
 
-    /* OTP */
-    .otp-row {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 8px;
-      margin-bottom: 20px;
-    }
-    .otp-cell {
-      aspect-ratio: 1;
-      background: rgba(15, 23, 42, 0.6);
-      border: 1.5px solid var(--border-color);
-      border-radius: 10px;
-      color: var(--text-primary);
-      font-size: 20px;
-      font-weight: 700;
-      text-align: center;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    .otp-cell:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99,102,241,0.18); }
-    .otp-cell.filled { border-color: var(--primary); background: rgba(99,102,241,0.08); }
+.step { 
+  display: none; 
+  animation: stepIn 0.35s cubic-bezier(0.22, 1, 0.36, 1); 
+}
 
-    .resend-note {
-      text-align: center;
-      font-size: 13px;
-      color: var(--text-secondary);
-      margin-bottom: 20px;
-    }
-    .resend-link { color: var(--primary); cursor: pointer; font-weight: 600; }
-    .resend-link.disabled { color: var(--text-tertiary); cursor: default; }
+.step.active { 
+  display: block; 
+}
 
-    /* BUTTONS */
-    .btn {
-      width: 100%;
-      padding: 13px 20px;
-      border: none;
-      border-radius: 10px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-family: inherit;
-    }
-    .btn-primary { background: var(--primary); color: #fff; }
-    .btn-primary:hover { background: var(--primary-dark); }
-    .btn-primary:active { transform: scale(0.98); }
-    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+@keyframes stepIn {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
 
-    .btn-ghost {
-      background: transparent;
-      color: var(--text-secondary);
-      border: 1px solid var(--border-color);
-      margin-top: 10px;
-    }
-    .btn-ghost:hover { border-color: var(--primary); color: var(--primary); }
+@keyframes stepBack {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+   .step.going-back { 
+   animation: stepBack 0.35s cubic-bezier(0.22, 1, 0.36, 1); 
+ }
 
-    .btn-social {
-      background: var(--bg-card-light);
-      color: var(--text-primary);
-      border: 1px solid var(--border-color);
-      margin-bottom: 10px;
-      font-size: 14px;
-    }
-    .btn-social:hover { border-color: var(--primary); background: rgba(99,102,241,0.08); }
+ .step-title {
+   font-size: 20px;
+   font-weight: 700;
+   margin-bottom: 6px;
+   color: var(--text-primary);
+ }
+ .step-sub {
+   font-size: 13px;
+   color: var(--text-secondary);
+   margin-bottom: 26px;
+   line-height: 1.5;
+ }
+ .login-heading {
+   font-size: 20px;
+   font-weight: 700;
+   margin-bottom: 12px;
+   color: var(--text-primary);
+ }
 
-    /* DIVIDER */
-    .divider {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--text-tertiary);
-      font-size: 12px;
-      margin: 20px 0;
-    }
-    .divider::before, .divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border-color);
-    }
+ .field { 
+   margin-bottom: 18px; 
+ }
+ .field label {
+   display: block;
+   font-size: 11px;
+   font-weight: 600;
+   text-transform: uppercase;
+   letter-spacing: 0.6px;
+   color: var(--text-tertiary);
+   margin-bottom: 8px;
+ }
+ 
+ /* Refreshed input fields for a crisp white look */
+ .field input, .field select {
+   width: 100%;
+   padding: 13px 14px;
+   /* Replaced dark background with a very soft grey tint */
+   background: #f8fafc; 
+   border: 1px solid var(--border-color);
+   border-radius: 10px;
+   color: var(--text-primary);
+   font-size: 15px;
+   font-family: inherit;
+   transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+   -webkit-appearance: none;
+   appearance: none;
+ }
+ .field input::placeholder { 
+   color: #94a3b8; 
+ }
+ .field input:focus, .field select:focus {
+   outline: none;
+   background: #ffffff; /* Turns clean white when active */
+   border-color: var(--primary);
+   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+ }
+ .field select { 
+   cursor: pointer; 
+ }
 
-    /* MESSAGE BOX */
-    .msg {
-      padding: 10px 14px;
-      border-radius: 8px;
-      font-size: 13px;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .msg-error   { background: rgba(239,68,68,0.1);  color: #fca5a5; border: 1px solid rgba(239,68,68,0.25); }
-    .msg-success { background: rgba(16,185,129,0.1); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.25); }
+ .dob-row { 
+   display: grid; 
+   grid-template-columns: 2fr 3fr 2fr; 
+   gap: 8px; 
+ }
 
-    /* SUCCESS SCREEN */
-    .success-wrap { text-align: center; padding: 20px 0; }
-    .success-circle {
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
-      background: rgba(16,185,129,0.12);
-      border: 2px solid var(--success);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 32px;
-      margin: 0 auto 20px;
-      animation: popIn 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    @keyframes popIn {
-      from { transform: scale(0.4); opacity: 0; }
-      to   { transform: scale(1);   opacity: 1; }
-    }
-    .success-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
-    .success-sub   { font-size: 13px; color: var(--text-secondary); margin-bottom: 28px; }
+ /* Refreshed Password Strength indicator bars for light mode */
+ .pw-bar-wrap {
+   height: 3px;
+   background: var(--border-color);
+   border-radius: 2px;
+   margin-top: 8px;
+   overflow: hidden;
+ }
+ .pw-bar {
+   height: 100%;
+   width: 0;
+   border-radius: 2px;
+   transition: width 0.3s, background 0.3s;
+   background: var(--danger);
+ }
+ .pw-bar.medium { 
+   width: 60%; 
+   background: var(--warning); 
+ }
+ .pw-bar.strong { 
+   width: 100%; 
+   background: var(--success); 
+ }
+ .pw-hint { 
+   font-size: 11px; 
+   color: var(--text-tertiary); 
+   margin-top: 6px; 
+ }
 
-    /* BUG FIX: .footer-text was missing from CSS */
-    .footer-text {
-      font-size: 13px;
-      color: var(--text-secondary);
-    }
-    .footer-text a { color: var(--primary); text-decoration: none; font-weight: 600; }
-    .footer-text a:hover { color: var(--primary-light); }
+   .otp-row {
+   display: grid;
+   grid-template-columns: repeat(6, 1fr);
+   gap: 8px;
+   margin-bottom: 20px;
+ }
+ .otp-cell {
+   aspect-ratio: 1;
+   /* Replaced dark background with clean off-white */
+   background: #f8fafc; 
+   border: 1.5px solid var(--border-color);
+   border-radius: 10px;
+   color: var(--text-primary);
+   font-size: 20px;
+   font-weight: 700;
+   text-align: center;
+   transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+ }
+ .otp-cell:focus { 
+   outline: none; 
+   background: #ffffff;
+   border-color: var(--primary); 
+   box-shadow: 0 0 0 3px rgba(99,102,241,0.12); 
+ }
+ .otp-cell.filled { 
+   border-color: var(--primary); 
+   /* Elegant, soft indigo highlight when a digit is entered */
+   background: rgba(99, 102, 241, 0.04); 
+ }
 
-    .create-account-btn {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      background: linear-gradient(135deg, #1877f2, #42a5f5);
-      color: white;
-      transition: 0.3s;
-    }
-    .create-account-btn:hover  { transform: translateY(-2px); }
-    .create-account-btn:active { transform: scale(0.98); }
+ .resend-note {
+   text-align: center;
+   font-size: 13px;
+   color: var(--text-secondary);
+   margin-bottom: 20px;
+ }
+ .resend-link { 
+   color: var(--primary); 
+   cursor: pointer; 
+   font-weight: 600; 
+ }
+ .resend-link.disabled { 
+   color: var(--text-tertiary); 
+   cursor: default; 
+ }
 
-    /* BACK BUTTON */
-    .back-btn {
-      background: none;
-      border: none;
-      color: var(--text-tertiary);
-      cursor: pointer;
-      font-size: 13px;
-      padding: 0;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-family: inherit;
-      transition: color 0.2s;
-    }
-    .back-btn:hover { color: var(--text-primary); }
+ .btn {
+   width: 100%;
+   padding: 13px 20px;
+   border: none;
+   border-radius: 10px;
+   font-size: 15px;
+   font-weight: 600;
+   cursor: pointer;
+   transition: all 0.2s;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 8px;
+   font-family: inherit;
+ }
+ .btn-primary { 
+   background: var(--primary); 
+   color: #fff; 
+   /* Added a gentle shadow to the main action button for depth */
+   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+ }
+ .btn-primary:hover { 
+   background: var(--primary-dark); 
+   box-shadow: 0 6px 16px rgba(79, 70, 229, 0.35);
+ }
+ .btn-primary:active { 
+   transform: scale(0.98); 
+ }
+ .btn-primary:disabled { 
+   opacity: 0.5; 
+   cursor: not-allowed; 
+   transform: none; 
+   box-shadow: none;
+ }
 
-    /* OTP destination label */
-    .otp-dest {
-      font-size: 13px;
-      color: var(--text-secondary);
-      margin-bottom: 20px;
-      text-align: center;
-      word-break: break-all;
-    }
-    .otp-dest strong { color: var(--text-primary); }
+ .btn-ghost {
+   background: transparent;
+   color: var(--text-secondary);
+   border: 1px solid var(--border-color);
+   margin-top: 10px;
+ }
+ .btn-ghost:hover { 
+   border-color: var(--primary); 
+   color: var(--primary); 
+   background: rgba(99, 102, 241, 0.04);
+ }
 
-    @media (max-width: 440px) {
-      .card { padding: 24px 18px; border-radius: 12px; }
-      .logo-name { font-size: 22px; }
-    }
+ /* Inverted the social sign-in buttons (Continue with Google) */
+ .btn-social {
+   /* Shifted from dark slate fill to a clean, rich white base */
+   background: #ffffff; 
+   color: var(--text-primary);
+   border: 1px solid var(--border-color);
+   margin-bottom: 10px;
+   font-size: 14px;
+   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+ }
+ .btn-social:hover { 
+   border-color: #cbd5e1; 
+   background: #f8fafc; 
+ }
+
+ .divider {
+   display: flex;
+   align-items: center;
+   gap: 10px;
+   color: var(--text-tertiary);
+   font-size: 12px;
+   margin: 20px 0;
+ }
+ .divider::before, .divider::after {
+   content: '';
+   flex: 1;
+   height: 1px;
+   background: var(--border-color);
+ }
+   .msg {
+   padding: 10px 14px;
+   border-radius: 8px;
+   font-size: 13px;
+   margin-bottom: 16px;
+   display: flex;
+   align-items: center;
+   gap: 8px;
+ }
+ 
+ /* Refreshed alert states for high contrast on a crisp white backdrop */
+ .msg-error { 
+   background: rgba(239, 68, 68, 0.06); 
+   color: #b91c1c; /* Deep premium crimson red text */
+   border: 1px solid rgba(239, 68, 68, 0.15); 
+ }
+ .msg-success { 
+   background: rgba(16, 185, 129, 0.06); 
+   color: #065f46; /* Rich emerald dark green text */
+   border: 1px solid rgba(16, 185, 129, 0.15); 
+ }
+
+ .success-wrap { 
+   text-align: center; 
+   padding: 20px 0; 
+ }
+ .success-circle {
+   width: 72px;
+   height: 72px;
+   border-radius: 50%;
+   background: rgba(16, 185, 129, 0.08); /* Clean, subtle green fill tint */
+   border: 2px solid var(--success);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-size: 32px;
+   margin: 0 auto 20px;
+   animation: popIn 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+ }
+ @keyframes popIn {
+   from { transform: scale(0.4); opacity: 0; }
+   to   { transform: scale(1); opacity: 1; }
+ }
+ .success-title { 
+   font-size: 20px; 
+   font-weight: 700; 
+   margin-bottom: 6px; 
+ }
+ .success-sub { 
+   font-size: 13px; 
+   color: var(--text-secondary); 
+   margin-bottom: 28px; 
+ }
+
+ .footer-text {
+   font-size: 13px;
+   color: var(--text-secondary);
+   text-align: center;
+   margin-top: 20px;
+ }
+ .footer-text a { 
+   color: var(--primary); 
+   text-decoration: none; 
+   font-weight: 600; 
+ }
+ .footer-text a:hover { 
+   color: var(--primary-dark); /* Shifted hover to slightly darker for readability */
+ }
+
+ .create-account-btn {
+   width: 100%;
+   padding: 14px;
+   border: none;
+   border-radius: 12px;
+   font-size: 16px;
+   font-weight: 600;
+   cursor: pointer;
+   background: linear-gradient(135deg, #1877f2, #42a5f5);
+   color: white;
+   transition: 0.3s;
+   box-shadow: 0 4px 12px rgba(24, 119, 242, 0.2); /* Added clean blue elevation shadow */
+ }
+ .create-account-btn:hover { 
+   transform: translateY(-1px); 
+   box-shadow: 0 6px 16px rgba(24, 119, 242, 0.3);
+ }
+ .create-account-btn:active { 
+   transform: scale(0.99); 
+ }
+
+ .back-btn {
+   background: none;
+   border: none;
+   color: var(--text-tertiary);
+   cursor: pointer;
+   font-size: 13px;
+   padding: 0;
+   margin-bottom: 20px;
+   display: flex;
+   align-items: center;
+   gap: 6px;
+   font-family: inherit;
+   transition: color 0.2s;
+ }
+ .back-btn:hover { 
+   color: var(--text-primary); 
+ }
+
+ .otp-dest {
+   font-size: 13px;
+   color: var(--text-secondary);
+   margin-bottom: 20px;
+   text-align: center;
+   word-break: break-all;
+ }
+ .otp-dest strong { 
+   color: var(--text-primary); 
+ }
+
+ @media (max-width: 440px) {
+   /* Adjusted subtle shadow positioning on small screens */
+   .card { 
+     padding: 24px 18px; 
+     border-radius: 12px; 
+     box-shadow: 0 8px 20px rgba(15, 23, 42, 0.03);
+   }
+   .logo-name { 
+     font-size: 22px; 
+   }
+ }
   </style>
+
+  <!-- ✅ REQUIRED: reCAPTCHA for phone OTP -->
+  <script src="https://www.google.com/recaptcha/api.js"></script>
+
 </head>
 <body>
 
@@ -398,15 +523,13 @@
       </button>
 
       <div style="margin-top: 20px;">
-        <!-- BUG FIX: was goToStep('method') — function doesn't exist; changed to startSignup() -->
         <button class="create-account-btn" onclick="startSignup()">
           Create New Account
         </button>
       </div>
     </div>
-    <!-- BUG FIX: login </div> was missing — signup steps were nested inside login, breaking everything -->
 
-    <!-- Step 1: Full Name -->
+    <!-- ===== SIGNUP: STEP 1 - FULL NAME ===== -->
     <div class="step" id="step-s1" data-step="s1">
       <div class="step-bar" id="bar-s1"></div>
       <button class="back-btn" onclick="navigate('login', true)">← Back to login</button>
@@ -420,7 +543,7 @@
       <button class="btn btn-primary" onclick="s1Next()">Continue →</button>
     </div>
 
-    <!-- Step 2: Phone or Email -->
+    <!-- ===== SIGNUP: STEP 2 - PHONE OR EMAIL ===== -->
     <div class="step" id="step-s2" data-step="s2">
       <div class="step-bar" id="bar-s2"></div>
       <button class="back-btn" onclick="navigate('s1', true)">← Back</button>
@@ -434,12 +557,11 @@
       <button class="btn btn-primary" onclick="s2Next()">Send code →</button>
     </div>
 
-    <!-- Step 3: OTP -->
+    <!-- ===== SIGNUP: STEP 3 - OTP VERIFICATION ===== -->
     <div class="step" id="step-s3" data-step="s3">
       <div class="step-bar" id="bar-s3"></div>
       <button class="back-btn" onclick="navigate('s2', true)">← Back</button>
       <div class="step-title">Enter the code</div>
-      <!-- BUG FIX: destination now shown clearly via .otp-dest below the title -->
       <div class="step-sub">Enter the 6-digit code we sent to:</div>
       <div class="otp-dest" id="s3Dest"></div>
       <div id="s3Msg"></div>
@@ -448,12 +570,12 @@
       <button class="btn btn-primary" onclick="s3Next()">Verify →</button>
     </div>
 
-    <!-- Step 4: Password -->
+    <!-- ===== SIGNUP: STEP 4 - PASSWORD ===== -->
     <div class="step" id="step-s4" data-step="s4">
       <div class="step-bar" id="bar-s4"></div>
       <button class="back-btn" onclick="navigate('s3', true)">← Back</button>
       <div class="step-title">Create a password</div>
-      <div class="step-sub">At least 8 characters with a number and symbol.</div>
+      <div class="step-sub">Must contain uppercase, lowercase, number, and symbol.</div>
       <div id="s4Msg"></div>
       <div class="field">
         <label>Password</label>
@@ -468,7 +590,7 @@
       <button class="btn btn-primary" onclick="s4Next()">Continue →</button>
     </div>
 
-    <!-- Step 5: Date of Birth -->
+    <!-- ===== SIGNUP: STEP 5 - DATE OF BIRTH ===== -->
     <div class="step" id="step-s5" data-step="s5">
       <div class="step-bar" id="bar-s5"></div>
       <button class="back-btn" onclick="navigate('s4', true)">← Back</button>
@@ -478,15 +600,15 @@
       <div class="field">
         <label>Birthday</label>
         <div class="dob-row">
-          <select id="dobDay"   aria-label="Day"></select>
+          <select id="dobDay" aria-label="Day"></select>
           <select id="dobMonth" aria-label="Month"></select>
-          <select id="dobYear"  aria-label="Year"></select>
+          <select id="dobYear" aria-label="Year"></select>
         </div>
       </div>
       <button class="btn btn-primary" onclick="s5Next()">Continue →</button>
     </div>
 
-    <!-- Step 6: Success -->
+    <!-- ===== SIGNUP: STEP 6 - SUCCESS ===== -->
     <div class="step" id="step-s6" data-step="s6">
       <div class="step-bar" id="bar-s6"></div>
       <div class="success-wrap">
@@ -497,7 +619,7 @@
       </div>
     </div>
 
-    <!-- FORGOT PASSWORD -->
+    <!-- ===== FORGOT PASSWORD ===== -->
     <div class="step" id="step-forgot" data-step="forgot">
       <button class="back-btn" onclick="navigate('login', true)">← Back to login</button>
       <div class="step-title">Reset your password</div>
@@ -511,26 +633,32 @@
       <button class="btn btn-ghost" onclick="navigate('login', true)">Back to sign in</button>
     </div>
 
-  </div><!-- /card -->
-</div><!-- /wrapper -->
+  </div>
+</div>
 
-<script>
-  /* ===== STATE ===== */
-  const signup = { name: '', contact: '', otp: '', password: '', dob: '' };
-  let otpTimer = null;
-  /* BUG FIX: guard flag so auto-verify only fires once per OTP session */
-  let otpAutoVerifyScheduled = false;
+<!-- ✅ REQUIRED: reCAPTCHA container for phone OTP -->
+<div id="s2Send" style="display: none;"></div>
 
-  const SIGNUP_STEPS = ['s1','s2','s3','s4','s5','s6'];
+<script type="module">
+  // ✅ Import auth and validation modules
+  import('./auth.js').then(() => {
+    console.log('✅ Authentication system loaded successfully');
+  }).catch(err => {
+    console.error('❌ Failed to load authentication:', err);
+  });
 
-  /* ===== NAVIGATION ===== */
-  function navigate(target, goingBack = false) {
+  // ✅ Navigation function
+  window.navigate = function(target, goingBack = false) {
     const current = document.querySelector('.step.active');
     if (current) {
       current.classList.remove('active');
       current.classList.remove('going-back');
     }
     const next = document.getElementById('step-' + target);
+    if (!next) {
+      console.error('❌ Step not found:', target);
+      return;
+    }
     next.classList.remove('going-back');
     if (goingBack) next.classList.add('going-back');
     next.classList.add('active');
@@ -539,240 +667,21 @@
       const inp = next.querySelector('input:not([readonly])');
       if (inp) inp.focus();
     }, 50);
-  }
+  };
 
-  function startSignup() {
+  // ✅ Start signup
+  window.startSignup = function() {
     buildDOB();
     renderBars();
+    buildOTP();
     navigate('s1');
-  }
+  };
 
-  /* ===== STEP BARS ===== */
-  function renderBars() {
-    SIGNUP_STEPS.forEach((sid, idx) => {
-      const el = document.getElementById('bar-' + sid);
-      if (!el) return;
-      el.innerHTML = '';
-      SIGNUP_STEPS.forEach((_, i) => {
-        const seg = document.createElement('div');
-        seg.className = 'step-bar-seg' +
-          (i < idx ? ' done' : i === idx ? ' active' : '');
-        el.appendChild(seg);
-      });
-    });
-  }
-
-  /* ===== HELPERS ===== */
-  function showMsg(id, text, type = 'error') {
-    document.getElementById(id).innerHTML =
-      `<div class="msg msg-${type}">${text}</div>`;
-  }
-  function clearMsg(id) { document.getElementById(id).innerHTML = ''; }
-
-  /* ===== STEP 1: NAME ===== */
-  function s1Next() {
-    const v = document.getElementById('s1Name').value.trim();
-    if (v.length < 2) { showMsg('s1Msg', 'Please enter your full name.'); return; }
-    clearMsg('s1Msg');
-    signup.name = v;
-    navigate('s2');
-  }
-
-  /* ===== STEP 2: CONTACT ===== */
-  function s2Next() {
-    const v = document.getElementById('s2Contact').value.trim();
-    const isEmail = v.includes('@') && v.includes('.');
-    const isPhone = /^\d{10}$/.test(v);
-
-    if (!isEmail && !isPhone) {
-      showMsg('s2Msg', 'Enter a valid email address or 10-digit phone number.');
-      return;
-    }
-    clearMsg('s2Msg');
-    signup.contact = v;
-    signup.contactType = isEmail ? 'email' : 'phone';
-
-    /* BUG FIX: show destination clearly so user knows where OTP was sent */
-    const displayLabel = isEmail ? v : `+91 ${v}`;
-    document.getElementById('s3Dest').innerHTML = `<strong>${displayLabel}</strong>`;
-
-    /*
-      BUG FIX: OTP SENDING
-      In production, replace the console.log below with your real Firebase call:
-
-      For EMAIL:
-        import { getAuth } from "firebase/auth";
-        // Firebase doesn't natively send email OTP; use a custom Cloud Function
-        // or a service like SendGrid triggered via Cloud Function.
-
-      For PHONE:
-        import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
-        const auth = getAuth();
-        window.recaptchaVerifier = new RecaptchaVerifier('sendPhoneBtn', { size: 'invisible' }, auth);
-        const fullPhone = '+91' + v;
-        signInWithPhoneNumber(auth, fullPhone, window.recaptchaVerifier)
-          .then(confirmationResult => { window.confirmationResult = confirmationResult; });
-
-        Then in s3Next(), call:
-          window.confirmationResult.confirm(otp)
-            .then(result => { navigate('s4'); })
-            .catch(() => showMsg('s3Msg', 'Invalid OTP. Try again.'));
-    */
-    console.log(`[HackHub] OTP requested for ${signup.contactType}: ${displayLabel}`);
-
-    otpAutoVerifyScheduled = false;
-    buildOTP();
-    startOTPTimer();
-    navigate('s3');
-  }
-
-  /* ===== OTP ===== */
-  function buildOTP() {
-    const row = document.getElementById('otpRow');
-    row.innerHTML = '';
-    for (let i = 0; i < 6; i++) {
-      const inp = document.createElement('input');
-      inp.type        = 'text';
-      inp.className   = 'otp-cell';
-      inp.maxLength   = 1;
-      inp.inputMode   = 'numeric';
-      inp.setAttribute('aria-label', `Digit ${i + 1}`);
-      inp.addEventListener('input',   () => onOTPInput(inp, i));
-      inp.addEventListener('keydown', (e) => onOTPKey(e, i));
-      inp.addEventListener('paste',   handleOTPPaste);
-      row.appendChild(inp);
-    }
-    row.children[0].focus();
-  }
-
-  function onOTPInput(inp, i) {
-    /* Only allow digits */
-    inp.value = inp.value.replace(/\D/g, '').slice(0, 1);
-    inp.classList.toggle('filled', inp.value !== '');
-
-    const cells = document.querySelectorAll('.otp-cell');
-    if (inp.value && i < 5) cells[i + 1].focus();
-
-    /* BUG FIX: auto-verify guard — only fire once and only when truly full */
-    if (getOTP().length === 6 && !otpAutoVerifyScheduled) {
-      otpAutoVerifyScheduled = true;
-      setTimeout(() => {
-        otpAutoVerifyScheduled = false;
-        s3Next();
-      }, 400);
-    }
-  }
-
-  function onOTPKey(e, i) {
-    const cells = document.querySelectorAll('.otp-cell');
-    if (e.key === 'Backspace' && !cells[i].value && i > 0) {
-      cells[i - 1].focus();
-      cells[i - 1].value = '';
-      cells[i - 1].classList.remove('filled');
-    }
-  }
-
-  function handleOTPPaste(e) {
-    e.preventDefault();
-    const paste = (e.clipboardData || window.clipboardData)
-      .getData('text').replace(/\D/g, '').slice(0, 6);
-    const cells = document.querySelectorAll('.otp-cell');
-    [...paste].forEach((c, i) => {
-      if (i < 6) { cells[i].value = c; cells[i].classList.add('filled'); }
-    });
-    /* Focus last filled or last cell */
-    cells[Math.min(paste.length, 5)].focus();
-    /* BUG FIX: auto-verify after paste only when exactly 6 digits pasted */
-    if (paste.length === 6 && !otpAutoVerifyScheduled) {
-      otpAutoVerifyScheduled = true;
-      setTimeout(() => {
-        otpAutoVerifyScheduled = false;
-        s3Next();
-      }, 400);
-    }
-  }
-
-  function getOTP() {
-    return [...document.querySelectorAll('.otp-cell')].map(c => c.value).join('');
-  }
-
-  function startOTPTimer() {
-    if (otpTimer) clearInterval(otpTimer);
-    let sec = 60;
-    const note = document.getElementById('resendNote');
-    note.innerHTML = `Resend in <strong>${sec}s</strong>`;
-    otpTimer = setInterval(() => {
-      sec--;
-      if (sec > 0) {
-        note.innerHTML = `Resend in <strong>${sec}s</strong>`;
-      } else {
-        clearInterval(otpTimer);
-        otpTimer = null;
-        note.innerHTML = `<span class="resend-link" onclick="resendOTP()">Resend code</span>`;
-      }
-    }, 1000);
-  }
-
-  function resendOTP() {
-    clearMsg('s3Msg');
-    otpAutoVerifyScheduled = false;
-    buildOTP();
-    startOTPTimer();
-    console.log(`[HackHub] OTP resent for ${signup.contactType}: ${signup.contact}`);
-  }
-
-  function s3Next() {
-    const otp = getOTP();
-    if (otp.length !== 6) {
-      showMsg('s3Msg', 'Please enter all 6 digits.');
-      return;
-    }
-    clearMsg('s3Msg');
-    signup.otp = otp;
-    if (otpTimer) { clearInterval(otpTimer); otpTimer = null; }
-
-    /*
-      BUG FIX: In production replace this block with Firebase verification:
-        window.confirmationResult.confirm(otp)
-          .then(() => navigate('s4'))
-          .catch(() => showMsg('s3Msg', 'Invalid OTP. Please try again.'));
-    */
-    navigate('s4');
-  }
-
-  /* ===== STEP 4: PASSWORD ===== */
-  function checkPwStrength() {
-    const pw  = document.getElementById('s4Pass').value;
-    const bar = document.getElementById('pwBar');
-    const hint = document.getElementById('pwHint');
-    let score = 0;
-    if (pw.length >= 8)          score++;
-    if (/[A-Z]/.test(pw))        score++;
-    if (/\d/.test(pw))           score++;
-    if (/[^A-Za-z0-9]/.test(pw)) score++;
-    bar.className = 'pw-bar';
-    if (score >= 2) bar.classList.add('medium');
-    if (score >= 4) bar.classList.add('strong');
-    bar.style.width = (score * 25) + '%';
-    const labels = ['', 'Weak', 'Fair', 'Good', 'Strong'];
-    hint.textContent = pw ? (labels[score] || 'Weak') : 'Enter a password';
-  }
-
-  function s4Next() {
-    const pw = document.getElementById('s4Pass').value;
-    const cf = document.getElementById('s4Confirm').value;
-    if (pw.length < 8) { showMsg('s4Msg', 'Password must be at least 8 characters.'); return; }
-    if (pw !== cf)     { showMsg('s4Msg', 'Passwords do not match.'); return; }
-    clearMsg('s4Msg');
-    signup.password = pw;
-    navigate('s5');
-  }
-
-  /* ===== STEP 5: DOB ===== */
-  function buildDOB() {
+  // ✅ Build date of birth selectors
+  window.buildDOB = function() {
     const dayEl = document.getElementById('dobDay');
     const monEl = document.getElementById('dobMonth');
-    const yrEl  = document.getElementById('dobYear');
+    const yrEl = document.getElementById('dobYear');
 
     dayEl.innerHTML = '<option value="">Day</option>';
     for (let d = 1; d <= 31; d++) {
@@ -789,59 +698,116 @@
     for (let y = now - 13; y >= now - 100; y--) {
       yrEl.innerHTML += `<option value="${y}">${y}</option>`;
     }
-  }
+  };
 
-  function s5Next() {
-    const d = document.getElementById('dobDay').value;
-    const m = document.getElementById('dobMonth').value;
-    const y = document.getElementById('dobYear').value;
-    if (!d || !m || !y) { showMsg('s5Msg', 'Please select your full date of birth.'); return; }
-    clearMsg('s5Msg');
-    signup.dob = `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    document.getElementById('successTitle').textContent =
-      `Welcome, ${signup.name.split(' ')[0]}!`;
-    navigate('s6');
-  }
+  // ✅ Render progress bars
+  window.renderBars = function() {
+    const STEPS = ['s1','s2','s3','s4','s5','s6'];
+    STEPS.forEach((sid, idx) => {
+      const el = document.getElementById('bar-' + sid);
+      if (!el) return;
+      el.innerHTML = '';
+      STEPS.forEach((_, i) => {
+        const seg = document.createElement('div');
+        seg.className = 'step-bar-seg' +
+          (i < idx ? ' done' : i === idx ? ' active' : '');
+        el.appendChild(seg);
+      });
+    });
+  };
 
-  /* ===== SUCCESS ===== */
-  function redirectToDashboard() {
+  // ✅ Build OTP input cells
+  window.buildOTP = function() {
+    const row = document.getElementById('otpRow');
+    row.innerHTML = '';
+    for (let i = 0; i < 6; i++) {
+      const inp = document.createElement('input');
+      inp.type = 'text';
+      inp.className = 'otp-cell';
+      inp.maxLength = 1;
+      inp.inputMode = 'numeric';
+      inp.setAttribute('aria-label', `Digit ${i + 1}`);
+      inp.addEventListener('input', () => onOTPInput(inp, i));
+      inp.addEventListener('keydown', (e) => onOTPKey(e, i));
+      inp.addEventListener('paste', handleOTPPaste);
+      row.appendChild(inp);
+    }
+  };
+
+  window.onOTPInput = function(inp, i) {
+    inp.value = inp.value.replace(/\D/g, '').slice(0, 1);
+    inp.classList.toggle('filled', inp.value !== '');
+    const cells = document.querySelectorAll('.otp-cell');
+    if (inp.value && i < 5) cells[i + 1].focus();
+  };
+
+  window.onOTPKey = function(e, i) {
+    const cells = document.querySelectorAll('.otp-cell');
+    if (e.key === 'Backspace' && !cells[i].value && i > 0) {
+      cells[i - 1].focus();
+      cells[i - 1].value = '';
+      cells[i - 1].classList.remove('filled');
+    }
+  };
+
+  window.handleOTPPaste = function(e) {
+    e.preventDefault();
+    const paste = (e.clipboardData || window.clipboardData)
+      .getData('text').replace(/\D/g, '').slice(0, 6);
+    const cells = document.querySelectorAll('.otp-cell');
+    [...paste].forEach((c, i) => {
+      if (i < 6) { cells[i].value = c; cells[i].classList.add('filled'); }
+    });
+    cells[Math.min(paste.length, 5)].focus();
+  };
+
+  // ✅ Start OTP timer
+  window.startOTPTimer = function() {
+    let sec = 60;
+    const note = document.getElementById('resendNote');
+    note.innerHTML = `Resend in <strong>${sec}s</strong>`;
+    const timer = setInterval(() => {
+      sec--;
+      if (sec > 0) {
+        note.innerHTML = `Resend in <strong>${sec}s</strong>`;
+      } else {
+        clearInterval(timer);
+        note.innerHTML = `<span class="resend-link" onclick="resendOTP()">Resend code</span>`;
+      }
+    }, 1000);
+  };
+
+  // ✅ Auto start OTP timer when navigating to s3
+  document.addEventListener('click', function(e) {
+    if (e.target.onclick && e.target.onclick.toString().includes('s2Next')) {
+      setTimeout(() => {
+        if (document.getElementById('step-s3').classList.contains('active')) {
+          window.startOTPTimer();
+        }
+      }, 400);
+    }
+  });
+
+  // ✅ Redirect to dashboard
+  window.redirectToDashboard = function() {
     window.location.href = 'home.html';
-  }
+  };
 
-  /* ===== LOGIN ===== */
-  function doLogin() {
-    const inp = document.getElementById('loginInput').value.trim();
-    const pw  = document.getElementById('loginPass').value;
-    if (!inp || !pw) { showMsg('loginMsg', 'Please fill in both fields.'); return; }
-    clearMsg('loginMsg');
-    showMsg('loginMsg', 'Signing you in…', 'success');
-    setTimeout(() => { window.location.href = 'home.html'; }, 1400);
-  }
-
-  /* ===== FORGOT ===== */
-  function doReset() {
-    const email = document.getElementById('forgotEmail').value.trim();
-    if (!email.includes('@')) { showMsg('forgotMsg', 'Please enter a valid email address.'); return; }
-    showMsg('forgotMsg', 'Reset link sent! Check your inbox.', 'success');
-  }
-
-  /* ===== SOCIAL ===== */
-  function loginWithGoogle() { alert('Google sign-in coming soon!'); }
-
-  /* ===== KEYBOARD: ENTER to advance ===== */
+  // ✅ Enter key handler
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Enter') return;
     const active = document.querySelector('.step.active');
     if (!active) return;
     const id = active.id;
-    if      (id === 'step-login')   doLogin();
-    else if (id === 'step-s1')      s1Next();
-    else if (id === 'step-s2')      s2Next();
-    else if (id === 'step-s3')      s3Next();
-    else if (id === 'step-s4')      s4Next();
-    else if (id === 'step-s5')      s5Next();
-    else if (id === 'step-forgot')  doReset();
+    if (id === 'step-login') window.doLogin();
+    else if (id === 'step-s1') window.s1Next();
+    else if (id === 'step-s2') window.s2Next();
+    else if (id === 'step-s3') window.s3Next();
+    else if (id === 'step-s4') window.s4Next();
+    else if (id === 'step-s5') window.s5Next();
+    else if (id === 'step-forgot') window.doReset();
   });
+
 </script>
 
 </body>
