@@ -4,481 +4,248 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HackHub - Sign In</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-   :root {
-  /* Premium Accent & Branding Colors */
-  --primary: #6366f1;
-  --primary-dark: #4f46e5;
-  --primary-light: #818cf8;
-  --secondary: #a855f7;
-  --success: #10b981;
-  --danger: #ef4444;
-  --warning: #f59e0b;
-
-  /* Premium Light/White Theming Variables */
-  --bg-darker: #f8fafc;        /* Soft, rich off-white page background */
-  --bg-card: #ffffff;          /* Crisp pure white for the card background */
-  --bg-card-light: #f1f5f9;    /* Slightly deeper gray for input fills/hover states */
-  
-  /* High-end Neutral Typography Shades */
-  --text-primary: #0f172a;     /* Deep slate gray for prominent headings */
-  --text-secondary: #475569;   /* Slate gray for body text and descriptive steps */
-  --text-tertiary: #64748b;    /* Subdued gray for labels and field place-holders */
-  
-  /* Subtle borders & divider lines */
-  --border-color: #e2e8f0;     /* Ultra clean, subtle light gray border line */
-}
-
-html { 
-  scroll-behavior: smooth; 
-}
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: var(--bg-darker);
-  color: var(--text-primary);
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.auth-wrapper { 
-  width: 100%; 
-  max-width: 400px; 
-}
-
-.logo-block {
-  text-align: center;
-  margin-bottom: 32px;
-}
-
-.logo-icon { 
-  font-size: 36px; 
-  display: block; 
-  margin-bottom: 10px; 
-}
-
-.logo-name {
-  font-size: 26px;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Updated Card with a premium elevation shadow instead of a dark block border */
-.card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 16px;
-  padding: 32px 28px;
-  overflow: hidden;
-  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.04), 
-              0 8px 10px -6px rgba(15, 23, 42, 0.04);
-}
-
-.step-bar {
-  display: flex;
-  gap: 4px;
-  margin-bottom: 28px;
-}
-
-.step-bar-seg {
-  height: 3px;
-  flex: 1;
-  border-radius: 2px;
-  background: var(--border-color);
-  transition: background 0.4s ease;
-}
-
-.step-bar-seg.done { 
-  background: var(--primary); 
-}
-
-.step-bar-seg.active { 
-  background: var(--primary-light); 
-}
-
-.step { 
-  display: none; 
-  animation: stepIn 0.35s cubic-bezier(0.22, 1, 0.36, 1); 
-}
-
-.step.active { 
-  display: block; 
-}
-
-@keyframes stepIn {
-  from { opacity: 0; transform: translateX(24px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes stepBack {
-  from { opacity: 0; transform: translateX(-24px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-   .step.going-back { 
-   animation: stepBack 0.35s cubic-bezier(0.22, 1, 0.36, 1); 
- }
-
- .step-title {
-   font-size: 20px;
-   font-weight: 700;
-   margin-bottom: 6px;
-   color: var(--text-primary);
- }
- .step-sub {
-   font-size: 13px;
-   color: var(--text-secondary);
-   margin-bottom: 26px;
-   line-height: 1.5;
- }
- .login-heading {
-   font-size: 20px;
-   font-weight: 700;
-   margin-bottom: 12px;
-   color: var(--text-primary);
- }
-
- .field { 
-   margin-bottom: 18px; 
- }
- .field label {
-   display: block;
-   font-size: 11px;
-   font-weight: 600;
-   text-transform: uppercase;
-   letter-spacing: 0.6px;
-   color: var(--text-tertiary);
-   margin-bottom: 8px;
- }
- 
- /* Refreshed input fields for a crisp white look */
- .field input, .field select {
-   width: 100%;
-   padding: 13px 14px;
-   /* Replaced dark background with a very soft grey tint */
-   background: #f8fafc; 
-   border: 1px solid var(--border-color);
-   border-radius: 10px;
-   color: var(--text-primary);
-   font-size: 15px;
-   font-family: inherit;
-   transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
-   -webkit-appearance: none;
-   appearance: none;
- }
- .field input::placeholder { 
-   color: #94a3b8; 
- }
- .field input:focus, .field select:focus {
-   outline: none;
-   background: #ffffff; /* Turns clean white when active */
-   border-color: var(--primary);
-   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
- }
- .field select { 
-   cursor: pointer; 
- }
-
- .dob-row { 
-   display: grid; 
-   grid-template-columns: 2fr 3fr 2fr; 
-   gap: 8px; 
- }
-
- /* Refreshed Password Strength indicator bars for light mode */
- .pw-bar-wrap {
-   height: 3px;
-   background: var(--border-color);
-   border-radius: 2px;
-   margin-top: 8px;
-   overflow: hidden;
- }
- .pw-bar {
-   height: 100%;
-   width: 0;
-   border-radius: 2px;
-   transition: width 0.3s, background 0.3s;
-   background: var(--danger);
- }
- .pw-bar.medium { 
-   width: 60%; 
-   background: var(--warning); 
- }
- .pw-bar.strong { 
-   width: 100%; 
-   background: var(--success); 
- }
- .pw-hint { 
-   font-size: 11px; 
-   color: var(--text-tertiary); 
-   margin-top: 6px; 
- }
-
-   .otp-row {
-   display: grid;
-   grid-template-columns: repeat(6, 1fr);
-   gap: 8px;
-   margin-bottom: 20px;
- }
- .otp-cell {
-   aspect-ratio: 1;
-   /* Replaced dark background with clean off-white */
-   background: #f8fafc; 
-   border: 1.5px solid var(--border-color);
-   border-radius: 10px;
-   color: var(--text-primary);
-   font-size: 20px;
-   font-weight: 700;
-   text-align: center;
-   transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
- }
- .otp-cell:focus { 
-   outline: none; 
-   background: #ffffff;
-   border-color: var(--primary); 
-   box-shadow: 0 0 0 3px rgba(99,102,241,0.12); 
- }
- .otp-cell.filled { 
-   border-color: var(--primary); 
-   /* Elegant, soft indigo highlight when a digit is entered */
-   background: rgba(99, 102, 241, 0.04); 
- }
-
- .resend-note {
-   text-align: center;
-   font-size: 13px;
-   color: var(--text-secondary);
-   margin-bottom: 20px;
- }
- .resend-link { 
-   color: var(--primary); 
-   cursor: pointer; 
-   font-weight: 600; 
- }
- .resend-link.disabled { 
-   color: var(--text-tertiary); 
-   cursor: default; 
- }
-
- .btn {
-   width: 100%;
-   padding: 13px 20px;
-   border: none;
-   border-radius: 10px;
-   font-size: 15px;
-   font-weight: 600;
-   cursor: pointer;
-   transition: all 0.2s;
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   gap: 8px;
-   font-family: inherit;
- }
- .btn-primary { 
-   background: var(--primary); 
-   color: #fff; 
-   /* Added a gentle shadow to the main action button for depth */
-   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
- }
- .btn-primary:hover { 
-   background: var(--primary-dark); 
-   box-shadow: 0 6px 16px rgba(79, 70, 229, 0.35);
- }
- .btn-primary:active { 
-   transform: scale(0.98); 
- }
- .btn-primary:disabled { 
-   opacity: 0.5; 
-   cursor: not-allowed; 
-   transform: none; 
-   box-shadow: none;
- }
-
- .btn-ghost {
-   background: transparent;
-   color: var(--text-secondary);
-   border: 1px solid var(--border-color);
-   margin-top: 10px;
- }
- .btn-ghost:hover { 
-   border-color: var(--primary); 
-   color: var(--primary); 
-   background: rgba(99, 102, 241, 0.04);
- }
-
- /* Inverted the social sign-in buttons (Continue with Google) */
- .btn-social {
-   /* Shifted from dark slate fill to a clean, rich white base */
-   background: #ffffff; 
-   color: var(--text-primary);
-   border: 1px solid var(--border-color);
-   margin-bottom: 10px;
-   font-size: 14px;
-   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
- }
- .btn-social:hover { 
-   border-color: #cbd5e1; 
-   background: #f8fafc; 
- }
-
- .divider {
-   display: flex;
-   align-items: center;
-   gap: 10px;
-   color: var(--text-tertiary);
-   font-size: 12px;
-   margin: 20px 0;
- }
- .divider::before, .divider::after {
-   content: '';
-   flex: 1;
-   height: 1px;
-   background: var(--border-color);
- }
-   .msg {
-   padding: 10px 14px;
-   border-radius: 8px;
-   font-size: 13px;
-   margin-bottom: 16px;
-   display: flex;
-   align-items: center;
-   gap: 8px;
- }
- 
- /* Refreshed alert states for high contrast on a crisp white backdrop */
- .msg-error { 
-   background: rgba(239, 68, 68, 0.06); 
-   color: #b91c1c; /* Deep premium crimson red text */
-   border: 1px solid rgba(239, 68, 68, 0.15); 
- }
- .msg-success { 
-   background: rgba(16, 185, 129, 0.06); 
-   color: #065f46; /* Rich emerald dark green text */
-   border: 1px solid rgba(16, 185, 129, 0.15); 
- }
-
- .success-wrap { 
-   text-align: center; 
-   padding: 20px 0; 
- }
- .success-circle {
-   width: 72px;
-   height: 72px;
-   border-radius: 50%;
-   background: rgba(16, 185, 129, 0.08); /* Clean, subtle green fill tint */
-   border: 2px solid var(--success);
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   font-size: 32px;
-   margin: 0 auto 20px;
-   animation: popIn 0.5s cubic-bezier(0.22, 1, 0.36, 1);
- }
- @keyframes popIn {
-   from { transform: scale(0.4); opacity: 0; }
-   to   { transform: scale(1); opacity: 1; }
- }
- .success-title { 
-   font-size: 20px; 
-   font-weight: 700; 
-   margin-bottom: 6px; 
- }
- .success-sub { 
-   font-size: 13px; 
-   color: var(--text-secondary); 
-   margin-bottom: 28px; 
- }
-
- .footer-text {
-   font-size: 13px;
-   color: var(--text-secondary);
-   text-align: center;
-   margin-top: 20px;
- }
- .footer-text a { 
-   color: var(--primary); 
-   text-decoration: none; 
-   font-weight: 600; 
- }
- .footer-text a:hover { 
-   color: var(--primary-dark); /* Shifted hover to slightly darker for readability */
- }
-
- .create-account-btn {
-   width: 100%;
-   padding: 14px;
-   border: none;
-   border-radius: 12px;
-   font-size: 16px;
-   font-weight: 600;
-   cursor: pointer;
-   background: linear-gradient(135deg, #1877f2, #42a5f5);
-   color: white;
-   transition: 0.3s;
-   box-shadow: 0 4px 12px rgba(24, 119, 242, 0.2); /* Added clean blue elevation shadow */
- }
- .create-account-btn:hover { 
-   transform: translateY(-1px); 
-   box-shadow: 0 6px 16px rgba(24, 119, 242, 0.3);
- }
- .create-account-btn:active { 
-   transform: scale(0.99); 
- }
-
- .back-btn {
-   background: none;
-   border: none;
-   color: var(--text-tertiary);
-   cursor: pointer;
-   font-size: 13px;
-   padding: 0;
-   margin-bottom: 20px;
-   display: flex;
-   align-items: center;
-   gap: 6px;
-   font-family: inherit;
-   transition: color 0.2s;
- }
- .back-btn:hover { 
-   color: var(--text-primary); 
- }
-
- .otp-dest {
-   font-size: 13px;
-   color: var(--text-secondary);
-   margin-bottom: 20px;
-   text-align: center;
-   word-break: break-all;
- }
- .otp-dest strong { 
-   color: var(--text-primary); 
- }
-
- @media (max-width: 440px) {
-   /* Adjusted subtle shadow positioning on small screens */
-   .card { 
-     padding: 24px 18px; 
-     border-radius: 12px; 
-     box-shadow: 0 8px 20px rgba(15, 23, 42, 0.03);
-   }
-   .logo-name { 
-     font-size: 22px; 
-   }
- }
+    :root {
+      --primary: #667eea;
+      --primary-dark: #5568d3;
+      --primary-light: #8b9ff1;
+      --secondary: #764ba2;
+      --success: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --bg-darker: #0f172a;
+      --bg-card: #1e293b;
+      --text-primary: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --border-color: #334155;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, var(--bg-darker) 0%, #1a1f35 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-primary);
+      padding: 20px;
+    }
+    
+    .auth-wrapper {
+      width: 100%;
+      max-width: 420px;
+    }
+    
+    .logo-block {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .logo-icon {
+      font-size: 50px;
+      display: block;
+      margin-bottom: 15px;
+    }
+    
+    .logo-name {
+      font-size: 32px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+    
+    .card {
+      background: rgba(30, 41, 59, 0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+    
+    .login-heading {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+    
+    .login-sub {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 28px;
+    }
+    
+    .field {
+      margin-bottom: 20px;
+    }
+    
+    .field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+    
+    .field input {
+      width: 100%;
+      padding: 12px 14px;
+      background: rgba(51, 65, 85, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      color: var(--text-primary);
+      font-size: 15px;
+      font-family: inherit;
+      transition: all 0.3s ease;
+    }
+    
+    .field input:focus {
+      outline: none;
+      background: rgba(51, 65, 85, 0.8);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
+    .field input::placeholder {
+      color: rgba(203, 213, 225, 0.5);
+    }
+    
+    .forgot-link {
+      text-align: right;
+      margin-top: -12px;
+      margin-bottom: 20px;
+    }
+    
+    .forgot-link a {
+      font-size: 12px;
+      color: var(--primary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .forgot-link a:hover {
+      color: var(--primary-light);
+    }
+    
+    .btn {
+      width: 100%;
+      padding: 13px 20px;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    }
+    
+    .btn-primary:active {
+      transform: scale(0.98);
+    }
+    
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .btn-google {
+      background: rgba(51, 65, 85, 0.5);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+    }
+    
+    .btn-google:hover {
+      background: rgba(51, 65, 85, 0.8);
+      border-color: var(--primary);
+    }
+    
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-secondary);
+      font-size: 12px;
+      margin: 24px 0;
+    }
+    
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border-color);
+    }
+    
+    .signup-link {
+      text-align: center;
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-top: 20px;
+    }
+    
+    .signup-link a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    
+    .signup-link a:hover {
+      text-decoration: underline;
+    }
+    
+    .msg {
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      display: none;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .msg.show {
+      display: flex;
+    }
+    
+    .msg-error {
+      background: rgba(239, 68, 68, 0.1);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+    
+    .msg-success {
+      background: rgba(16, 185, 129, 0.1);
+      color: #86efac;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
   </style>
-
-  <!-- ✅ REQUIRED: reCAPTCHA for phone OTP -->
-  <script src="https://www.google.com/recaptcha/api.js"></script>
-
 </head>
 <body>
 
@@ -486,34 +253,39 @@ body {
   <div class="logo-block">
     <span class="logo-icon">🚀</span>
     <div class="logo-name">HackHub</div>
+    <p style="color: var(--text-secondary); font-size: 13px;">India's Hackathon Platform</p>
   </div>
-
-  <div class="card" id="mainCard">
-
-    <!-- ===== LOGIN ===== -->
-    <div class="step active" id="step-login" data-step="login">
-      <h2 class="login-heading">Sign in to HackHub</h2>
-      <div id="loginMsg"></div>
-
+  
+  <div class="card">
+    <div id="login-form" style="display: block;">
+      <h2 class="login-heading">Sign In</h2>
+      <p class="login-sub">Enter your email and password</p>
+      
+      <div id="loginMsg" class="msg"></div>
+      
       <div class="field">
-        <label>Phone number or email</label>
-        <input type="text" id="loginInput" placeholder="Phone number or email">
+        <label>Email Address</label>
+        <input type="email" id="loginEmail" placeholder="your@email.com">
       </div>
+      
       <div class="field">
         <label>Password</label>
-        <input type="password" id="loginPass" placeholder="Password">
+        <input type="password" id="loginPassword" placeholder="••••••••">
       </div>
-
-      <button class="btn btn-primary" onclick="doLogin()">Sign in →</button>
-
-      <div class="footer-text" style="margin-top: 18px; text-align: center">
-        Forgot password? <a href="javascript:void(0)" onclick="navigate('forgot')">Reset it</a>
+      
+      <div class="forgot-link">
+        <a onclick="showResetForm()">Forgot password?</a>
       </div>
-
-      <div class="divider">or</div>
-
-      <button class="btn btn-social" onclick="loginWithGoogle()">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      
+      <button class="btn btn-primary" onclick="doLogin()">
+        <span>Sign In</span>
+        <span>→</span>
+      </button>
+      
+      <div class="divider">or continue with</div>
+      
+      <button class="btn btn-google" onclick="loginWithGoogle()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
           <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
           <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
           <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
@@ -521,294 +293,71 @@ body {
         </svg>
         Continue with Google
       </button>
-
-      <div style="margin-top: 20px;">
-        <button class="create-account-btn" onclick="startSignup()">
-          Create New Account
-        </button>
+      
+      <div class="signup-link">
+        Don't have an account? <a onclick="showSignupForm()">Create one</a>
       </div>
     </div>
-
-    <!-- ===== SIGNUP: STEP 1 - FULL NAME ===== -->
-    <div class="step" id="step-s1" data-step="s1">
-      <div class="step-bar" id="bar-s1"></div>
-      <button class="back-btn" onclick="navigate('login', true)">← Back to login</button>
-      <div class="step-title">What's your name?</div>
-      <div class="step-sub">We'll use this to personalise your experience.</div>
-      <div id="s1Msg"></div>
+    
+    <div id="reset-form" style="display: none;">
+      <h2 class="login-heading">Reset Password</h2>
+      <p class="login-sub">Enter your email to reset password</p>
+      
+      <div id="resetMsg" class="msg"></div>
+      
       <div class="field">
-        <label>Full name</label>
-        <input type="text" id="s1Name" placeholder="Alex Johnson" autocomplete="name">
+        <label>Email Address</label>
+        <input type="email" id="resetEmail" placeholder="your@email.com">
       </div>
-      <button class="btn btn-primary" onclick="s1Next()">Continue →</button>
-    </div>
-
-    <!-- ===== SIGNUP: STEP 2 - PHONE OR EMAIL ===== -->
-    <div class="step" id="step-s2" data-step="s2">
-      <div class="step-bar" id="bar-s2"></div>
-      <button class="back-btn" onclick="navigate('s1', true)">← Back</button>
-      <div class="step-title">How do we reach you?</div>
-      <div class="step-sub">Enter your phone number or email address.</div>
-      <div id="s2Msg"></div>
+      
       <div class="field">
-        <label>Phone number or email</label>
-        <input type="text" id="s2Contact" placeholder="9876543210 or you@example.com" autocomplete="email">
+        <label>New Password</label>
+        <input type="password" id="resetPassword" placeholder="••••••••">
       </div>
-      <button class="btn btn-primary" onclick="s2Next()">Send code →</button>
+      
+      <div class="field">
+        <label>Confirm Password</label>
+        <input type="password" id="resetConfirm" placeholder="••••••••">
+      </div>
+      
+      <button class="btn btn-primary" onclick="doPasswordReset()">Reset Password</button>
+      <button class="btn" style="background: transparent; border: 1px solid var(--border-color); color: var(--text-secondary);" onclick="showLoginForm()">Back to Sign In</button>
     </div>
-
-    <!-- ===== SIGNUP: STEP 3 - OTP VERIFICATION ===== -->
-    <div class="step" id="step-s3" data-step="s3">
-      <div class="step-bar" id="bar-s3"></div>
-      <button class="back-btn" onclick="navigate('s2', true)">← Back</button>
-      <div class="step-title">Enter the code</div>
-      <div class="step-sub">Enter the 6-digit code we sent to:</div>
-      <div class="otp-dest" id="s3Dest"></div>
-      <div id="s3Msg"></div>
-      <div class="otp-row" id="otpRow"></div>
-      <div class="resend-note" id="resendNote"></div>
-      <button class="btn btn-primary" onclick="s3Next()">Verify →</button>
-    </div>
-
-    <!-- ===== SIGNUP: STEP 4 - PASSWORD ===== -->
-    <div class="step" id="step-s4" data-step="s4">
-      <div class="step-bar" id="bar-s4"></div>
-      <button class="back-btn" onclick="navigate('s3', true)">← Back</button>
-      <div class="step-title">Create a password</div>
-      <div class="step-sub">Must contain uppercase, lowercase, number, and symbol.</div>
-      <div id="s4Msg"></div>
+    
+    <div id="signup-form" style="display: none;">
+      <h2 class="login-heading">Create Account</h2>
+      <p class="login-sub">Join India's hackathon community</p>
+      
+      <div id="signupMsg" class="msg"></div>
+      
+      <div class="field">
+        <label>Full Name</label>
+        <input type="text" id="signupName" placeholder="John Doe">
+      </div>
+      
+      <div class="field">
+        <label>Email Address</label>
+        <input type="email" id="signupEmail" placeholder="your@email.com">
+      </div>
+      
       <div class="field">
         <label>Password</label>
-        <input type="password" id="s4Pass" placeholder="••••••••" oninput="checkPwStrength()">
-        <div class="pw-bar-wrap"><div class="pw-bar" id="pwBar"></div></div>
-        <div class="pw-hint" id="pwHint">Enter a password</div>
+        <input type="password" id="signupPassword" placeholder="••••••••">
       </div>
+      
       <div class="field">
-        <label>Confirm password</label>
-        <input type="password" id="s4Confirm" placeholder="••••••••">
+        <label>Confirm Password</label>
+        <input type="password" id="signupConfirm" placeholder="••••••••">
       </div>
-      <button class="btn btn-primary" onclick="s4Next()">Continue →</button>
+      
+      <button class="btn btn-primary" onclick="doSignup()">Create Account</button>
+      <button class="btn" style="background: transparent; border: 1px solid var(--border-color); color: var(--text-secondary);" onclick="showLoginForm()">Back to Sign In</button>
     </div>
-
-    <!-- ===== SIGNUP: STEP 5 - DATE OF BIRTH ===== -->
-    <div class="step" id="step-s5" data-step="s5">
-      <div class="step-bar" id="bar-s5"></div>
-      <button class="back-btn" onclick="navigate('s4', true)">← Back</button>
-      <div class="step-title">Date of birth</div>
-      <div class="step-sub">Your birthday won't be shown publicly.</div>
-      <div id="s5Msg"></div>
-      <div class="field">
-        <label>Birthday</label>
-        <div class="dob-row">
-          <select id="dobDay" aria-label="Day"></select>
-          <select id="dobMonth" aria-label="Month"></select>
-          <select id="dobYear" aria-label="Year"></select>
-        </div>
-      </div>
-      <button class="btn btn-primary" onclick="s5Next()">Continue →</button>
-    </div>
-
-    <!-- ===== SIGNUP: STEP 6 - SUCCESS ===== -->
-    <div class="step" id="step-s6" data-step="s6">
-      <div class="step-bar" id="bar-s6"></div>
-      <div class="success-wrap">
-        <div class="success-circle">✓</div>
-        <div class="success-title" id="successTitle">Welcome to HackHub!</div>
-        <div class="success-sub" id="successSub">Your account is ready. Let's build something great.</div>
-        <button class="btn btn-primary" onclick="redirectToDashboard()">Continue to Dashboard →</button>
-      </div>
-    </div>
-
-    <!-- ===== FORGOT PASSWORD ===== -->
-    <div class="step" id="step-forgot" data-step="forgot">
-      <button class="back-btn" onclick="navigate('login', true)">← Back to login</button>
-      <div class="step-title">Reset your password</div>
-      <div class="step-sub">Enter your email and we'll send a reset link.</div>
-      <div id="forgotMsg"></div>
-      <div class="field">
-        <label>Email address</label>
-        <input type="email" id="forgotEmail" placeholder="you@example.com">
-      </div>
-      <button class="btn btn-primary" onclick="doReset()">Send reset link →</button>
-      <button class="btn btn-ghost" onclick="navigate('login', true)">Back to sign in</button>
-    </div>
-
   </div>
 </div>
 
-<!-- ✅ REQUIRED: reCAPTCHA container for phone OTP -->
-<div id="s2Send" style="display: none;"></div>
-
-<script type="module">
-  // ✅ Import auth and validation modules
-  import('./auth.js').then(() => {
-    console.log('✅ Authentication system loaded successfully');
-  }).catch(err => {
-    console.error('❌ Failed to load authentication:', err);
-  });
-
-  // ✅ Navigation function
-  window.navigate = function(target, goingBack = false) {
-    const current = document.querySelector('.step.active');
-    if (current) {
-      current.classList.remove('active');
-      current.classList.remove('going-back');
-    }
-    const next = document.getElementById('step-' + target);
-    if (!next) {
-      console.error('❌ Step not found:', target);
-      return;
-    }
-    next.classList.remove('going-back');
-    if (goingBack) next.classList.add('going-back');
-    next.classList.add('active');
-
-    setTimeout(() => {
-      const inp = next.querySelector('input:not([readonly])');
-      if (inp) inp.focus();
-    }, 50);
-  };
-
-  // ✅ Start signup
-  window.startSignup = function() {
-    buildDOB();
-    renderBars();
-    buildOTP();
-    navigate('s1');
-  };
-
-  // ✅ Build date of birth selectors
-  window.buildDOB = function() {
-    const dayEl = document.getElementById('dobDay');
-    const monEl = document.getElementById('dobMonth');
-    const yrEl = document.getElementById('dobYear');
-
-    dayEl.innerHTML = '<option value="">Day</option>';
-    for (let d = 1; d <= 31; d++) {
-      dayEl.innerHTML += `<option value="${d}">${d}</option>`;
-    }
-
-    const months = ['January','February','March','April','May','June',
-                    'July','August','September','October','November','December'];
-    monEl.innerHTML = '<option value="">Month</option>';
-    months.forEach((m, i) => { monEl.innerHTML += `<option value="${i+1}">${m}</option>`; });
-
-    const now = new Date().getFullYear();
-    yrEl.innerHTML = '<option value="">Year</option>';
-    for (let y = now - 13; y >= now - 100; y--) {
-      yrEl.innerHTML += `<option value="${y}">${y}</option>`;
-    }
-  };
-
-  // ✅ Render progress bars
-  window.renderBars = function() {
-    const STEPS = ['s1','s2','s3','s4','s5','s6'];
-    STEPS.forEach((sid, idx) => {
-      const el = document.getElementById('bar-' + sid);
-      if (!el) return;
-      el.innerHTML = '';
-      STEPS.forEach((_, i) => {
-        const seg = document.createElement('div');
-        seg.className = 'step-bar-seg' +
-          (i < idx ? ' done' : i === idx ? ' active' : '');
-        el.appendChild(seg);
-      });
-    });
-  };
-
-  // ✅ Build OTP input cells
-  window.buildOTP = function() {
-    const row = document.getElementById('otpRow');
-    row.innerHTML = '';
-    for (let i = 0; i < 6; i++) {
-      const inp = document.createElement('input');
-      inp.type = 'text';
-      inp.className = 'otp-cell';
-      inp.maxLength = 1;
-      inp.inputMode = 'numeric';
-      inp.setAttribute('aria-label', `Digit ${i + 1}`);
-      inp.addEventListener('input', () => onOTPInput(inp, i));
-      inp.addEventListener('keydown', (e) => onOTPKey(e, i));
-      inp.addEventListener('paste', handleOTPPaste);
-      row.appendChild(inp);
-    }
-  };
-
-  window.onOTPInput = function(inp, i) {
-    inp.value = inp.value.replace(/\D/g, '').slice(0, 1);
-    inp.classList.toggle('filled', inp.value !== '');
-    const cells = document.querySelectorAll('.otp-cell');
-    if (inp.value && i < 5) cells[i + 1].focus();
-  };
-
-  window.onOTPKey = function(e, i) {
-    const cells = document.querySelectorAll('.otp-cell');
-    if (e.key === 'Backspace' && !cells[i].value && i > 0) {
-      cells[i - 1].focus();
-      cells[i - 1].value = '';
-      cells[i - 1].classList.remove('filled');
-    }
-  };
-
-  window.handleOTPPaste = function(e) {
-    e.preventDefault();
-    const paste = (e.clipboardData || window.clipboardData)
-      .getData('text').replace(/\D/g, '').slice(0, 6);
-    const cells = document.querySelectorAll('.otp-cell');
-    [...paste].forEach((c, i) => {
-      if (i < 6) { cells[i].value = c; cells[i].classList.add('filled'); }
-    });
-    cells[Math.min(paste.length, 5)].focus();
-  };
-
-  // ✅ Start OTP timer
-  window.startOTPTimer = function() {
-    let sec = 60;
-    const note = document.getElementById('resendNote');
-    note.innerHTML = `Resend in <strong>${sec}s</strong>`;
-    const timer = setInterval(() => {
-      sec--;
-      if (sec > 0) {
-        note.innerHTML = `Resend in <strong>${sec}s</strong>`;
-      } else {
-        clearInterval(timer);
-        note.innerHTML = `<span class="resend-link" onclick="resendOTP()">Resend code</span>`;
-      }
-    }, 1000);
-  };
-
-  // ✅ Auto start OTP timer when navigating to s3
-  document.addEventListener('click', function(e) {
-    if (e.target.onclick && e.target.onclick.toString().includes('s2Next')) {
-      setTimeout(() => {
-        if (document.getElementById('step-s3').classList.contains('active')) {
-          window.startOTPTimer();
-        }
-      }, 400);
-    }
-  });
-
-  // ✅ Redirect to dashboard
-  window.redirectToDashboard = function() {
-    window.location.href = 'home.html';
-  };
-
-  // ✅ Enter key handler
-  document.addEventListener('keydown', (e) => {
-    if (e.key !== 'Enter') return;
-    const active = document.querySelector('.step.active');
-    if (!active) return;
-    const id = active.id;
-    if (id === 'step-login') window.doLogin();
-    else if (id === 'step-s1') window.s1Next();
-    else if (id === 'step-s2') window.s2Next();
-    else if (id === 'step-s3') window.s3Next();
-    else if (id === 'step-s4') window.s4Next();
-    else if (id === 'step-s5') window.s5Next();
-    else if (id === 'step-forgot') window.doReset();
-  });
-
-</script>
-
+<script src="js/firebase-config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/validation.js"></script>
 </body>
 </html>
