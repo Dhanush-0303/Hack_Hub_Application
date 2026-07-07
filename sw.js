@@ -9,14 +9,11 @@ const urlsToCache = [
   "/notifications.html",
   "/about.html",
   "/admin.html",
+  "/profile.html",
   "/css/style.css",
-  "/js/app.js",
-  "/js/auth.js",
-  "/js/details.js",
-  "/js/bookmarks.js",
-  "/js/notifications.js",
-  "/js/admin.js",
-  "/js/firebase.js",
+  "/auth.js",
+  "/validation.js",
+  "/firebase-config.js",
   "/manifest.json"
 ];
 
@@ -28,6 +25,7 @@ self.addEventListener("install", (event) => {
       console.log("📦 Caching app shell");
       return cache.addAll(urlsToCache).catch(err => {
         console.warn("⚠️ Some resources failed to cache:", err);
+        // Don't fail installation if some optional resources can't be cached
       });
     })
   );
